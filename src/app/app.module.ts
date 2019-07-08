@@ -5,9 +5,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-// Application modules
-import { GeneralModule } from './general/general.module';
-
 // Application components
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -22,9 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserAnimationsModule,
 
     // Root routing module
-    AppRoutingModule,
-    // Application modules
-    GeneralModule
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
