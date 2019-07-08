@@ -1,0 +1,12 @@
+#information {
+  min-height: 150px;
+  background-color: darkorange;
+}
+
+@media screen and (min-width: 600px) {
+
+  #information {
+    min-height: 300px;
+  }
+
+}

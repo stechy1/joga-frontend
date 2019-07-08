@@ -1,0 +1,12 @@
+#contact {
+  min-height: 150px;
+  background-color: red;
+}
+
+@media screen and (min-width: 600px) {
+
+  #contact {
+    min-height: 300px;
+  }
+
+}

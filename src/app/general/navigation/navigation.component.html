@@ -1,0 +1,20 @@
+<nav class="navbar default-primary-color">
+  <div class="nav-wrapper">
+    <a href="" class="brand-logo primary-text-color">Studio OHM</a>
+    <a data-target="mobile-sidenav" class="sidenav-trigger" (click)="showSidebar = !showSidebar"><i class="material-icons">menu</i></a>
+    <ul class="right hide-on-med-and-down nav-with-image">
+      <li routerLinkActive="active"><a [routerLink]="['general']" [fragment]="'dashboard'"><i class="material-icons">dashboard</i>Úvod</a></li>
+      <li routerLinkActive="active"><a [routerLink]="['general']" [fragment]="'info'"><i class="material-icons">info</i>Informace</a></li>
+      <li routerLinkActive="active"><a [routerLink]="['general']" [fragment]="'calendar'"><i class="material-icons">calendar_today</i>Kalendář akcí</a></li>
+      <li routerLinkActive="active"><a [routerLink]="['general']" [fragment]="'contact'"><i class="material-icons">email</i>Kontakt</a></li>
+    </ul>
+    <div class="sidenav" id="mobile-sidenav" [style.visibility]="showSidebar ? 'visible' : 'hidden'">
+      <ul class="nav-with-image">
+        <li routerLinkActive="active"><a routerLink="dashboard"><i class="material-icons">dashboard</i>Úvod</a></li>
+        <li routerLinkActive="active"><a routerLink="info"><i class="material-icons">info</i>Informace</a></li>
+        <li routerLinkActive="active"><a routerLink="calendar"><i class="material-icons">calendar_today</i>Kalendář akcí</a></li>
+        <li routerLinkActive="active"><a routerLink="contact"><i class="material-icons">email</i>Kontakt</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
