@@ -1,11 +1,11 @@
-#information {
+#info {
   min-height: 150px;
   background-color: darkorange;
 }
 
 @media screen and (min-width: 600px) {
 
-  #information {
+  #info {
     min-height: 300px;
   }
 

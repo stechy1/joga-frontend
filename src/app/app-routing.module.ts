@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { GeneralComponent } from './general/general.component';
+import { NoPreloading, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'general',
-    // loadChildren: () => import('./general/general.module').then(mod => mod.GeneralModule)
-    component: GeneralComponent
-  },
-  {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'general'
+    loadChildren: () => import('./general/general.module').then(mod => mod.GeneralModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then(mod => mod.LoginModule),
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then(mod => mod.AdminModule),
+    canActivate: []
   }
 ];
 
@@ -20,7 +23,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       scrollPositionRestoration: 'enabled',
-      // preloadingStrategy: ''
+      preloadingStrategy: NoPreloading
     })
   ],
   exports: [
