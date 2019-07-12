@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -7,18 +7,10 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'frontend';
 
-  constructor(private http: HttpClient) {}
+  constructor(private _auth: AuthService) {}
 
   ngOnInit(): void {
-    // setInterval(() => {
-      this.http.get('/api/admin/dashboard/users')
-          .toPromise()
-          .then(value => {
-            console.log(value);
-          });
-    // }, 2000);
-
+    this._auth.autoLogin();
   }
 }

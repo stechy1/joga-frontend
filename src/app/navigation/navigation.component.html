@@ -1,4 +1,4 @@
-<nav class="navbar default-primary-color">
+<nav class="navbar default-primary-color" *ngIf="!isAdminRoutes">
   <div class="nav-wrapper">
     <a href="" class="brand-logo primary-text-color">Studio OHM</a>
     <a data-target="mobile-sidenav" class="sidenav-trigger" (click)="showSidebar = !showSidebar"><i class="material-icons">menu</i></a>
