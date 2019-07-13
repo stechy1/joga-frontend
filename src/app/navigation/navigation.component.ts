@@ -28,7 +28,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
        return;
      }
 
-     const adminURL = event.url === '/admin';
+     const adminURL = event.url.startsWith('/admin');
      this.isAdminRoutes = this.isAuthenticated && adminURL;
    });
   }
