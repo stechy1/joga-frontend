@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { GeneralComponent } from './general.component';
+import { AccountComponent } from './account.component';
+import { AccountGuard } from './account.guard';
 
 const routes: Routes = [
   {
     path: '',
-    component: GeneralComponent
-  },
+    pathMatch: 'full',
+    component: AccountComponent,
+    canActivate: [AccountGuard]
+  }
 ];
 
 @NgModule({
@@ -18,6 +21,6 @@ const routes: Routes = [
     RouterModule
   ]
 })
-export class GeneralRoutingModule {
+export class AccountRoutingModule {
 
 }
