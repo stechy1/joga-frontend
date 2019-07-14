@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  heads = ['prvni', 'druhy', 'treti'];
 
   constructor(private http: HttpClient) { }
 

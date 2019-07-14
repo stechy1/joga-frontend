@@ -2,6 +2,17 @@
 
 <div class="row">
   <div class="col m3">
-    <app-card cardType="chart" [note]="'Nějaká poznámka'" [title]="'Nadpis'" [subtitle]="'Podnadpis'" [headerColor]="'success'" noteHref="#"></app-card>
+    <app-card cardType="stats" [note]="'Nějaká poznámka'" [title]="'Nadpis'" [subtitle]="'Podnadpis'" [headerColor]="'success'" noteHref="#"></app-card>
+  </div>
+  <div class="col m3">
+    <app-card cardType="chart" [note]="'Nějaká poznámka'" [title]="'Nadpis'" [subtitle]="'Podnadpis'" [headerColor]="'warning'" noteHref="#"></app-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col m3">
+    <app-table [title]="'Nadpis'" [subtitle]="'Podnadpis'" [headerColor]="'warning'" [tableHeads]="heads">
+      Hello world
+    </app-table>
   </div>
 </div>

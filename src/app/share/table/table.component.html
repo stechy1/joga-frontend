@@ -1,0 +1,19 @@
+<app-card [headerColor]="headerColor" [title]="title" [subtitle]="subtitle" cardType="chart">
+  <div class="table-responsive">
+    <table class="table">
+      <thead class="purple-text">
+      <tr>
+        <th *ngFor="let head of tableHeads">{{head}}</th>
+      </tr>
+      </thead>
+      <tbody #tableContent *ngIf="tableHasCustomContent">
+      <ng-content></ng-content>
+      </tbody>
+      <tbody *ngIf="!tableHasCustomContent">
+        <tr *ngFor="let row of tableRows">
+          <td *ngFor="let element of row">{{element}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</app-card>

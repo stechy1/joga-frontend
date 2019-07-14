@@ -6,7 +6,10 @@
     <p class="card-category">{{title}}</p>
     <h3 class="card-title">{{subtitle}}</h3>
   </div>
-  <div class="card-footer">
+  <div class="card-body" #cardBody *ngIf="containsBody">
+    <ng-content></ng-content>
+  </div>
+  <div class="card-footer" *ngIf="note" >
     <div class="stats">
       <i class="material-icons">{{noteIcon}}</i>
       <a href="{{noteHref}}">{{note}}</a>
@@ -16,13 +19,21 @@
 
 <div class="card card-chart" *ngIf="cardType == 'chart'">
   <div class="card-header" [ngClass]="cardHeader">
-    <div class="ct-chart"></div>
+    <div class="ct-chart">
+      <div *ngIf="titleOverHeader">
+        <h4 class="card-title">{{title}}</h4>
+        <p class="card-category">{{subtitle}}</p>
+      </div>
+    </div>
   </div>
   <div class="card-body">
+    <div *ngIf="!titleOverHeader">
     <h4 class="card-title">{{title}}</h4>
     <p class="card-category">{{subtitle}}</p>
+    </div>
+    <ng-content></ng-content>
   </div>
-  <div class="card-footer">
+  <div class="card-footer" *ngIf="note">
     <div class="stats">
       <i class="material-icons">{{noteIcon}}</i>
       <a href="{{noteHref}}">{{note}}</a>

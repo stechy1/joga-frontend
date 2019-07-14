@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-card',
@@ -21,6 +21,9 @@ export class CardComponent implements OnInit {
   @Input() note: string;
   @Input() noteHref: string;
   @Input() noteIcon: string;
+  @Input() titleOverHeader = true;
+
+  @ViewChild('cardBody', {static: true}) cardBody: ElementRef;
 
   constructor() { }
 
@@ -44,5 +47,9 @@ export class CardComponent implements OnInit {
     }
 
     return '';
+  }
+
+  get containsBody(): boolean {
+    return this.cardBody ? this.cardBody.nativeElement.children.length !== 0 : false;
   }
 }
