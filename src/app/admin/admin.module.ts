@@ -5,6 +5,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import {ShareModule} from '../share/share.module';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   ],
   imports: [
     CommonModule,
+    ShareModule,
     AdminRoutingModule
   ],
   exports: [

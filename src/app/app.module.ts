@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { NavigationComponent } from './navigation/navigation.component';
 
 import { AuthInterceptor } from './auth/auth.interceptor';
+import {ShareModule} from './share/share.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 
     // Root routing module
     AppRoutingModule,
+    ShareModule
   ],
   providers: [
     {

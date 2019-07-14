@@ -1,0 +1,31 @@
+<div class="card card-stats" *ngIf="cardType == 'stats'">
+  <div class="card-header card-header-icon" [ngClass]="cardHeader">
+    <div class="card-icon">
+      <i class="material-icons">{{titleIcon}}</i>
+    </div>
+    <p class="card-category">{{title}}</p>
+    <h3 class="card-title">{{subtitle}}</h3>
+  </div>
+  <div class="card-footer">
+    <div class="stats">
+      <i class="material-icons">{{noteIcon}}</i>
+      <a href="{{noteHref}}">{{note}}</a>
+    </div>
+  </div>
+</div>
+
+<div class="card card-chart" *ngIf="cardType == 'chart'">
+  <div class="card-header" [ngClass]="cardHeader">
+    <div class="ct-chart"></div>
+  </div>
+  <div class="card-body">
+    <h4 class="card-title">{{title}}</h4>
+    <p class="card-category">{{subtitle}}</p>
+  </div>
+  <div class="card-footer">
+    <div class="stats">
+      <i class="material-icons">{{noteIcon}}</i>
+      <a href="{{noteHref}}">{{note}}</a>
+    </div>
+  </div>
+</div>
