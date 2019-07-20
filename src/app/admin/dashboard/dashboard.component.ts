@@ -13,6 +13,12 @@ export class DashboardComponent implements OnInit {
     ['Mnichov', 'Olomouc', 'Modrava'],
     ['Čechy', 'Morava', 'Slezko']
     ];
+  images = [
+    'https://lorempixel.com/800/400/food/1',
+    'https://lorempixel.com/800/400/food/2',
+    'https://lorempixel.com/800/400/food/3',
+    'https://lorempixel.com/800/400/food/4'
+  ];
 
   constructor(private http: HttpClient) { }
 
