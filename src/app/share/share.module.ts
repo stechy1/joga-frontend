@@ -3,18 +3,21 @@ import {CommonModule} from '@angular/common';
 
 import {CardComponent} from './card/card.component';
 import { TableComponent } from './table/table.component';
+import { CarouselComponent } from './carousel/carousel.component';
 
 @NgModule({
   declarations: [
     CardComponent,
-    TableComponent
+    TableComponent,
+    CarouselComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
     CardComponent,
-    TableComponent
+    TableComponent,
+    CarouselComponent
   ]
 })
 export class ShareModule {

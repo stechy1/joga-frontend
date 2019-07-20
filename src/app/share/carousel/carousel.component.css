@@ -1,0 +1,35 @@
+.carousel-item.visible {
+  visibility: visible !important;
+}
+
+.carousel-navigation {
+  position: relative;
+  /*top: 150px;*/
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.carousel-navigation .arrow {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.carousel-navigation .arrow:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.carousel-item .image-wrapper {
+  height: 400px;
+  overflow: hidden;
+}
+
+.carousel-item .image-wrapper img {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0 auto;
+}

@@ -1,0 +1,12 @@
+<div class="carousel carousel-slider" #carouselWrapper>
+  <div class="carousel-navigation" [style.top.px]="top" #carouselNavigation>
+    <span class="arrow" (click)="handlePrevImage()"><i
+      class="material-icons">arrow_back_ios</i></span>
+    <span class="arrow" (click)="handleNextImage()"><i class="material-icons">arrow_forward_ios</i></span>
+  </div>
+  <div class="carousel-item" [class.visible]="(activeIndex == i)" *ngFor="let image of getImages(); let i = index">
+    <div class="image-wrapper center-align">
+      <img class="responsive-img" [src]="image.url" alt="Carousel image"/>
+    </div>
+  </div>
+</div>
