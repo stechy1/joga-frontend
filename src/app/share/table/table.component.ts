@@ -1,11 +1,11 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, AfterViewChecked {
 
   @Input() headerColor: 'success' | 'warning' | 'danger' = 'success';
   @Input() title: string;
@@ -13,14 +13,20 @@ export class TableComponent implements OnInit {
   @Input() tableHeads: string[];
   @Input() tableRows: string[][];
 
-  @ViewChild('tableContent', {static: true}) tableContent: ElementRef;
+  @ViewChild('tableContent', {static: true}) tableContent?: ElementRef<HTMLElement>;
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
+
+  ngAfterViewChecked(): void {
+    console.log(this.tableRows);
+  }
 
   get tableHasCustomContent(): boolean {
-    console.log(this.tableContent);
-    return this.tableContent ? this.tableContent.nativeElement.children.length !== 0 : false;
+    // console.log(this.tableContent);
+    return this.tableRows === undefined;
+    // return this.tableContent ? this.tableContent.nativeElement.children.length !== 0 : false;
   }
 }

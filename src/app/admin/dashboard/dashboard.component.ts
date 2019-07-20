@@ -8,6 +8,11 @@ import { HttpClient } from '@angular/common/http';
 })
 export class DashboardComponent implements OnInit {
   heads = ['prvni', 'druhy', 'treti'];
+  rows = [
+    ['Praha', 'Plzen', 'Ostrava'],
+    ['Mnichov', 'Olomouc', 'Modrava'],
+    ['Čechy', 'Morava', 'Slezko']
+    ];
 
   constructor(private http: HttpClient) { }
 
