@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { map, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import { UserRole } from '../auth/user';
 
 @Injectable({providedIn: 'root'})
 export class AccountGuard implements CanActivate {
@@ -14,7 +15,7 @@ export class AccountGuard implements CanActivate {
     return this._authService.user.pipe(
       take(1),
       map(user => {
-        const isAuth = !!user;
+        const isAuth = !!user && user.role === UserRole.CLIENT;
         if (isAuth) {
           return true;
         }

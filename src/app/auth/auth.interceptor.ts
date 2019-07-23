@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler} from '@angular/common/http';
-import { take, exhaustMap } from 'rxjs/operators';
+import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { exhaustMap, take } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 
-import { User } from './user';
+import { User, UserRole } from './user';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -14,16 +14,19 @@ export class AuthInterceptor implements HttpInterceptor {
     return this.authService.user.pipe(
       take(1),
       exhaustMap((user: User) => {
-        if (!user) {
-          return next.handle(req);
+        switch (user.role) {
+          case UserRole.NONE:
+            return next.handle(req);
+            case UserRole.CLIENT:
+            case UserRole.ADMIN: {
+              const modifiedReq = req.clone({
+                setHeaders: {
+                  Authorization: user.token
+                }
+              });
+              return next.handle(modifiedReq);
+            }
         }
-
-        const modifiedReq = req.clone({
-          setHeaders: {
-            Authorization: user.token
-          }
-        });
-        return next.handle(modifiedReq);
       })
     );
   }

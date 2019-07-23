@@ -23,11 +23,14 @@ export class DashboardComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.http.get('/api/admin/dashboard/users')
-        .toPromise()
-        .then(value => {
-          console.log(value);
-        });
+
   }
 
+  handleClick() {
+    this.http.get('/api/admin/dashboard/users')
+    .toPromise()
+    .then(value => {
+      console.log(value);
+    });
+  }
 }

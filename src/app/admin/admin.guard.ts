@@ -1,9 +1,10 @@
 import { ActivatedRouteSnapshot, CanActivate, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, take} from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 import { AuthService } from '../auth/auth.service';
+import { UserRole } from '../auth/user';
 
 @Injectable({providedIn: 'root'})
 export class AdminGuard implements CanActivate, CanLoad {
@@ -15,7 +16,7 @@ export class AdminGuard implements CanActivate, CanLoad {
     return this._authService.user.pipe(
       take(1),
       map(user => {
-        const isAuth = !!user;
+        const isAuth = !!user && user.role === UserRole.ADMIN;
         if (isAuth) {
           return true;
         }

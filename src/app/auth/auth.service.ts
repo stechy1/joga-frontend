@@ -22,7 +22,7 @@ export class AuthService {
 
   private static readonly STORAGE_JWT = 'jwt';
 
-  user: BehaviorSubject<User> = new BehaviorSubject(null);
+  user: BehaviorSubject<User> = new BehaviorSubject(new User());
 
   constructor(private _http: HttpClient, private _storage: LocalStorageService, private _router: Router) {}
 

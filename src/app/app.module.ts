@@ -13,6 +13,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 
 import { AuthInterceptor } from './auth/auth.interceptor';
 import {ShareModule} from './share/share.module';
+import { UserInterceptor } from './auth/user.interceptor';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,11 @@ import {ShareModule} from './share/share.module';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UserInterceptor,
       multi: true
     }
   ],
