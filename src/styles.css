@@ -1,1 +1,5 @@
 @import "materialize.css";
+
+.pointer {
+  cursor: pointer;
+}

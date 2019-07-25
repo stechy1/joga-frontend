@@ -1,0 +1,9 @@
+<div class="calendar-wrapper">
+  <div class="calendar-header center-align">
+    <span class="prev-month pointer" (click)="handleShowPrevMonth()"><</span>
+    <span class="month-year-title">{{viewDate | async | monthYearTitle}}</span>
+    <span class="next-month pointer" (click)="handleShowNextMonth()">></span>
+  </div>
+  <div class="calendar-day-header" *ngFor="let day of days">{{day}}</div>
+  <app-window *ngFor="let window of windows" [calendarDay]="window"></app-window>
+</div>

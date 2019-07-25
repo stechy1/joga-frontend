@@ -1,0 +1,6 @@
+<div class="calendar-window hoverable" [class.highlight]="calendarDay.highlight">
+  <div class="day-numer">{{calendarDay.day}}.</div>
+  <div class="day-action" *ngFor="let action of calendarDay.actions">
+    {{action.name}}
+  </div>
+</div>
