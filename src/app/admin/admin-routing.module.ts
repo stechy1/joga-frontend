@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 
-import { AdminGuard } from './admin.guard';
+// import { AdminGuard } from './admin.guard';
 
 const routes: Routes = [
 
@@ -11,7 +11,7 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     redirectTo: 'dashboard',
-    canActivate: [AdminGuard]
+    // canActivate: [AdminGuard]
   },
   {
     path: 'dashboard',

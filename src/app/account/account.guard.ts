@@ -1,4 +1,4 @@
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { map, take } from 'rxjs/operators';
@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { UserRole } from '../auth/user';
 
 @Injectable({providedIn: 'root'})
-export class AccountGuard implements CanActivate {
+export class AccountGuard implements CanActivate, CanLoad {
 
   constructor(private _authService: AuthService, private _router: Router) {}
 
@@ -15,7 +15,7 @@ export class AccountGuard implements CanActivate {
     return this._authService.user.pipe(
       take(1),
       map(user => {
-        const isAuth = !!user && user.role === UserRole.CLIENT;
+        const isAuth = user.role === UserRole.CLIENT;
         if (isAuth) {
           return true;
         }
@@ -23,4 +23,22 @@ export class AccountGuard implements CanActivate {
       })
     );
   }
+
+  canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
+    return this._authService.user.pipe(
+      take(1),
+      map(user => {
+        const canLoad = user.role === UserRole.CLIENT || user.role === UserRole.ADMIN;
+
+        if (!canLoad) {
+          this._router.navigate(['/auth']);
+          return false;
+        }
+
+        return true;
+      })
+    );
+  }
+
+
 }

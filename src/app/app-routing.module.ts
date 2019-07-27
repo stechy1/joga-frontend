@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { NoPreloading, RouterModule, Routes } from '@angular/router';
 import { AdminGuard } from './admin/admin.guard';
+import { AccountGuard } from './account/account.guard';
 
 const routes: Routes = [
   {
@@ -10,7 +11,9 @@ const routes: Routes = [
   },
   {
     path: 'account',
-    loadChildren: () => import('./account/account.module').then(mod => mod.AccountModule)
+    loadChildren: () => import('./account/account.module').then(mod => mod.AccountModule),
+    canLoad: [AccountGuard],
+    canActivate: [AccountGuard]
   },
   {
     path: 'auth',
@@ -19,7 +22,8 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then(mod => mod.AdminModule),
-    canLoad: [AdminGuard]
+    canLoad: [AdminGuard],
+    canActivate: [AdminGuard]
   }
 ];
 

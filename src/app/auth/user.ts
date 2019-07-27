@@ -13,10 +13,10 @@ export class User {
       this._token = jwt;
       const payload = jwt_decode(jwt) as JWT;
       this.id = payload.id;
-      this._role = UserRole[payload.role];
+      this._role = payload.role;
       this._exprirationDate = new Date(payload.exp);
     } else {
-      this.id = "-1";
+      this.id = '-1';
       this._token = null;
       this._role = UserRole.NONE;
       this._exprirationDate = null;

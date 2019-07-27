@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
 
 import { AuthComponent } from './auth.component';
-import { AdminGuard } from '../admin/admin.guard';
+// import { AdminGuard } from '../admin/admin.guard';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,7 @@ import { AdminGuard } from '../admin/admin.guard';
     FormsModule
   ],
   providers: [
-    AdminGuard
+    // AdminGuard
   ]
 })
 export class AuthModule {

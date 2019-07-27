@@ -4,5 +4,5 @@ export interface JWT {
   nbf: string;
   exp: string;
   id: string;
-  role: string;
+  role: number;
 }
