@@ -20,7 +20,7 @@ export class AuthComponent implements OnInit {
   login() {
       this._authService.login('account', '123456')
           .then(value => {
-            this._router.navigate(['/account']);
+            this._router.navigate(['/account/my']);
           })
           .catch(reason => {
             console.error(reason);

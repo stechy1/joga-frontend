@@ -1,13 +1,13 @@
 <nav class="navbar default-primary-color" *ngIf="!isAdminRoutes">
   <div class="nav-wrapper">
-    <a href="" class="brand-logo primary-text-color">Studio OHM</a>
+    <a [routerLink]="'/'" class="brand-logo primary-text-color">Studio OHM</a>
     <a data-target="mobile-sidenav" class="sidenav-trigger" (click)="showSidebar = !showSidebar"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down nav-with-image">
       <li routerLinkActive="active"><a [routerLink]="['.']" [fragment]="'dashboard'"><i class="material-icons">dashboard</i>Úvod</a></li>
       <li routerLinkActive="active"><a [routerLink]="['.']" [fragment]="'info'"><i class="material-icons">info</i>Informace</a></li>
       <li routerLinkActive="active"><a [routerLink]="['.']" [fragment]="'calendar'"><i class="material-icons">calendar_today</i>Kalendář akcí</a></li>
       <li routerLinkActive="active"><a [routerLink]="['.']" [fragment]="'contact'"><i class="material-icons">email</i>Kontakt</a></li>
-      <li routerLinkActive="active"><a [routerLink]="['./account']"><i class="material-icons">account_box</i>Účet</a></li>
+      <li routerLinkActive="active"><a [routerLink]="['account', 'my']"><i class="material-icons">account_box</i>Účet</a></li>
     </ul>
     <div class="sidenav" id="mobile-sidenav" [style.visibility]="showSidebar ? 'visible' : 'hidden'">
       <ul class="nav-with-image">
@@ -15,7 +15,7 @@
         <li routerLinkActive="active"><a [routerLink]="['.']" [fragment]="'info'"><i class="material-icons">info</i>Informace</a></li>
         <li routerLinkActive="active"><a [routerLink]="['.']" [fragment]="'calendar'"><i class="material-icons">calendar_today</i>Kalendář akcí</a></li>
         <li routerLinkActive="active"><a [routerLink]="['.']" [fragment]="'contact'"><i class="material-icons">email</i>Kontakt</a></li>
-        <li routerLinkActive="active"><a [routerLink]="['account']"><i class="material-icons">account_box</i>Účet</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['account', 'my']"><i class="material-icons">account_box</i>Účet</a></li>
       </ul>
     </div>
   </div>

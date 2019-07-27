@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { UserRole } from '../auth/user';
 
 @Component({
   selector: 'app-navigation',
@@ -21,7 +22,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
    this._userSubscription = this._auth.user.subscribe(user => {
-     this.isAuthenticated = !!user;
+     this.isAuthenticated = user.role !== UserRole.NONE;
     });
    this._route.events.subscribe(event => {
      if (!(event instanceof NavigationEnd)) {
@@ -37,7 +38,5 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this._userSubscription.unsubscribe();
     this._routeSubscription.unsubscribe();
   }
-
-
 
 }
