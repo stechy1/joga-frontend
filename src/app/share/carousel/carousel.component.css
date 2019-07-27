@@ -1,35 +1,39 @@
-.carousel-item.visible {
-  visibility: visible !important;
+.carousel-item {
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -o-transition: -o-transform 0.6s ease-in-out;
+  -webkit-transition: -webkit-transform 0.6s ease-in-out;
+  transition: transform 0.6s ease-in-out, -webkit-transform 0.6s ease-in-out, -o-transform 0.6s ease-in-out;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
 }
 
-.carousel-navigation {
-  position: relative;
-  /*top: 150px;*/
-  z-index: 1;
-  display: flex;
-  justify-content: space-between;
+.carousel-item .container.container-slide {
+  width: 100%;
+  min-height: 100vh;
+  padding: 0;
 }
 
-.carousel-navigation .arrow {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 15px;
-  font-size: 24px;
-  cursor: pointer;
-  color: #fff;
+.carousel-item .container.container-slide {
+  position: initial;
 }
 
-.carousel-navigation .arrow:hover {
-  background: rgba(0, 0, 0, 0.4);
+.slider-fullscreen-image {
+  min-height: 100vh;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
 }
 
-.carousel-item .image-wrapper {
-  height: 400px;
-  overflow: hidden;
+.carousel-caption-title {
+  background: #0000003d;
+  padding: 0 8px;
 }
 
-.carousel-item .image-wrapper img {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  margin: 0 auto;
+.carousel-caption-description {
+  background: #0000003d;
+  padding: 0 8px;
 }

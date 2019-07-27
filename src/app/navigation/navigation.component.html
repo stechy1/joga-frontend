@@ -1,22 +1,15 @@
-<nav class="navbar-fixed default-primary-color" *ngIf="!isAdminRoutes">
-  <div class="nav-wrapper">
-    <a [routerLink]="'/'" class="brand-logo primary-text-color">Studio OHM</a>
-    <a data-target="mobile-sidenav" class="sidenav-trigger" (click)="showSidebar = !showSidebar"><i class="material-icons">menu</i></a>
-    <ul class="right hide-on-med-and-down nav-with-image">
-      <li routerLinkActive="active"><a [routerLink]="['.']" [fragment]="'dashboard'"><i class="material-icons">dashboard</i>Úvod</a></li>
-      <li routerLinkActive="active"><a [routerLink]="['.']" [fragment]="'info'"><i class="material-icons">info</i>Informace</a></li>
-      <li routerLinkActive="active"><a [routerLink]="['.']" [fragment]="'calendar'"><i class="material-icons">calendar_today</i>Kalendář akcí</a></li>
-      <li routerLinkActive="active"><a [routerLink]="['.']" [fragment]="'contact'"><i class="material-icons">email</i>Kontakt</a></li>
-      <li routerLinkActive="active"><a [routerLink]="['account', 'my']"><i class="material-icons">account_box</i>Účet</a></li>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary" *ngIf="!isAdminRoutes">
+  <a class="navbar-brand" [routerLink]="'/'">Studio OM</a>
+  <button class="navbar-toggler" aria-expanded="false" aria-controls="navbarCollapse" aria-label="Toggle navigation" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+    <ul class="navbar-nav">
+      <li class="nav-item" routerLinkActive="active"><a class="nav-link" [routerLink]="['.']" [fragment]="'intro'"><i class="material-icons">dashboard</i>Úvod</a></li>
+      <li class="nav-item" routerLinkActive="active"><a class="nav-link" [routerLink]="['.']" [fragment]="'info'"><i class="material-icons">info</i>Informace</a></li>
+      <li class="nav-item" routerLinkActive="active"><a class="nav-link" [routerLink]="['.']" [fragment]="'calendar'"><i class="material-icons">calendar_today</i>Kalendář akcí</a></li>
+      <li class="nav-item" routerLinkActive="active"><a class="nav-link" [routerLink]="['.']" [fragment]="'contact'"><i class="material-icons">email</i>Kontakt</a></li>
+      <li class="nav-item" routerLinkActive="active"><a class="nav-link" [routerLink]="['account', 'my']"><i class="material-icons">account_box</i>Účet</a></li>
     </ul>
-    <div class="sidenav" id="mobile-sidenav" [style.visibility]="showSidebar ? 'visible' : 'hidden'">
-      <ul class="nav-with-image">
-        <li routerLinkActive="active"><a [routerLink]="['.']" [fragment]="'dashboard'"><i class="material-icons">dashboard</i>Úvod</a></li>
-        <li routerLinkActive="active"><a [routerLink]="['.']" [fragment]="'info'"><i class="material-icons">info</i>Informace</a></li>
-        <li routerLinkActive="active"><a [routerLink]="['.']" [fragment]="'calendar'"><i class="material-icons">calendar_today</i>Kalendář akcí</a></li>
-        <li routerLinkActive="active"><a [routerLink]="['.']" [fragment]="'contact'"><i class="material-icons">email</i>Kontakt</a></li>
-        <li routerLinkActive="active"><a [routerLink]="['account', 'my']"><i class="material-icons">account_box</i>Účet</a></li>
-      </ul>
-    </div>
   </div>
 </nav>

@@ -15,11 +15,15 @@ export class AccountGuard implements CanActivate, CanLoad {
     return this._authService.user.pipe(
       take(1),
       map(user => {
-        const isAuth = user.role === UserRole.CLIENT;
-        if (isAuth) {
-          return true;
+        const userRole = user.role;
+        switch (userRole) {
+          case UserRole.ADMIN:
+            return this._router.createUrlTree(['/admin']);
+          case UserRole.CLIENT:
+            return true;
+          default:
+            return this._router.createUrlTree(['/auth']);
         }
-        return this._router.createUrlTree(['/auth']);
       })
     );
   }

@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
         if (notAuth) {
           return true;
         }
-        return this._router.createUrlTree(['/admin']);
+        return this._router.createUrlTree(['/', 'account', 'my']);
       })
     );
   }

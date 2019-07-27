@@ -7,6 +7,7 @@ import { CarouselComponent } from './carousel/carousel.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { WindowComponent } from './calendar/window/window.component';
 import { MonthYearTitlePipe } from './calendar/month-year-title.pipe';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { MonthYearTitlePipe } from './calendar/month-year-title.pipe';
     MonthYearTitlePipe
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   exports: [
     CardComponent,

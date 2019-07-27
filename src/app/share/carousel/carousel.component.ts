@@ -1,9 +1,5 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-
-interface ImageRecord {
-  url: string;
-  visible: boolean;
-}
+import { Component, Input, OnInit } from '@angular/core';
+import { CarouselImageRecord } from './carousel-image-record';
 
 @Component({
   selector: 'app-carousel',
@@ -12,38 +8,30 @@ interface ImageRecord {
 })
 export class CarouselComponent implements OnInit {
 
-  private _images: ImageRecord[];
-  private activeIndex = 0;
-  top: number;
+  @Input() changeInterval = 5000;
 
-  @ViewChild('carouselWrapper', {static: true}) carouselWrapper: ElementRef<HTMLElement>;
-  @ViewChild('carouselNavigation', {static: true}) carouselNavigation: ElementRef<HTMLElement>;
+  @Input() images: CarouselImageRecord[];
+  private activeIndex = 0;
 
   constructor() { }
 
   ngOnInit() {
-    const wrapperHeight = this.carouselWrapper.nativeElement.clientHeight / 2;
-    const navigationHeight = this.carouselNavigation.nativeElement.clientHeight / 2;
-    this.top = wrapperHeight - navigationHeight;
+    setInterval(() => {
+      this.handleNextImage();
+    }, this.changeInterval);
   }
 
   handleNextImage() {
-    this.activeIndex = (++this.activeIndex) % this._images.length;
+    this.activeIndex = (++this.activeIndex) % this.images.length;
     console.log(this.activeIndex);
   }
 
   handlePrevImage() {
-    this.activeIndex = ((--this.activeIndex) < 0) ? this._images.length - 1 : (this.activeIndex % this._images.length);
+    this.activeIndex = ((--this.activeIndex) < 0) ? this.images.length - 1 : (this.activeIndex % this.images.length);
     console.log(this.activeIndex);
   }
 
-  @Input() set images(value: string[]) {
-    this._images = value.map(image => {
-      return {url: image, visible: false};
-    });
-  }
-
-  getImages(): ImageRecord[] {
-    return this._images;
+  handleShowImage(index: number) {
+    this.activeIndex = index;
   }
 }

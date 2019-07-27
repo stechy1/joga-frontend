@@ -1,4 +1,5 @@
-@import "materialize.css";
+/*@import "materialize.css";*/
+@import "../node_modules/bootstrap/dist/css/bootstrap.css";
 
 .pointer {
   cursor: pointer;
