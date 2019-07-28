@@ -14,29 +14,23 @@
   margin: 0 20px;
 }
 
+.calendar-day-header-wrapper {
+  width: 100%;
+}
+
 .calendar-day-header {
-  width: 10vw;
+  width: calc(100% / 7);
   height: 25px;
   border: solid 1px black;
   float: left;
   display: block;
-  margin: 1px;
   text-align: center;
 }
 
-@media only screen and (min-width : 601px) {
-
-}
+@media only screen and (min-width : 601px) {}
 
 @media only screen and (max-width : 992px) {}
 
-@media only screen and (min-width : 993px) {
-  .calendar-wrapper {
-    /*max-width: 574px;*/
-  }
-  .calendar-day-header {
-    width: 9vw;
-  }
-}
+@media only screen and (min-width : 993px) {}
 
 @media only screen and (min-width : 1200px) {}

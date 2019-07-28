@@ -1,10 +1,9 @@
 .calendar-window {
-  width: 10vw;
+  width: calc(100% / 7);
   height: 10vw;
   border: solid 1px black;
   float: left;
   display: block;
-  margin: 1px;
   text-align: center;
   color: rgba(155, 155, 155, 0.77);
 }
@@ -27,7 +26,9 @@
 }
 
 @media only screen and (min-width : 601px) {
-
+  .calendar-window {
+    height: 7vw;
+  }
 }
 
 @media only screen and (max-width : 992px) {
@@ -36,7 +37,6 @@
 
 @media only screen and (min-width : 993px) {
   .calendar-window {
-    width: 9vw;
     height: 9vw;
   }
 }
