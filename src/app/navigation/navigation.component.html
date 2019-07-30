@@ -1,15 +1,27 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary" *ngIf="!isAdminRoutes">
-  <a class="navbar-brand" [routerLink]="'/'">Studio OM</a>
-  <button class="navbar-toggler" aria-expanded="false" aria-controls="navbarCollapse" aria-label="Toggle navigation" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+<nav *ngIf="!isAdminRoutes" class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+  <a [routerLink]="'/'" class="navbar-brand">Studio OM</a>
+  <button class="navbar-toggler" type="button" (click)="showSidebar = !showSidebar">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+  <div class="collapse navbar-collapse justify-content-end" [class.show]="showSidebar" id="navbarCollapse">
     <ul class="navbar-nav">
-      <li class="nav-item" routerLinkActive="active"><a class="nav-link" [routerLink]="['.']" [fragment]="'intro'"><i class="material-icons">dashboard</i>Úvod</a></li>
-      <li class="nav-item" routerLinkActive="active"><a class="nav-link" [routerLink]="['.']" [fragment]="'info'"><i class="material-icons">info</i>Informace</a></li>
-      <li class="nav-item" routerLinkActive="active"><a class="nav-link" [routerLink]="['.']" [fragment]="'calendar'"><i class="material-icons">calendar_today</i>Kalendář akcí</a></li>
-      <li class="nav-item" routerLinkActive="active"><a class="nav-link" [routerLink]="['.']" [fragment]="'contact'"><i class="material-icons">email</i>Kontakt</a></li>
-      <li class="nav-item" routerLinkActive="active"><a class="nav-link" [routerLink]="['account', 'my']"><i class="material-icons">account_box</i>Účet</a></li>
+      <li class="nav-item" routerLinkActive="active"><a [fragment]="'intro'" [routerLink]="['.']" class="nav-link"><i class="material-icons">dashboard</i>Úvod</a></li>
+      <li class="nav-item" routerLinkActive="active"><a [fragment]="'info'" [routerLink]="['.']" class="nav-link"><i class="material-icons">info</i>Informace</a></li>
+      <li class="nav-item" routerLinkActive="active"><a [fragment]="'calendar'" [routerLink]="['.']" class="nav-link"><i class="material-icons">calendar_today</i>Kalendář akcí</a></li>
+      <li class="nav-item" routerLinkActive="active"><a [fragment]="'contact'" [routerLink]="['.']" class="nav-link"><i class="material-icons">email</i>Kontakt</a></li>
+      <li class="nav-item" routerLinkActive="active"><a [routerLink]="['account', 'my']" class="nav-link"><i class="material-icons">account_box</i>Účet</a></li>
+    </ul>
+  </div>
+</nav>
+
+<nav *ngIf="isAdminRoutes" class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+  <a [routerLink]="['admin']" class="navbar-brand">Studio OM - Administrace</a>
+  <button class="navbar-toggler" type="button" (click)="showSidebar = !showSidebar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end" [class.show]="showSidebar" id="navbarCollapseAdmin">
+    <ul class="navbar-nav">
+      <li class="nav-item" routerLinkActive="active"><a href="" (click)="handleLogout()" class="nav-link"><i class="material-icons">input</i>Odhlásit</a></li>
     </ul>
   </div>
 </nav>

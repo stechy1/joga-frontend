@@ -15,10 +15,10 @@ export class DashboardComponent implements OnInit {
     ['Čechy', 'Morava', 'Slezko']
     ];
   private _images = [
-    'https://lorempixel.com/800/400/food/1',
-    'https://lorempixel.com/800/400/food/2',
-    'https://lorempixel.com/800/400/food/3',
-    'https://lorempixel.com/800/400/food/4'
+    // 'https://s9.limitedrun.com/images/1101066/8BP079_front_1400x1400.jpg',
+    // 'https://www.newton.ac.uk/files/covers/968361.jpg',
+    // 'https://lorempixel.com/800/400/food/3',
+    // 'https://lorempixel.com/800/400/food/4'
   ];
 
   constructor(private http: HttpClient) { }

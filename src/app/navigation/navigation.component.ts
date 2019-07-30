@@ -18,20 +18,22 @@ export class NavigationComponent implements OnInit, OnDestroy {
   private _userSubscription: Subscription;
   private _routeSubscription: Subscription;
 
-  constructor(private _auth: AuthService, private _route: Router) { }
+  constructor(private _auth: AuthService, private _route: Router) {
+  }
 
   ngOnInit() {
+    this.showSidebar = false;
    this._userSubscription = this._auth.user.subscribe(user => {
      this.isAuthenticated = user.role !== UserRole.NONE;
     });
-   this._route.events.subscribe(event => {
-     if (!(event instanceof NavigationEnd)) {
-       return;
-     }
+    this._route.events.subscribe(event => {
+      if (!(event instanceof NavigationEnd)) {
+        return;
+      }
 
-     const adminURL = event.url.startsWith('/admin');
-     this.isAdminRoutes = this.isAuthenticated && adminURL;
-   });
+      const adminURL = event.url.startsWith('/admin');
+      this.isAdminRoutes = this.isAuthenticated && adminURL;
+    });
   }
 
   ngOnDestroy(): void {
@@ -39,4 +41,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this._routeSubscription.unsubscribe();
   }
 
+  handleLogout() {
+    this._auth.logout();
+  }
 }

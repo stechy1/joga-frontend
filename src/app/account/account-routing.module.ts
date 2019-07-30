@@ -7,6 +7,10 @@ import { PersonalComponent } from './personal/personal.component';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'my'
+  },
+  {
     path: 'my',
     component: AccountComponent,
     children: [

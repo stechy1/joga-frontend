@@ -1,1 +1,12 @@
-<h1>Admin dashboard works</h1>
+<div class="wrapper">
+  <nav id="sidebar" [class.active]="hideSidebar">
+    <app-sidebar></app-sidebar>
+  </nav>
+  <div id="sidebarToggle" [class.active]="hideSidebar" class="p-2 align-middle" (click)="hideSidebar = !hideSidebar">
+    <span class="float-right">Toggle</span>
+  </div>
+  <div id="content" [class.active]="hideSidebar">
+    <router-outlet name="subpage"></router-outlet>
+  </div>
+</div>
+
