@@ -13,4 +13,11 @@
       Kalendář
     </a>
   </li>
+
+  <li class="nav-item" routerLinkActive="active">
+    <a [routerLinkActive]="'active'" [routerLink]="[{outlets: {subpage: 'carousel'}}]" class="nav-link">
+      <i class="material-icons">image</i>
+      Obrázky do prezentace
+    </a>
+  </li>
 </ul>

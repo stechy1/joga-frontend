@@ -1,16 +1,17 @@
-<p>dashboard works!</p>
-
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-md-4">
     <app-card cardType="stats" [note]="'Nějaká poznámka'" [title]="'Nadpis'" [subtitle]="'Podnadpis'" [headerColor]="'success'" noteHref="#"></app-card>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-4">
+    <app-card cardType="chart" [note]="'Nějaká poznámka'" [title]="'Nadpis'" [subtitle]="'Podnadpis'" [headerColor]="'warning'" noteHref="#"></app-card>
+  </div>
+  <div class="col-md-4">
     <app-card cardType="chart" [note]="'Nějaká poznámka'" [title]="'Nadpis'" [subtitle]="'Podnadpis'" [headerColor]="'warning'" noteHref="#"></app-card>
   </div>
 </div>
 
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-md-4">
     <app-table [title]="'Testování'" [subtitle]="'Podnadpis'" [headerColor]="'warning'" [tableHeads]="heads" [tableRows]="rows">
       Hello world
     </app-table>
