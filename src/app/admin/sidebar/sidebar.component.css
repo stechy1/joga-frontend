@@ -31,11 +31,10 @@ a[data-toggle="collapse"] {
 }
 
 .dropdown-toggle::after {
-  display: block;
-  position: absolute;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
+  display: inline-block;
+  position: relative;
+  right: 0;
+  width: 5px;
 }
 
 ul ul a {
@@ -54,3 +53,8 @@ a.article:hover {
   background: #6d7fcc !important;
   color: #fff !important;
 }
+
+.nav-dropdown {
+  cursor: pointer;
+}
+

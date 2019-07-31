@@ -9,6 +9,7 @@ import {ShareModule} from '../share/share.module';
 import { CalendarComponent } from './calendar/calendar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { CarouselComponent } from './carousel/carousel.component';
+import { ClientsComponent } from './clients/clients.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { CarouselComponent } from './carousel/carousel.component';
     DashboardComponent,
     CalendarComponent,
     SidebarComponent,
-    CarouselComponent
+    CarouselComponent,
+    ClientsComponent
   ],
   imports: [
     CommonModule,

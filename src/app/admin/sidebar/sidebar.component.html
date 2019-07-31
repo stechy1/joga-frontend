@@ -7,17 +7,33 @@
     </a>
   </li>
 
-  <li class="nav-item" routerLinkActive="active">
-    <a [routerLinkActive]="'active'" [routerLink]="[{outlets: {subpage: 'calendar'}}]" class="nav-link">
+  <li class="nav-dropdown" routerLinkActive="active">
+    <a (click)="showCalendarSubmenu = !showCalendarSubmenu" class="dropdown-toggle">
       <i class="material-icons">calendar_today</i>
       Kalendář
     </a>
+
+    <ul class="collapse list-unstyled" [class.show]="showCalendarSubmenu" id="homeSubmenu">
+      <li>
+        <a [routerLinkActive]="'active'" [routerLink]="[{outlets: {subpage: 'calendar'}}]">Přehled</a>
+      </li>
+      <li>
+        <a [routerLinkActive]="'active'" [routerLink]="[{outlets: {subpage: ['calendar', 'new']}}]">Nová událost</a>
+      </li>
+    </ul>
   </li>
 
   <li class="nav-item" routerLinkActive="active">
     <a [routerLinkActive]="'active'" [routerLink]="[{outlets: {subpage: 'carousel'}}]" class="nav-link">
       <i class="material-icons">image</i>
       Obrázky do prezentace
+    </a>
+  </li>
+
+  <li class="nav-item" routerLinkActive="active">
+    <a [routerLinkActive]="'active'" [routerLink]="[{outlets: {subpage: 'clients'}}]" class="nav-link">
+      <i class="material-icons">account_box</i>
+      Přehled klientů
     </a>
   </li>
 </ul>
