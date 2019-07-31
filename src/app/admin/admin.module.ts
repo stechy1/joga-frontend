@@ -10,6 +10,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { ClientsComponent } from './clients/clients.component';
+import { CalendarNewComponent } from './calendar/new/calendar-new.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ClientsComponent } from './clients/clients.component';
     CalendarComponent,
     SidebarComponent,
     CarouselComponent,
-    ClientsComponent
+    ClientsComponent,
+    CalendarNewComponent
   ],
   imports: [
     CommonModule,

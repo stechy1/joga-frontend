@@ -4,8 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { AdminComponent } from './admin.component';
-
-// import { AdminGuard } from './admin.guard';
+import { ClientsComponent } from './clients/clients.component';
+import { CalendarNewComponent } from './calendar/new/calendar-new.component';
+import { CarouselComponent } from './carousel/carousel.component';
 
 const routes: Routes = [
 
@@ -29,7 +30,31 @@ const routes: Routes = [
       },
       {
         path: 'calendar',
-        component: CalendarComponent,
+        outlet: 'subpage',
+        children: [
+          {
+            path: '',
+            component: CalendarComponent,
+            pathMatch: 'full'
+          },
+          {
+            path: 'new',
+            component: CalendarNewComponent
+          },
+          {
+            path: ':id',
+            component: CalendarComponent
+          }
+        ]
+      },
+      {
+        path: 'carousel',
+        component: CarouselComponent,
+        outlet: 'subpage'
+      },
+      {
+        path: 'clients',
+        component: ClientsComponent,
         outlet: 'subpage'
       }
     ]
