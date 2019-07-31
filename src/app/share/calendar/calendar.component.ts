@@ -11,14 +11,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class CalendarComponent implements OnInit {
 
   private static readonly TOTAL_WINDOWS = 42;
-  private static readonly TODAY = new Date(2019, Months.JANUARY.index);
-
-  // private _firstDayOffset = getFirstDayOffset(CalendarComponent.TODAY);
-  // private _todayDays = getDaysInMonth(CalendarComponent.TODAY);
+  private static readonly TODAY = new Date();
 
   days: string[] = Days.getShortNames();
   windows: CalendarDay[] = [];
-  // viewDate: Date = CalendarComponent.TODAY;
   private _viewDate$ = new BehaviorSubject<Date>(CalendarComponent.TODAY);
 
   constructor() {
