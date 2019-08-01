@@ -33,7 +33,7 @@ const routes: Routes = [
       anchorScrolling: 'enabled',
       scrollPositionRestoration: 'enabled',
       preloadingStrategy: NoPreloading,
-      enableTracing: true
+      // enableTracing: true
     })
   ],
   exports: [

@@ -8,6 +8,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { WindowComponent } from './calendar/window/window.component';
 import { MonthYearTitlePipe } from './calendar/month-year-title.pipe';
 import { RouterModule } from '@angular/router';
+import { PaginatorComponent } from './paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { RouterModule } from '@angular/router';
     CarouselComponent,
     CalendarComponent,
     WindowComponent,
-    MonthYearTitlePipe
+    MonthYearTitlePipe,
+    PaginatorComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { RouterModule } from '@angular/router';
     CardComponent,
     TableComponent,
     CarouselComponent,
-    CalendarComponent
+    CalendarComponent,
+    PaginatorComponent
   ]
 })
 export class ShareModule {

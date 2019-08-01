@@ -5,20 +5,22 @@ import { FormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
 
 import { AuthComponent } from './auth.component';
-// import { AdminGuard } from '../admin/admin.guard';
+import { UserRolePipe } from './user-role.pipe';
 
 @NgModule({
   declarations: [
     AuthComponent,
+    UserRolePipe,
   ],
   imports: [
     CommonModule,
     AuthRoutingModule,
     FormsModule
   ],
-  providers: [
-    // AdminGuard
-  ]
+  exports: [
+    UserRolePipe
+  ],
+  providers: []
 })
 export class AuthModule {
 

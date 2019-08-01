@@ -11,6 +11,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { ClientsComponent } from './clients/clients.component';
 import { CalendarNewComponent } from './calendar/new/calendar-new.component';
+import { AuthModule } from '../auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { CalendarNewComponent } from './calendar/new/calendar-new.component';
   imports: [
     CommonModule,
     ShareModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    AuthModule
   ],
   exports: [
 
