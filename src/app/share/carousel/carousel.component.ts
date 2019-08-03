@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { CarouselImageRecord } from './carousel-image-record';
 
 @Component({
@@ -6,19 +6,24 @@ import { CarouselImageRecord } from './carousel-image-record';
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.css']
 })
-export class CarouselComponent implements OnInit {
+export class CarouselComponent implements OnInit, OnDestroy {
 
   @Input() changeInterval = 5000;
 
   @Input() images: CarouselImageRecord[];
   private activeIndex = 0;
+  private _interval: any;
 
   constructor() { }
 
   ngOnInit() {
-    setInterval(() => {
+    this._interval = setInterval(() => {
       this.handleNextImage();
     }, this.changeInterval);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this._interval);
   }
 
   handleNextImage() {
