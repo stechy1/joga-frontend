@@ -1,0 +1,4 @@
+.page-link.active {
+  background: var(--primary);
+  transition: all 0.3s;
+}

@@ -14,20 +14,25 @@ export class PaginatorComponent implements OnInit, OnDestroy {
   @Output() curentPage = new BehaviorSubject<number>(1);
 
   private _paginatorLinks: number[] = [];
-
+  private _totalPages: number;
   private _totalPagesSubscription: Subscription;
+
+  disablePrev: boolean;
+  disableNext: boolean;
 
   constructor() { }
 
   private _updateLinks(totalPages: number, curentPage: number) {
     this._paginatorLinks = computeLinks(totalPages, curentPage);
+    this.disablePrev = curentPage === 1;
+    this.disableNext = curentPage === totalPages;
   }
 
   ngOnInit() {
-    this._totalPagesSubscription = this.totalPages.subscribe(value => this._updateLinks(value, this.curentPage.getValue()));
-    // this._paginatorLinks = computeLinks(this.totalPages, this.curentPage.getValue());
-    console.log(this.totalPages);
-    console.log(this.curentPage.getValue());
+    this._totalPagesSubscription = this.totalPages.subscribe(value => {
+      this._totalPages = value;
+      this._updateLinks(value, this.curentPage.getValue());
+    });
   }
 
   ngOnDestroy(): void {
@@ -35,15 +40,16 @@ export class PaginatorComponent implements OnInit, OnDestroy {
   }
 
   handleShowPrev() {
-    this.curentPage.next(this.curentPage.getValue() - 1);
+    this.handleShow(this.curentPage.getValue() - 1);
   }
 
   handleShow(index: number) {
     this.curentPage.next(index);
+    this._updateLinks(this._totalPages, index);
   }
 
   handleShowNext() {
-    this.curentPage.next(this.curentPage.getValue() + 1);
+    this.handleShow(this.curentPage.getValue() + 1);
   }
 
   get paginatorLinks(): number[] {
