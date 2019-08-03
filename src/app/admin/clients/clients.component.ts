@@ -10,25 +10,30 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class ClientsComponent implements OnInit {
 
-  private static readonly CLIENTS_PER_PAGE = 2;
+  private static readonly CLIENTS_PER_PAGE = 10;
+  private static readonly DEFAULT_CLIENT_INDEX = 1;
 
-  private _clientIndex = 1;
+  private _clientIndex = -1;
   private _clients: Client[] = [];
-
   private _totalPages$ = new BehaviorSubject<number>(0);
+  private _totalClients = Number.MAX_SAFE_INTEGER;
 
   constructor(private _clientsService: ClientsService) { }
 
-  ngOnInit() {
-    this._clientsService.allClients(this._clientIndex, ClientsComponent.CLIENTS_PER_PAGE)
-    .then(clients => {
-      this._clients = clients;
-      this._totalPages$.next(Math.round(this._clients.length / ClientsComponent.CLIENTS_PER_PAGE));
-    })
-  }
+  ngOnInit() {}
 
-  handleChangePage($event: number) {
-
+  handleChangePage(showIndex: number) {
+    this._clientsService.allClients(this._totalClients - ((showIndex - 1) * ClientsComponent.CLIENTS_PER_PAGE), ClientsComponent.CLIENTS_PER_PAGE)
+        .then(clients => {
+          if (this._clientIndex === ClientsComponent.DEFAULT_CLIENT_INDEX) {
+            if (clients.length > 0) {
+              this._totalClients = +clients[0].id;
+              this._totalPages$.next(Math.round(this._totalClients / ClientsComponent.CLIENTS_PER_PAGE));
+            }
+          }
+          this._clients = clients;
+        });
+    this._clientIndex = showIndex;
   }
 
   get clients(): Client[] {
@@ -36,8 +41,6 @@ export class ClientsComponent implements OnInit {
   }
 
   get totalPages(): Observable<number> {
-    console.log('Total pages called' + this._clients.length);
     return this._totalPages$;
-    // return Math.round(this._clients.length / ClientsComponent.CLIENTS_PER_PAGE);
   }
 }

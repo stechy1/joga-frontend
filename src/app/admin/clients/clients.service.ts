@@ -17,12 +17,11 @@ export class ClientsService {
   }
 
   allClients(clientIndex: number, clientsPerPage: number): Promise<Client[]> {
-    const params = new HttpParams();
-    params.append(ClientsService.KEY_GET_ALL_FROM, String(clientIndex));
-    params.append(ClientsService.KEY_GET_ALL_COUNT, String(clientsPerPage));
-    return this._http.get<{clients: []}>(ClientsService.ACCESS_POINT, {
-      params: params
-    })
+    const formData = new FormData();
+    formData.append(ClientsService.KEY_GET_ALL_FROM, String(clientIndex));
+    formData.append(ClientsService.KEY_GET_ALL_COUNT, String(clientsPerPage));
+
+    return this._http.post<{clients: []}>(ClientsService.ACCESS_POINT, formData)
     .toPromise()
     .then(result => {
       return result.clients as Client[];
