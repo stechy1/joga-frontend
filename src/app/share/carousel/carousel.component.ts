@@ -11,7 +11,8 @@ export class CarouselComponent implements OnInit, OnDestroy {
   @Input() changeInterval = 5000;
 
   @Input() images: CarouselImageRecord[];
-  private activeIndex = 0;
+  public activeIndex = 0;
+
   private _interval: any;
 
   constructor() { }

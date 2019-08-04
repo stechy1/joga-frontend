@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AdminRoutingModule } from './admin-routing.module';
 
@@ -12,6 +13,7 @@ import { CarouselComponent } from './carousel/carousel.component';
 import { ClientsComponent } from './clients/clients.component';
 import { CalendarNewComponent } from './calendar/new/calendar-new.component';
 import { AuthModule } from '../auth/auth.module';
+import { UploadComponent } from './carousel/upload/upload.component';
 
 @NgModule({
   declarations: [
@@ -21,13 +23,15 @@ import { AuthModule } from '../auth/auth.module';
     SidebarComponent,
     CarouselComponent,
     ClientsComponent,
-    CalendarNewComponent
+    CalendarNewComponent,
+    UploadComponent
   ],
   imports: [
     CommonModule,
     ShareModule,
     AdminRoutingModule,
-    AuthModule
+    AuthModule,
+    ReactiveFormsModule
   ],
   exports: [
 

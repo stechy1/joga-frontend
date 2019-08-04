@@ -4,5 +4,11 @@
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
+  },
+  "/public/*": {
+    "target": "http://joga.lh/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
   }
 }

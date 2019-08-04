@@ -9,6 +9,8 @@ import { WindowComponent } from './calendar/window/window.component';
 import { MonthYearTitlePipe } from './calendar/month-year-title.pipe';
 import { RouterModule } from '@angular/router';
 import { PaginatorComponent } from './paginator/paginator.component';
+import { ModalComponent } from './modal/modal.component';
+import { ConfirmDialogComponent } from './modal/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { PaginatorComponent } from './paginator/paginator.component';
     CalendarComponent,
     WindowComponent,
     MonthYearTitlePipe,
-    PaginatorComponent
+    PaginatorComponent,
+    ModalComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +33,9 @@ import { PaginatorComponent } from './paginator/paginator.component';
     TableComponent,
     CarouselComponent,
     CalendarComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    ModalComponent,
+    ConfirmDialogComponent
   ]
 })
 export class ShareModule {
