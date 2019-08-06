@@ -43,7 +43,15 @@ export class CarouselService {
     });
   }
 
-  update(imageModel: UploadImageModel): Promise<any> {
-    return new Promise<any>(resolve => resolve());
+  update(imageModel: UploadImageModel): Promise<void> {
+    return new Promise<void>(resolve => resolve());
+  }
+
+  delete(image: CarouselImage): Promise<any> {
+    return this._http.delete<void>(CarouselService.ACCESS_POINT + '/' + image.getId())
+                     .toPromise()
+                     .then(() => {
+                       this._images.splice(this._images.findIndex(entry => entry.getId() === image.getId()), 1)
+                     });
   }
 }

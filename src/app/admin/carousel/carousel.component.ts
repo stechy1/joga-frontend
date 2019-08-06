@@ -39,6 +39,10 @@ export class CarouselComponent implements OnInit {
     this._modal.open(CarouselComponent.UPLOAD_DIALOG_ID);
   }
 
+  handleDeleteImage(index: number) {
+    this._carouselService.delete(this._images[index]).catch(reason => console.log(reason));
+  }
+
   get isProd(): boolean {
     return environment.production;
   }

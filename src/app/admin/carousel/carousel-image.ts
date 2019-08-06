@@ -31,12 +31,20 @@ export class CarouselImage {
     return this._id;
   }
 
+  getId(): string {
+    return this._id.getValue();
+  }
+
   setId(value: string) {
     this._id.next(value);
   }
 
   get name(): Observable<string> {
     return this._name;
+  }
+
+  getName(): string {
+    return this._name.getValue();
   }
 
   setName(value: string) {
@@ -47,12 +55,20 @@ export class CarouselImage {
     return this._description;
   }
 
+  getDescription(): string {
+    return this._description.getValue();
+  }
+
   setDescription(value: string) {
     this._description.next(value);
   }
 
   get path(): Observable<string> {
     return this._path;
+  }
+
+  getPath(): string {
+    return this._path.getValue();
   }
 
   setPath(value: string) {
@@ -63,12 +79,20 @@ export class CarouselImage {
     return this._enabled;
   }
 
+  isEnabled(): boolean {
+    return this._enabled.getValue();
+  }
+
   setEnabled(value: boolean) {
     this._enabled.next(value);
   }
 
   get view_order(): Observable<number> {
     return this._view_order;
+  }
+
+  getView_order(): number {
+    return this._view_order.getValue();
   }
 
   setView_order(value: number) {
