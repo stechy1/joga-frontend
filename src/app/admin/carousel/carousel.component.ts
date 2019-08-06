@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CarouselImage } from './carousel-image';
+import { CarouselImage, ICarouselImage } from './carousel-image';
 import { CarouselService } from './carousel.service';
 import { ModalService } from '../../share/modal/modal.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-admin-carousel',
@@ -35,4 +38,9 @@ export class CarouselComponent implements OnInit {
   handleShowUploadDialog() {
     this._modal.open(CarouselComponent.UPLOAD_DIALOG_ID);
   }
+
+  get isProd(): boolean {
+    return environment.production;
+  }
+
 }

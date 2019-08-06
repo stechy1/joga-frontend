@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "release": "ng build --prod --base-href=/public/ --output-path=build"
+    "release": "ng build --prod --base-href=/ --output-path=build --output-hashing none"
   },
   "private": true,
   "dependencies": {

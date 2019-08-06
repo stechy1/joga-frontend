@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BASE_ADMIN_API } from '../admin.share';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CarouselImage } from './carousel-image';
+import { HttpClient } from '@angular/common/http';
+import { CarouselImage, ICarouselImage } from './carousel-image';
 import { UploadImageModel } from './upload/upload-image-model';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,33 +16,34 @@ export class CarouselService {
   private static readonly KEY_POST_UPLOAD_DESCRIPTION = 'description';
   private static readonly KEY_POST_UPLOAD_IMAGE = 'image';
 
+  private _images: CarouselImage[] = [];
+
   constructor(private _http: HttpClient) {
   }
 
   allImages(): Promise<CarouselImage[]> {
-    return this._http.get<{images: []}>(CarouselService.ACCESS_POINT)
-               .toPromise()
-               .then(result => {
-                 return result.images as CarouselImage[];
-               });
+    return this._http.get<{ images: ICarouselImage[] }>(CarouselService.ACCESS_POINT)
+                     .pipe(
+                       map(value => value.images.map(image => new CarouselImage(image))),
+                       tap(images => this._images = images))
+                     .toPromise();
   }
 
-  upload(imageModel: UploadImageModel): Promise<string> {
+  upload(imageModel: UploadImageModel): Promise<void> {
     const formData = new FormData();
     formData.append(CarouselService.KEY_POST_UPLOAD_NAME, imageModel.name);
     formData.append(CarouselService.KEY_POST_UPLOAD_DESCRIPTION, imageModel.description);
     formData.append(CarouselService.KEY_POST_UPLOAD_IMAGE, imageModel.imageInput);
 
-    // return new Promise<string>(resolve => {
-    //   console.log('Nahravam data: ');
-    //   console.log(imageModel);
-    //   resolve();
-    // });
-    return new Promise<string>((resolve) => {
-      this._http.post<string>(CarouselService.ACCESS_POINT, formData).subscribe(value => {
-        console.log(value);
-        resolve();
+    return new Promise<void>((resolve) => {
+      this._http.post<{image: ICarouselImage}>(CarouselService.ACCESS_POINT, formData).subscribe(responce => {
+        this._images.push(new CarouselImage(responce.image));
+        resolve(null);
       });
     });
+  }
+
+  update(imageModel: UploadImageModel): Promise<any> {
+    return new Promise<any>(resolve => resolve());
   }
 }

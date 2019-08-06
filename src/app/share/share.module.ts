@@ -11,6 +11,8 @@ import { RouterModule } from '@angular/router';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { ModalComponent } from './modal/modal.component';
 import { ConfirmDialogComponent } from './modal/confirm-dialog/confirm-dialog.component';
+import { ToggleComponent } from './toggle/toggle.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,10 +24,12 @@ import { ConfirmDialogComponent } from './modal/confirm-dialog/confirm-dialog.co
     MonthYearTitlePipe,
     PaginatorComponent,
     ModalComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ToggleComponent
   ],
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule
   ],
   exports: [
@@ -35,7 +39,8 @@ import { ConfirmDialogComponent } from './modal/confirm-dialog/confirm-dialog.co
     CalendarComponent,
     PaginatorComponent,
     ModalComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ToggleComponent
   ]
 })
 export class ShareModule {

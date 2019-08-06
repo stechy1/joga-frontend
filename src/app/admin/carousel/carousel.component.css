@@ -3,3 +3,15 @@
   bottom: 16px;
   right: 16px;
 }
+
+.col-with-image {
+  width: 40%;
+  height: 40%;
+  background: #444;
+  margin: 0 auto;
+}
+.col-with-image img {
+  width: 100%;
+}
+
+

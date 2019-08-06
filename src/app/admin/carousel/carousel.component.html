@@ -6,23 +6,34 @@
     <thead>
     <tr>
       <th>Obrázek</th>
-      <th>ID</th>
+      <th *ngIf="!isProd">ID</th>
       <th>Název</th>
       <th>Popis</th>
-      <th>Cesta</th>
+      <th *ngIf="!isProd">Cesta</th>
       <th>Aktivní</th>
       <th>Pořadí</th>
+      <th>Akce</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let image of images">
-      <td><img src="/public/upload/image/{{image.path}}" alt="{{image.description}}"></td>
-      <td>{{image.id}}</td>
-      <td>{{image.name}}</td>
-      <td>{{image.description}}</td>
-      <td>{{image.path}}</td>
-      <td>{{image.enabled}}</td>
-      <td>{{image.view_order}}</td>
+    <tr *ngFor="let image of images; let i = index">
+      <td>
+        <div class="col-with-image">
+        <img src="/public/uploads/image/{{image.path | async}}" alt="{{image.description | async}}">
+        </div>
+      </td>
+      <td *ngIf="!isProd">{{image.id | async}}</td>
+      <td>{{image.name | async}}</td>
+      <td>{{image.description | async}}</td>
+      <td *ngIf="!isProd" class="text-truncate">{{image.path | async}}</td>
+      <td>
+        <app-toggle [checked]="image.enabled" (changed)="image.setEnabled($event)"></app-toggle>
+      </td>
+      <td>{{image.view_order | async}}</td>
+      <td>
+        <span class="btn btn-primary btn-sm">Upravit</span>
+        <span class="btn btn-danger btn-sm">Smazat</span>
+      </td>
     </tr>
     </tbody>
   </table>
