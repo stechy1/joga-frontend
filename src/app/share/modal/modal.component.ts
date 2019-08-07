@@ -1,9 +1,11 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, ComponentFactoryResolver, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, Type } from '@angular/core';
 
 import { ModalService } from './modal.service';
 import { animation } from './modal.animation';
 import { Observable, Subscription } from 'rxjs';
 import { ModalType } from './modal-type';
+import { DialogChildsDirective } from './dialog-childs.directive';
+import { DialogChildComponent } from './dialog-child.component';
 
 /**
  * Komponenta reprezentující modální dialog
@@ -48,51 +50,56 @@ export class ModalComponent implements OnInit, OnDestroy {
   // ID dialogu
   @Input() id: string;
   // Titulek dialogu
-  @Input() title: string;
+  /*@Input()*/ title: string;
   // Text v potvrzovacím tlačítku
-  @Input() confirmText = 'Použít';
+  /*@Input()*/ confirmText = 'Použít';
   // Text v cancel tlačítku
-  @Input() cancelText = 'Zrušit';
+  /*@Input()*/ cancelText = 'Zrušit';
   // Typ modálního okna
-  @Input() modalType = ModalType.SUCCESS;
+  /*@Input()*/ modalType = ModalType.SUCCESS;
   // Pozorovatelný výsledek, který se použije v metodě openForResult
-  @Input() result: Observable<any>;
+  /*@Input()*/ result: Observable<any>;
   // Ovládání přístupnosti cancel tlačítka
-  @Input() cancelDisabled: boolean;
+  /*@Input()*/ cancelDisabled: boolean;
   // Ovládání přístupnosti potvrzovacího tlačítka
-  @Input() confirmDisabled: boolean;
+  /*@Input()*/ confirmDisabled: Observable<boolean>;
+  // Komponenta, která se zobrazí v dialogu
+  /*@Input()*/ showComponent: Type<DialogChildComponent>;
   // Zavolá se při zobrazení dialogu
-  @Output() showw = new EventEmitter<void>();
+  /*@Output()*/ show = new EventEmitter<void>();
   // Zrušení akce v dialogu
-  @Output() cancel = new EventEmitter<void>();
+  /*@Output()*/ cancel = new EventEmitter<void>();
   // Potvrzení akce v dialogu
-  @Output() confirm = new EventEmitter<void>();
+  /*@Output()*/ confirm = new EventEmitter<void>();
+  // Obsah dialogu
+  @ViewChild(DialogChildsDirective, {static: true}) childDirective: DialogChildsDirective;
 
   // Reference na komponentu dialogu
   private readonly element: any;
-  // Příznak, který říká, zda-li je dialog otevřený
-  private _isOpen = false;
   // Pomocná reference na odběr výsledku
   private _resultSubscription: Subscription;
   // Pomocná reference na odběr akce zrušení dialogu
   private _cancelSubscription: Subscription;
 
-  constructor(private _modalService: ModalService, private el: ElementRef) {
+  constructor(private _modalService: ModalService, private el: ElementRef,
+              private componentFactoryResolver: ComponentFactoryResolver) {
     this.element = el.nativeElement;
   }
 
-  /**
-   * Odhlásí z odběru subscription result a cancel události
-   */
-  private _unsubscrie() {
-    if (this._resultSubscription) {
-      this._resultSubscription.unsubscribe();
-      this._resultSubscription = null;
-    }
-    if (this._cancelSubscription) {
-      this._cancelSubscription.unsubscribe();
-      this._cancelSubscription = null;
-    }
+  // Příznak, který říká, zda-li je dialog otevřený
+  private _isOpen = false;
+
+  get isOpen(): boolean {
+    return this._isOpen;
+  }
+
+  private _loadDialogContent() {
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.showComponent);
+    const viewContainerRef = this.childDirective.viewContainerRef;
+    viewContainerRef.clear();
+
+    const component = viewContainerRef.createComponent(componentFactory);
+    (<DialogChildComponent>component.instance).bind(this);
   }
 
   ngOnInit(): void {
@@ -125,7 +132,8 @@ export class ModalComponent implements OnInit, OnDestroy {
     // Přidá třídu 'modal-open' do elementu 'body'
     document.body.classList.add('modal-open');
     // Informuji pozorovatele, že zobrazuji dialog
-    this.showw.next();
+    this._loadDialogContent();
+    this.show.next();
   }
 
   /**
@@ -176,7 +184,17 @@ export class ModalComponent implements OnInit, OnDestroy {
     document.body.classList.remove('modal-open');
   }
 
-  get isOpen(): boolean {
-    return this._isOpen;
+  /**
+   * Odhlásí z odběru subscription result a cancel události
+   */
+  private _unsubscrie() {
+    if (this._resultSubscription) {
+      this._resultSubscription.unsubscribe();
+      this._resultSubscription = null;
+    }
+    if (this._cancelSubscription) {
+      this._cancelSubscription.unsubscribe();
+      this._cancelSubscription = null;
+    }
   }
 }

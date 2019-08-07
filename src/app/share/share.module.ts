@@ -13,6 +13,7 @@ import { ModalComponent } from './modal/modal.component';
 import { ConfirmDialogComponent } from './modal/confirm-dialog/confirm-dialog.component';
 import { ToggleComponent } from './toggle/toggle.component';
 import { FormsModule } from '@angular/forms';
+import { DialogChildsDirective } from './modal/dialog-childs.directive';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { FormsModule } from '@angular/forms';
     PaginatorComponent,
     ModalComponent,
     ConfirmDialogComponent,
-    ToggleComponent
+    ToggleComponent,
+    DialogChildsDirective
   ],
   imports: [
     CommonModule,
@@ -40,7 +42,8 @@ import { FormsModule } from '@angular/forms';
     PaginatorComponent,
     ModalComponent,
     ConfirmDialogComponent,
-    ToggleComponent
+    ToggleComponent,
+    DialogChildsDirective
   ]
 })
 export class ShareModule {

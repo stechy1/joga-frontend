@@ -10,10 +10,10 @@
         </button>
       </div>
       <div class="modal-body">
-        <ng-content></ng-content>
+        <ng-template dialog-childs></ng-template>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" [disabled]="confirmDisabled" *ngIf="confirmText" (click)="handleConfirm()">{{confirmText}}</button>
+        <button type="button" class="btn btn-primary" [disabled]="confirmDisabled | async" *ngIf="confirmText" (click)="handleConfirm()">{{confirmText}}</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal" [disabled]="cancelDisabled" (click)="handleCancel()" *ngIf="cancelText">{{cancelText}}</button>
       </div>
     </div>
