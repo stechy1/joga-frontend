@@ -5,6 +5,7 @@ import { ModalService } from '../../share/modal/modal.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { UploadComponent } from './dialog/upload/upload.component';
 
 @Component({
   selector: 'app-admin-carousel',
@@ -13,7 +14,7 @@ import { environment } from '../../../environments/environment';
 })
 export class CarouselComponent implements OnInit {
 
-  private static readonly UPLOAD_DIALOG_ID = 'carouselImageUploadDialog';
+  private static readonly UPLOAD_DIALOG_ID = 'carouselDialog';
 
   private _images: CarouselImage[] = [];
 
@@ -32,6 +33,7 @@ export class CarouselComponent implements OnInit {
   }
 
   handleShowUploadDialog() {
+    this._modal.setModalView(CarouselComponent.UPLOAD_DIALOG_ID, UploadComponent);
     this._modal.open(CarouselComponent.UPLOAD_DIALOG_ID);
   }
 

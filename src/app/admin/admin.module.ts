@@ -13,7 +13,7 @@ import { CarouselComponent } from './carousel/carousel.component';
 import { ClientsComponent } from './clients/clients.component';
 import { CalendarNewComponent } from './calendar/new/calendar-new.component';
 import { AuthModule } from '../auth/auth.module';
-import { UploadComponent } from './carousel/upload/upload.component';
+import { UploadComponent } from './carousel/dialog/upload/upload.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,7 @@ import { UploadComponent } from './carousel/upload/upload.component';
     CarouselComponent,
     ClientsComponent,
     CalendarNewComponent,
-    UploadComponent
+    UploadComponent,
   ],
   imports: [
     CommonModule,
@@ -35,6 +35,9 @@ import { UploadComponent } from './carousel/upload/upload.component';
   ],
   exports: [
 
+  ],
+  entryComponents: [
+    UploadComponent
   ]
 })
 export class AdminModule {

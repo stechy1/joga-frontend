@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BASE_ADMIN_API } from '../admin.share';
 import { HttpClient } from '@angular/common/http';
 import { CarouselImage, ICarouselImage } from './carousel-image';
-import { UploadImageModel } from './upload/upload-image-model';
+import { UploadImageModel } from './dialog/upload/upload-image-model';
 import { map, tap } from 'rxjs/operators';
 
 @Injectable({

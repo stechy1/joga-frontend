@@ -42,8 +42,10 @@
 
 <span id="new-query" class="btn-floating btn-lg btn-default floating-upload-btn" (click)="handleShowUploadDialog()"><i class="material-icons">add</i></span>
 
-<app-modal id="carouselImageUploadDialog" title="'Nový obrázek'" cancelText="'Zrušit'" confirmText="'Nahrát'"
-           (confirm)="uploadImageComponent.handleUploadImage()" [confirmDisabled]="!uploadImageComponent.uploadForm.valid"
-            (showw)="uploadImageComponent.prepareForm()">
-  <app-upload-image #uploadImageComponent></app-upload-image>
-</app-modal>
+<!--<app-modal id="carouselImageUploadDialog" title="'Nový obrázek'" cancelText="'Zrušit'" confirmText="'Nahrát'"-->
+<!--           (confirm)="uploadImageComponent.handleUploadImage()" [confirmDisabled]="!uploadImageComponent.uploadForm.valid"-->
+<!--            (showw)="uploadImageComponent.prepareForm()">-->
+<!--  <app-upload-image #uploadImageComponent></app-upload-image>-->
+<!--</app-modal>-->
+
+<app-modal id="carouselDialog"></app-modal>
