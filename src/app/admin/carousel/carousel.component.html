@@ -25,12 +25,12 @@
       <td>{{image.description | async}}</td>
       <td *ngIf="!isProd" class="text-truncate">{{image.path | async}}</td>
       <td>
-        <app-toggle [checked]="image.enabled" (changed)="image.setEnabled($event)"></app-toggle>
+        <app-toggle [checked]="image.enabled" (changed)="handleChangeEnabled($event, i)"></app-toggle>
       </td>
       <td>{{image.view_order | async}}</td>
       <td>
-        <span class="btn btn-primary btn-sm">Upravit</span>
-        <span class="btn btn-danger btn-sm" (click)="handleDeleteImage(i)">Smazat</span>
+        <button class="btn btn-primary btn-sm">Upravit</button>
+        <button class="btn btn-danger btn-sm" [class.disabled]="image.enabled | async" (click)="handleDeleteImage(i)">Smazat</button>
       </td>
     </tr>
     </tbody>

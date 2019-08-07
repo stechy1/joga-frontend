@@ -31,20 +31,26 @@ export class CarouselComponent implements OnInit {
     return this._images;
   }
 
-  handleUploadImage($event: any) {
-
-  }
-
   handleShowUploadDialog() {
     this._modal.open(CarouselComponent.UPLOAD_DIALOG_ID);
   }
 
   handleDeleteImage(index: number) {
-    this._carouselService.delete(this._images[index]).catch(reason => console.log(reason));
+    const image = this._images[index];
+    if (image.isEnabled()) {
+      return;
+    }
+
+    this._carouselService.delete(image.toCarouselImage()).catch(reason => console.log(reason));
+  }
+
+  handleChangeEnabled(enabled: boolean, index: number) {
+    const image = this._images[index].toCarouselImage();
+    image.enabled = enabled ? 1 : 0;
+    this._carouselService.update(image).catch(reason => console.log(reason));
   }
 
   get isProd(): boolean {
     return environment.production;
   }
-
 }
