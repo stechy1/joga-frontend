@@ -1,10 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CarouselService } from '../../carousel.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogChildComponent } from '../../../../share/modal/dialog-child.component';
 import { ModalComponent } from '../../../../share/modal/modal.component';
 import { map } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   templateUrl: './upload.component.html',
@@ -23,6 +23,9 @@ export class UploadComponent extends DialogChildComponent implements OnInit {
   private _file: File;
   private _formValid = new BehaviorSubject(false);
 
+  private _confirmSubscription: Subscription;
+  private _showSubscription: Subscription;
+
   constructor(private _carouselService: CarouselService) {
     super();
   }
@@ -36,12 +39,18 @@ export class UploadComponent extends DialogChildComponent implements OnInit {
         );
   }
 
+  unbind() {
+    this._confirmSubscription.unsubscribe();
+    this._showSubscription.unsubscribe();
+  }
+
   bind(modal: ModalComponent) {
     modal.title = 'Nový obrázek';
     modal.confirmText = 'Nahrát';
     modal.cancelText = 'Zrušit';
-    modal.confirm.subscribe(() => this.handleUploadImage());
-    modal.show.subscribe(() => this.prepareForm());
+    modal.confirmClose = false;
+    this._confirmSubscription = modal.confirm.subscribe(() => this.handleUploadImage());
+    this._showSubscription = modal.show.subscribe(() => this.prepareForm());
     modal.confirmDisabled = this._formValid;
   }
 

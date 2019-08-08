@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogChildComponent } from '../../../../share/modal/dialog-child.component';
 import { ModalComponent } from '../../../../share/modal/modal.component';
-import { BehaviorSubject} from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ICarouselImage } from '../../carousel-image';
@@ -23,6 +23,11 @@ export class UpdateComponent extends DialogChildComponent implements OnInit {
     view_order: new FormControl('-1')
   });
   private _formValid = new BehaviorSubject(false);
+  private _closeFunction: Function;
+
+  private _confirmSubscription: Subscription;
+  private _cancelSubscription: Subscription;
+  private _showSubscription: Subscription;
 
 
   constructor(private _carouselService: CarouselService) {
@@ -30,7 +35,6 @@ export class UpdateComponent extends DialogChildComponent implements OnInit {
   }
 
   private prepareForm(image: ICarouselImage) {
-    console.log(image);
     this.uploadForm.patchValue({
       id: image.id,
       name: image.name,
@@ -42,7 +46,9 @@ export class UpdateComponent extends DialogChildComponent implements OnInit {
   }
 
   private handleUpdate() {
-    this._carouselService.update(this.uploadForm.value).catch(reason => console.log(reason));
+    this._carouselService.update(this.uploadForm.value)
+        .then(() => this._closeFunction())
+        .catch(reason => console.log(reason));
   }
 
   ngOnInit() {
@@ -54,14 +60,23 @@ export class UpdateComponent extends DialogChildComponent implements OnInit {
         );
   }
 
+  unbind() {
+    this._confirmSubscription.unsubscribe();
+    this._cancelSubscription.unsubscribe();
+    this._showSubscription.unsubscribe();
+    this._closeFunction = null;
+  }
+
   bind(modal: ModalComponent) {
     modal.title = 'Upravit obrázek';
     modal.confirmText = 'Upravit';
     modal.cancelText = 'Zrušit';
-    modal.confirm.subscribe(() => this.handleUpdate());
-    modal.show.subscribe((args) => this.prepareForm(args[0]));
+    modal.confirmClose = true;
+    this._confirmSubscription =  modal.confirm.subscribe(() => this.handleUpdate());
+    this._cancelSubscription =  modal.cancel.subscribe(() => modal.close());
+    this._showSubscription =  modal.show.subscribe((args) => this.prepareForm(args[0]));
     modal.confirmDisabled = this._formValid;
-
+    this._closeFunction = modal.close;
   }
 
   get isProd(): boolean {

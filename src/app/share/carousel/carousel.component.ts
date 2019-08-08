@@ -29,12 +29,10 @@ export class CarouselComponent implements OnInit, OnDestroy {
 
   handleNextImage() {
     this.activeIndex = (++this.activeIndex) % this.images.length;
-    console.log(this.activeIndex);
   }
 
   handlePrevImage() {
     this.activeIndex = ((--this.activeIndex) < 0) ? this.images.length - 1 : (this.activeIndex % this.images.length);
-    console.log(this.activeIndex);
   }
 
   handleShowImage(index: number) {
