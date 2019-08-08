@@ -21,10 +21,7 @@ export class CarouselComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._carouselService.allImages()
-        .then(images => {
-          this._images = images;
-        });
+    this._images = this._carouselService.images;
   }
 
   get images(): CarouselImage[] {

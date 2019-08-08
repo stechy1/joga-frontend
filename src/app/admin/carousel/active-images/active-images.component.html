@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-12">
+  <h1>Aktivní obrázky</h1>
+    <ul class="list-inline">
+      <li *ngFor="let image of images | filterActive" class="list-inline-item">
+        <div class="col-with-image">
+          <img src="/public/uploads/image/{{image.path | async}}" alt="{{image.description | async}}">
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

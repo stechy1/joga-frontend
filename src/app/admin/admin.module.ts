@@ -15,6 +15,8 @@ import { CalendarNewComponent } from './calendar/new/calendar-new.component';
 import { AuthModule } from '../auth/auth.module';
 import { UploadComponent } from './carousel/dialog/upload/upload.component';
 import { UpdateComponent } from './carousel/dialog/update/update.component';
+import { ActiveImagesComponent } from './carousel/active-images/active-images.component';
+import { FilterActivePipe } from './carousel/active-images/filter-active.pipe';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { UpdateComponent } from './carousel/dialog/update/update.component';
     CalendarNewComponent,
     UploadComponent,
     UpdateComponent,
+    ActiveImagesComponent,
+    FilterActivePipe,
   ],
   imports: [
     CommonModule,
