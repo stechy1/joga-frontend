@@ -29,7 +29,7 @@
       </td>
       <td>{{image.view_order | async}}</td>
       <td>
-        <button class="btn btn-primary btn-sm">Upravit</button>
+        <button class="btn btn-primary btn-sm" (click)="handleUpdateImage(i)">Upravit</button>
         <button class="btn btn-danger btn-sm" [class.disabled]="image.enabled | async" (click)="handleDeleteImage(i)">Smazat</button>
       </td>
     </tr>

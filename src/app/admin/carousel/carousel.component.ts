@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { UploadComponent } from './dialog/upload/upload.component';
+import { UpdateComponent } from './dialog/update/update.component';
 
 @Component({
   selector: 'app-admin-carousel',
@@ -14,7 +15,7 @@ import { UploadComponent } from './dialog/upload/upload.component';
 })
 export class CarouselComponent implements OnInit {
 
-  private static readonly UPLOAD_DIALOG_ID = 'carouselDialog';
+  private static readonly CAROUSEL_DIALOG_ID = 'carouselDialog';
 
   private _images: CarouselImage[] = [];
 
@@ -33,8 +34,8 @@ export class CarouselComponent implements OnInit {
   }
 
   handleShowUploadDialog() {
-    this._modal.setModalView(CarouselComponent.UPLOAD_DIALOG_ID, UploadComponent);
-    this._modal.open(CarouselComponent.UPLOAD_DIALOG_ID);
+    this._modal.setModalView(CarouselComponent.CAROUSEL_DIALOG_ID, UploadComponent);
+    this._modal.open(CarouselComponent.CAROUSEL_DIALOG_ID);
   }
 
   handleDeleteImage(index: number) {
@@ -50,6 +51,11 @@ export class CarouselComponent implements OnInit {
     const image = this._images[index].toCarouselImage();
     image.enabled = enabled ? 1 : 0;
     this._carouselService.update(image).catch(reason => console.log(reason));
+  }
+
+  handleUpdateImage(index: number) {
+    this._modal.setModalView(CarouselComponent.CAROUSEL_DIALOG_ID, UpdateComponent);
+    this._modal.open(CarouselComponent.CAROUSEL_DIALOG_ID, this._images[index].toCarouselImage());
   }
 
   get isProd(): boolean {

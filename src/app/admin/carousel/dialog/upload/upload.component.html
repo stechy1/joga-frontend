@@ -3,12 +3,12 @@
     <form [formGroup]="uploadForm" enctype="multipart/form-data">
       <div class="form-group">
         <label for="name">Název</label>
-        <input type="email" class="form-control" id="name" aria-describedby="emailHelp"
+        <input type="text" class="form-control" id="name"
                placeholder="Název obrázku" formControlName="name" required="">
       </div>
       <div class="form-group">
         <label for="description">Popis</label>
-        <input type="email" class="form-control" id="description" aria-describedby="emailHelp"
+        <input type="text" class="form-control" id="description"
                placeholder="Popis obrázku" formControlName="description">
       </div>
       <div class="form-group">
@@ -27,5 +27,3 @@
     </form>
   </div>
 </div>
-
-Valid: {{uploadForm.valid}}

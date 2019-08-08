@@ -1,6 +1,7 @@
 import { Injectable, Type } from '@angular/core';
 import { ModalComponent } from './modal.component';
 import { DialogChildComponent } from './dialog-child.component';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ModalService {
@@ -42,20 +43,22 @@ export class ModalService {
    * Otevře dialog v read-only režimu
    *
    * @param id ID dialogu, který se má otevřít
+   * @param args Nepovinné parametry, které se předají přímo do komponenty v modálním okně
    */
-  open(id: string) {
+  open(id: string, ...args: any) {
     const modal = this._findModal(id);
-    modal.open();
+    modal.open(args);
   }
 
   /**
    * Otevře dialog s čekáním na výsledek
    *
    * @param id ID dialogu, který se má otevřít
+   * @param args Nepovinné parametry, které se předají přímo do komponenty v modálním okně
    */
-  openForResult(id: string): Promise<any> {
+  openForResult(id: string, ...args: any): Promise<any> {
     const modal: ModalComponent = this._modals.filter(x => x.id === id)[0];
-    return modal.openForResult();
+    return modal.openForResult(args);
   }
 
   /**

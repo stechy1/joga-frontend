@@ -14,6 +14,7 @@ import { ClientsComponent } from './clients/clients.component';
 import { CalendarNewComponent } from './calendar/new/calendar-new.component';
 import { AuthModule } from '../auth/auth.module';
 import { UploadComponent } from './carousel/dialog/upload/upload.component';
+import { UpdateComponent } from './carousel/dialog/update/update.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { UploadComponent } from './carousel/dialog/upload/upload.component';
     ClientsComponent,
     CalendarNewComponent,
     UploadComponent,
+    UpdateComponent,
   ],
   imports: [
     CommonModule,
@@ -37,7 +39,8 @@ import { UploadComponent } from './carousel/dialog/upload/upload.component';
 
   ],
   entryComponents: [
-    UploadComponent
+    UploadComponent,
+    UpdateComponent
   ]
 })
 export class AdminModule {

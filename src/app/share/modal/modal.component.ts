@@ -66,7 +66,7 @@ export class ModalComponent implements OnInit, OnDestroy {
   // Komponenta, která se zobrazí v dialogu
   /*@Input()*/ showComponent: Type<DialogChildComponent>;
   // Zavolá se při zobrazení dialogu
-  /*@Output()*/ show = new EventEmitter<void>();
+  /*@Output()*/ show = new EventEmitter<any>();
   // Zrušení akce v dialogu
   /*@Output()*/ cancel = new EventEmitter<void>();
   // Potvrzení akce v dialogu
@@ -99,7 +99,8 @@ export class ModalComponent implements OnInit, OnDestroy {
     viewContainerRef.clear();
 
     const component = viewContainerRef.createComponent(componentFactory);
-    (<DialogChildComponent>component.instance).bind(this);
+    const instance = (<DialogChildComponent>component.instance);
+    instance.bind(this);
   }
 
   ngOnInit(): void {
@@ -126,26 +127,26 @@ export class ModalComponent implements OnInit, OnDestroy {
   /**
    * Otevře dialog bez čekání na výsledek
    */
-  open(): void {
+  open(args: any): void {
     // Nastaví příznak na otevřeno
     this._isOpen = true;
     // Přidá třídu 'modal-open' do elementu 'body'
     document.body.classList.add('modal-open');
     // Informuji pozorovatele, že zobrazuji dialog
     this._loadDialogContent();
-    this.show.next();
+    this.show.next(args);
   }
 
   /**
    * Otevře dialog s čekáním na výsledek
    */
-  openForResult(): Promise<any> {
+  openForResult(args: any): Promise<any> {
     // Odhlásím z odběru předchozí odběratele
     this._unsubscrie();
     // Vrátím novou promise
     return new Promise<any>((resolve, reject) => {
       // Otevřu dialog
-      this.open();
+      this.open(args);
       // Přihlásím se k odběru výsledku
       this._resultSubscription = this.result.subscribe((value) => {
         // Příjde-li výsledek, považuji to za úspěšné vyřešení dialogu

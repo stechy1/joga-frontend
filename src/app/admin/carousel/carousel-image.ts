@@ -11,20 +11,21 @@ export interface ICarouselImage {
 
 export class CarouselImage {
 
-  private readonly _id: BehaviorSubject<string>;
-  private readonly _name: BehaviorSubject<string>;
-  private readonly _description: BehaviorSubject<string>;
-  private readonly _path: BehaviorSubject<string>;
-  private readonly _enabled: BehaviorSubject<boolean>;
-  private readonly _view_order: BehaviorSubject<number>;
+  private readonly _id = new BehaviorSubject<string>(null);
+  private readonly _name = new BehaviorSubject<string>(null);
+  private readonly _description = new BehaviorSubject<string>(null);
+  private readonly _path = new BehaviorSubject<string>(null);
+  private readonly _enabled = new BehaviorSubject<boolean>(null);
+  private readonly _view_order = new BehaviorSubject<number>(null);
 
   constructor(image: ICarouselImage) {
-    this._id = new BehaviorSubject<string>(image.id);
-    this._name = new BehaviorSubject<string>(image.name);
-    this._description = new BehaviorSubject<string>(image.description);
-    this._path = new BehaviorSubject<string>(image.path);
-    this._enabled = new BehaviorSubject<boolean>(image.enabled !== 0);
-    this._view_order = new BehaviorSubject<number>(image.view_order);
+    this.update(image);
+    // this._id = new BehaviorSubject<string>(image.id);
+    // this._name = new BehaviorSubject<string>(image.name);
+    // this._description = new BehaviorSubject<string>(image.description);
+    // this._path = new BehaviorSubject<string>(image.path);
+    // this._enabled = new BehaviorSubject<boolean>(image.enabled !== 0);
+    // this._view_order = new BehaviorSubject<number>(image.view_order);
   }
 
   get id(): Observable<string> {
@@ -108,5 +109,15 @@ export class CarouselImage {
       enabled : this._enabled.getValue() ? 1 : 0,
       view_order : this._view_order.getValue(),
     };
+  }
+
+  update(image: ICarouselImage): void {
+    console.log(image);
+    this.setId(image.id);
+    this.setName(image.name);
+    this.setDescription(image.description);
+    this.setPath(image.path);
+    this.setEnabled(image.enabled !== 0);
+    this.setView_order(image.view_order);
   }
 }

@@ -7,7 +7,6 @@ import { map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'app-upload-image',
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.css']
 })

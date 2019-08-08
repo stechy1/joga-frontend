@@ -57,7 +57,11 @@ export class CarouselService {
 
     return this._http
                .post<void>(CarouselService.ACCESS_POINT + '/update', formData)
-               .toPromise();
+               .toPromise()
+               .then(() => {
+                 this._images.filter(image => image.getId() === imageModel.id)[0].update(imageModel);
+                 return null;
+               });
   }
 
   delete(image: ICarouselImage): Promise<any> {
