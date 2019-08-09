@@ -10,6 +10,7 @@ import { InformationComponent } from './fragments/information/information.compon
 import { CalendarComponent } from './fragments/calendar/calendar.component';
 import { ContactComponent } from './fragments/contact/contact.component';
 import { ShareModule } from '../share/share.module';
+import { ServicesComponent } from './fragments/services/services.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ShareModule } from '../share/share.module';
     IntroComponent,
     InformationComponent,
     CalendarComponent,
-    ContactComponent
+    ContactComponent,
+    ServicesComponent
   ],
   imports: [
     GeneralRoutingModule,

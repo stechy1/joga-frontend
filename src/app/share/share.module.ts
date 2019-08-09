@@ -14,6 +14,7 @@ import { ConfirmDialogComponent } from './modal/confirm-dialog/confirm-dialog.co
 import { ToggleComponent } from './toggle/toggle.component';
 import { FormsModule } from '@angular/forms';
 import { DialogChildsDirective } from './modal/dialog-childs.directive';
+import { HeadingComponent } from './heading/heading.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { DialogChildsDirective } from './modal/dialog-childs.directive';
     ModalComponent,
     ConfirmDialogComponent,
     ToggleComponent,
-    DialogChildsDirective
+    DialogChildsDirective,
+    HeadingComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +45,8 @@ import { DialogChildsDirective } from './modal/dialog-childs.directive';
     ModalComponent,
     ConfirmDialogComponent,
     ToggleComponent,
-    DialogChildsDirective
+    DialogChildsDirective,
+    HeadingComponent
   ]
 })
 export class ShareModule {

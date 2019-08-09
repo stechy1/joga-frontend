@@ -21,6 +21,9 @@
 nav ul a {
   display: flex;
 }
+nav.bg-primary {
+  background-color: #6d2096a1 !important;
+}
 
 .admin-navbar-togle {
   position: fixed;
