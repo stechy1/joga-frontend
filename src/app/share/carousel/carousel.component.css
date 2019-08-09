@@ -22,7 +22,6 @@
 }
 
 .slider-fullscreen-image {
-  min-height: 90vh;
   height: calc(100vh - 56px);
   background-repeat: no-repeat;
   background-position: 50% 50%;
