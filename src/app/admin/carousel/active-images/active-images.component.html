@@ -2,9 +2,17 @@
   <div class="col-12">
   <h1>Aktivní obrázky</h1>
     <ul class="list-inline">
-      <li *ngFor="let image of images | filterActive" class="list-inline-item">
-        <div class="col-with-image">
+      <li *ngFor="let image of images | filterActive; let i = index" class="list-inline-item">
+        <div class="active-image-wrapper">
           <img src="/public/uploads/image/{{image.path | async}}" alt="{{image.description | async}}">
+          <button class="btn active-image-control prev-icon align-middle"
+                  (click)="handleMoveLeft(image)"
+                  *ngIf="i != 0"
+                  aria-hidden="true"></button>
+          <button class="btn active-image-control next-icon align-middle"
+                  (click)="handleMoveRight(image)"
+                  *ngIf="i != images.length - 1"
+                  aria-hidden="true"></button>
         </div>
       </li>
     </ul>

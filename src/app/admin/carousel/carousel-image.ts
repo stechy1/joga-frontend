@@ -16,7 +16,7 @@ export class CarouselImage {
   private readonly _description = new BehaviorSubject<string>(null);
   private readonly _path = new BehaviorSubject<string>(null);
   private readonly _enabled = new BehaviorSubject<boolean>(null);
-  private readonly _view_order = new BehaviorSubject<number>(null);
+  private readonly _viewOrder = new BehaviorSubject<number>(null);
 
   constructor(image: ICarouselImage) {
     this.update(image);
@@ -25,7 +25,36 @@ export class CarouselImage {
     // this._description = new BehaviorSubject<string>(image.description);
     // this._path = new BehaviorSubject<string>(image.path);
     // this._enabled = new BehaviorSubject<boolean>(image.enabled !== 0);
-    // this._view_order = new BehaviorSubject<number>(image.view_order);
+    // this._viewOrder = new BehaviorSubject<number>(image.viewOrder);
+  }
+
+  decreaseViewOrder() {
+    this.setView_order(this.getView_order() - 1);
+  }
+
+  increaseViewOrder() {
+    this.setView_order(this.getView_order() + 1);
+  }
+
+  toCarouselImage(): ICarouselImage {
+    return {
+      id : this._id.getValue(),
+      name : this._name.getValue(),
+      description : this._description.getValue(),
+      path : this._path.getValue(),
+      enabled : this._enabled.getValue() ? 1 : 0,
+      view_order : this._viewOrder.getValue(),
+    };
+  }
+
+  update(image: ICarouselImage): void {
+    console.log(image);
+    this.setId(image.id);
+    this.setName(image.name);
+    this.setDescription(image.description);
+    this.setPath(image.path);
+    this.setEnabled(image.enabled !== 0);
+    this.setView_order(image.view_order);
   }
 
   get id(): Observable<string> {
@@ -88,36 +117,15 @@ export class CarouselImage {
     this._enabled.next(value);
   }
 
-  get view_order(): Observable<number> {
-    return this._view_order;
+  get viewOrder(): Observable<number> {
+    return this._viewOrder;
   }
 
   getView_order(): number {
-    return this._view_order.getValue();
+    return this._viewOrder.getValue();
   }
 
   setView_order(value: number) {
-    this._view_order.next(value);
-  }
-
-  toCarouselImage(): ICarouselImage {
-    return {
-      id : this._id.getValue(),
-      name : this._name.getValue(),
-      description : this._description.getValue(),
-      path : this._path.getValue(),
-      enabled : this._enabled.getValue() ? 1 : 0,
-      view_order : this._view_order.getValue(),
-    };
-  }
-
-  update(image: ICarouselImage): void {
-    console.log(image);
-    this.setId(image.id);
-    this.setName(image.name);
-    this.setDescription(image.description);
-    this.setPath(image.path);
-    this.setEnabled(image.enabled !== 0);
-    this.setView_order(image.view_order);
+    this._viewOrder.next(value);
   }
 }

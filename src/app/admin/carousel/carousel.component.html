@@ -30,7 +30,7 @@
         <td>
           <app-toggle [checked]="image.enabled" (changed)="handleChangeEnabled($event, i)"></app-toggle>
         </td>
-        <td>{{image.view_order | async}}</td>
+        <td>{{image.viewOrder | async}}</td>
         <td>
           <button class="btn btn-primary btn-sm" (click)="handleUpdateImage(i)">Upravit</button>
           <button class="btn btn-danger btn-sm" [class.disabled]="image.enabled | async" (click)="handleDeleteImage(i)">Smazat</button>

@@ -29,7 +29,7 @@ export class CarouselService {
           tap(images => {
             images.forEach(image => {
               this._images.push(image);
-            })
+            });
           }))
         .toPromise()
         .catch((reason => console.log(reason)));
@@ -62,7 +62,7 @@ export class CarouselService {
                .post<void>(CarouselService.ACCESS_POINT + '/update', formData)
                .toPromise()
                .then(() => {
-                 this._images.filter(image => image.getId() === imageModel.id)[0].update(imageModel);
+                 this._images[this.images.findIndex(image => image.getId() === imageModel.id)].update(imageModel);
                  return null;
                });
   }
@@ -72,11 +72,15 @@ export class CarouselService {
                .delete<void>(CarouselService.ACCESS_POINT + '/' + image.id)
                .toPromise()
                .then(() => {
-                 this._images.splice(this._images.findIndex(entry => entry.getId() === image.id), 1)
+                 this._images.splice(this._images.findIndex(entry => entry.getId() === image.id), 1);
                });
   }
 
   get images(): CarouselImage[] {
     return this._images;
+  }
+
+  get lastImageFreeIndex(): number {
+    return this._images.filter(image => image.isEnabled()).length;
   }
 }

@@ -45,6 +45,11 @@ export class CarouselComponent implements OnInit {
   handleChangeEnabled(enabled: boolean, index: number) {
     const image = this._images[index].toCarouselImage();
     image.enabled = enabled ? 1 : 0;
+    if (image.enabled) {
+      image.view_order = this._carouselService.lastImageFreeIndex;
+    } else {
+      image.view_order = -1;
+    }
     this._carouselService.update(image).catch(reason => console.log(reason));
   }
 
