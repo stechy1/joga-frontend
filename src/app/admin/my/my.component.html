@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-12">
+    <h1>Informace</h1>
+
+    <div class="form-group shadow-textarea">
+      <label for="about-me">Informace o mně</label>
+      <textarea class="form-control z-depth-1" id="about-me" rows="3"
+                placeholder="Write something here..." [(ngModel)]="aboutMe"></textarea>
+      <div class="float-right">
+        <button class="btn btn-primary" (click)="handleSave('my')">Uložit</button>
+        <button class="btn btn-secondary" (click)="handlePublish('my')">Publikovat</button>
+      </div>
+    </div>
+
+    <div class="form-group shadow-textarea">
+      <label for="about-studio">Informace o studiu</label>
+      <textarea class="form-control z-depth-1" id="about-studio" rows="3"
+                placeholder="Write something here..." [(ngModel)]="aboutStudio"></textarea>
+      <div class="float-right">
+        <button class="btn btn-primary" (click)="handleSave('studio')">Uložit</button>
+        <button class="btn btn-secondary" (click)="handlePublish('studio')">Publikovat</button>
+      </div>
+    </div>
+
+
+  </div>
+</div>

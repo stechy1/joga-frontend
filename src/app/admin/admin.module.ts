@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AdminRoutingModule } from './admin-routing.module';
 
@@ -17,6 +17,7 @@ import { UploadComponent } from './carousel/dialog/upload/upload.component';
 import { UpdateComponent } from './carousel/dialog/update/update.component';
 import { ActiveImagesComponent } from './carousel/active-images/active-images.component';
 import { FilterActivePipe } from './carousel/active-images/filter-active.pipe';
+import { MyComponent } from './my/my.component';
 
 @NgModule({
   declarations: [
@@ -31,13 +32,15 @@ import { FilterActivePipe } from './carousel/active-images/filter-active.pipe';
     UpdateComponent,
     ActiveImagesComponent,
     FilterActivePipe,
+    MyComponent,
   ],
   imports: [
     CommonModule,
     ShareModule,
     AdminRoutingModule,
     AuthModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports: [
 

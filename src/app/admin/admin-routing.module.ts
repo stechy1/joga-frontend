@@ -7,6 +7,7 @@ import { AdminComponent } from './admin.component';
 import { ClientsComponent } from './clients/clients.component';
 import { CalendarNewComponent } from './calendar/new/calendar-new.component';
 import { CarouselComponent } from './carousel/carousel.component';
+import { MyComponent } from './my/my.component';
 
 const routes: Routes = [
 
@@ -26,6 +27,11 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent,
+        outlet: 'subpage'
+      },
+      {
+        path: 'my',
+        component: MyComponent,
         outlet: 'subpage'
       },
       {
