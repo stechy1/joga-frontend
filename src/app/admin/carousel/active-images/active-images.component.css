@@ -1,7 +1,9 @@
 .active-image-wrapper {
-  width: 180px;
+  max-width: 180px;
+  min-width: 120px;
+  min-height: 120px;
+  width: 20vw;
   position: relative;
-  height: 180px;
 }
 
 .active-image-wrapper img {

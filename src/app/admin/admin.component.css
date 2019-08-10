@@ -51,16 +51,16 @@
 
 #content {
   width: calc(100% - 250px);
+  left: 250px;
   padding: 40px;
-  /*min-height: 100vh;*/
   transition: all 0.3s;
   position: absolute;
   top: 56px;
-  right: 0;
 }
 
 #content.active {
-  width: 100%;
+  width: 88%;
+  left: 0;
 }
 
 @media (max-width: 768px) {
@@ -77,10 +77,12 @@
     margin-left: 0;
   }
   #content {
-    width: 100%;
+    width: 88%;
+    left: 0;
   }
   #content.active {
-    width: calc(100% - 250px);
+    width: 88%;
+    left: 0;
   }
   #sidebarCollapse span {
     display: none;

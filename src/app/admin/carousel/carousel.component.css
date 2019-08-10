@@ -6,6 +6,7 @@
 
 .col-with-image {
   width: 40%;
+  max-width: 130px;
   height: 40%;
   background: #444;
   margin: 0 auto;
