@@ -46,7 +46,8 @@ import { HeadingComponent } from './heading/heading.component';
     ConfirmDialogComponent,
     ToggleComponent,
     DialogChildsDirective,
-    HeadingComponent
+    HeadingComponent,
+    CommonModule
   ]
 })
 export class ShareModule {
