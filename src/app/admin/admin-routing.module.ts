@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CalendarComponent } from './calendar/calendar.component';
+import { LectureComponent } from './lectures/lecture.component';
 import { AdminComponent } from './admin.component';
 import { ClientsComponent } from './clients/clients.component';
-import { CalendarNewComponent } from './calendar/new/calendar-new.component';
+import { LectureNewComponent } from './lectures/new/lecture-new.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { MyComponent } from './my/my.component';
 
@@ -40,16 +40,16 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            component: CalendarComponent,
+            component: LectureComponent,
             pathMatch: 'full'
           },
           {
             path: 'new',
-            component: CalendarNewComponent
+            component: LectureNewComponent
           },
           {
             path: ':id',
-            component: CalendarComponent
+            component: LectureComponent
           }
         ]
       },
