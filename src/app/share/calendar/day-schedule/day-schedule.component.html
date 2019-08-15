@@ -1,0 +1,14 @@
+<h3>Akce pro tento den</h3>
+<div class="row">
+  <div class="col" *ngFor="let action of actions">
+    <div>
+      {{action.name}}
+    </div>
+    <div class="text-center">
+      {{action.time_start | date}} - {{action.duration}}
+    </div>
+    <div>
+      {{action.reserved}} / {{action.capacity}}
+    </div>
+  </div>
+</div>

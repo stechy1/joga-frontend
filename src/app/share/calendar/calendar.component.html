@@ -1,11 +1,19 @@
 <div class="calendar-wrapper">
+  <div class="row">
   <div class="calendar-header text-center">
     <span class="prev-month pointer" (click)="handleShowPrevMonth()"><</span>
     <span class="month-year-title">{{viewDate | async | monthYearTitle}}</span>
     <span class="next-month pointer" (click)="handleShowNextMonth()">></span>
   </div>
+  </div>
+  <div class="row">
   <div class="calendar-day-header-wrapper">
     <div class="calendar-day-header" *ngFor="let day of days">{{day}}</div>
   </div>
-  <app-window *ngFor="let window of windows" [calendarDay]="window"></app-window>
+  </div>
+  <div class="row" *ngFor="let row of rows" appDaySchedule>
+    <div class="col" style="padding: 0" *ngFor="let window of getWindowInRow(row)">
+      <app-window [calendarDay]="window" (showSchedule)="handleWindowClick(row, $event)"></app-window>
+    </div>
+  </div>
 </div>

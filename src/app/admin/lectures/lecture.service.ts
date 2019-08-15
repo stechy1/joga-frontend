@@ -14,8 +14,10 @@ export class LectureService {
 
   constructor(private _http: HttpClient) { }
 
-  all(): Promise<object> {
-    return this._http.get(LectureService.ACCESS_POINT).toPromise();
+  all(date: Date): Promise<Lecture[]> {
+    return this._http.get<{lectures: Lecture[]}>(`${LectureService.ACCESS_POINT}/${date.getTime()}`)
+               .toPromise()
+               .then(response => response.lectures);
   }
 
   allTrainers(): Promise<Trainer[]> {
@@ -27,6 +29,8 @@ export class LectureService {
   }
 
   insert(lecture: Lecture): Promise<any> {
+    console.log(new Date(lecture.start_time));
+    console.log(new Date(lecture.start_time).getTime());
     const formData = new FormData();
     formData.append('trainer', `${lecture.trainer}`);
     formData.append('start_time', `${new Date(lecture.start_time).getTime()}`);
@@ -34,6 +38,7 @@ export class LectureService {
     formData.append('max_persons', `${lecture.max_persons}`);
     formData.append('place', lecture.place);
 
-    return this._http.post(LectureService.ACCESS_POINT, formData).toPromise();
+    return this._http.post(LectureService.ACCESS_POINT, formData)
+               .toPromise();
   }
 }

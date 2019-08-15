@@ -15,6 +15,8 @@ import { ToggleComponent } from './toggle/toggle.component';
 import { FormsModule } from '@angular/forms';
 import { DialogChildsDirective } from './modal/dialog-childs.directive';
 import { HeadingComponent } from './heading/heading.component';
+import { DayScheduleComponent } from './calendar/day-schedule/day-schedule.component';
+import { DayScheduleDirective } from './calendar/day-schedule.directive';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { HeadingComponent } from './heading/heading.component';
     ConfirmDialogComponent,
     ToggleComponent,
     DialogChildsDirective,
-    HeadingComponent
+    HeadingComponent,
+    DayScheduleComponent,
+    DayScheduleDirective
   ],
   imports: [
     CommonModule,
@@ -48,6 +52,9 @@ import { HeadingComponent } from './heading/heading.component';
     DialogChildsDirective,
     HeadingComponent,
     CommonModule
+  ],
+  entryComponents: [
+    DayScheduleComponent
   ]
 })
 export class ShareModule {

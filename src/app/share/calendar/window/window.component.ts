@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CalendarDay } from '../day';
 
 @Component({
@@ -9,10 +9,16 @@ import { CalendarDay } from '../day';
 export class WindowComponent implements OnInit {
 
   @Input() calendarDay: CalendarDay;
+  @Output() showSchedule = new EventEmitter<CalendarDay>();
 
   constructor() { }
 
   ngOnInit() {
   }
 
+  onClick() {
+    if (this.calendarDay.highlight) {
+      this.showSchedule.next(this.calendarDay);
+    }
+  }
 }
