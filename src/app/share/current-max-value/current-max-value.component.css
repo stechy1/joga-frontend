@@ -1,0 +1,20 @@
+.current-max-value {
+
+}
+
+.current-value {
+  color: black;
+}
+
+.current-value.lower-border {
+  color: var(--success);
+}
+
+.current-value.higher-border {
+  color: var(--warning);
+}
+
+.current-value.full {
+  color: var(--danger);
+}
+

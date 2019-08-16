@@ -1,7 +1,11 @@
 export interface Lecture {
-  trainer: number,
-  start_time: number,
-  duration: number,
-  max_persons: number,
-  place: string,
+  id: number;
+  lecture_name: string;
+  start_time: number;
+  duration: number;
+  max_persons: number;
+  place: string;
+  trainer: number;
+  trainer_name: string;
+  reserved_clients: number;
 }

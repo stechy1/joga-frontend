@@ -1,0 +1,16 @@
+.day-schedule {
+  border-left: solid black 1px;
+  border-right: solid black 1px;
+}
+
+.day-schedule .record {
+  padding: 4px;
+  background: rgba(255, 255, 255, 0.3);
+}
+.day-schedule .record:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.day-schedule > div {
+  padding-bottom: 4px;
+}

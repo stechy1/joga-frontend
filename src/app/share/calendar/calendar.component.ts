@@ -17,8 +17,10 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   private static readonly TODAY = new Date();
   private static readonly DAYS_IN_ROW = 7;
 
-  @Input() dayActions: DayAction[] = [];
+  @Input() dayActions: Observable<DayAction[]>;
   @ViewChildren(DayScheduleDirective) directives: QueryList<DayScheduleDirective>;
+  @Input() enableAdmin: boolean;
+  @Input() enableUser: boolean;
 
   days: string[] = Days.getShortNames();
   windows: CalendarDay[] = [];
@@ -28,21 +30,17 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   private _directives: DayScheduleDirective[];
   private _oldRowIndex = -1;
   private _oldWindowIndex = -1;
+  private _curentCalendarDayOffset = -1;
 
-  constructor() {
-
-  }
+  constructor() {}
 
   ngOnInit() {
     this._viewDate$.subscribe((date: Date) => this._renderCalendar(date));
+    this.dayActions.subscribe((actions => this._renderDayActions(actions)));
   }
 
   ngAfterViewInit(): void {
     this._directives = this.directives.toArray();
-
-    // setTimeout(() => {
-    //   this._viewDate$.next(CalendarComponent.TODAY);
-    // }, 500);
   }
 
   private _renderCalendar(date: Date) {
@@ -57,16 +55,21 @@ export class CalendarComponent implements OnInit, AfterViewInit {
       this.windows.push(new CalendarDay(prevMonthDays + index, false));
     }
 
+    this._curentCalendarDayOffset = firstDayOffset - 1;
     for (let dayIndex = 1; index < todayDays; index++, dayIndex++) {
       const day = new CalendarDay(dayIndex);
-      const dayActions = this.dayActions.filter(action => action.dayIndex === dayIndex);
-      dayActions.forEach(action => day.addAction(action));
       this.windows.push(day);
     }
 
     for (let dayIndex = 1; index < CalendarComponent.TOTAL_WINDOWS - firstDayOffset; index++, dayIndex++) {
       this.windows.push(new CalendarDay(dayIndex, false));
     }
+  }
+
+  private _renderDayActions(dayActions: DayAction[]) {
+    dayActions.forEach(action => {
+      this.windows[this._curentCalendarDayOffset + action.dayIndex].addAction(action);
+    });
   }
 
   handleShowPrevMonth() {

@@ -1,0 +1,5 @@
+<div class="current-max-value">
+  <span class="current-value"
+        [ngClass]="{'lower-border': isLowerBorder, 'higher-border': isHigherBorder, 'full': currentValue == maxValue}">{{currentValue}}</span> / <span
+  class="max-value">{{maxValue}}</span>
+</div>

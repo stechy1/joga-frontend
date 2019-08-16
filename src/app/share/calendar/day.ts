@@ -3,12 +3,9 @@ import { DayAction } from './day-action';
 export class CalendarDay {
 
   private _actions: DayAction[] = [];
+  public viewSchedule: boolean;
 
-  constructor(public readonly day: number, public readonly highlight: boolean = true) {
-    // this.addAction(new DayAction(
-    //   1, 1, 'Day action', new Date(), 2, 10, 5
-    // ));
-  }
+  constructor(public readonly day: number, public readonly highlight: boolean = true) {}
 
   public addAction(action: DayAction) {
     this._actions.push(action);

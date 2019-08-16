@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LectureService } from './lecture.service';
 import { DayAction } from '../../share/calendar/day-action';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-admin-lecture',
@@ -9,28 +10,28 @@ import { DayAction } from '../../share/calendar/day-action';
 })
 export class LectureComponent implements OnInit {
 
-  dayActions: DayAction[] = [];
+  dayActions = new BehaviorSubject<DayAction[]>([]);
   viewDate: Date;
 
   constructor(private _calendarService: LectureService) { }
 
-  ngOnInit() {
-
-  }
-
-  check() {
-    // this._calendarService.all(new Date())
-    //     .then(value => console.log(value))
-    //     .catch(reason =>  console.error(reason));
-  }
+  ngOnInit() {}
 
   changeViewDate(date: Date) {
     this._calendarService.all(date)
         .then(lectures => lectures.map(lecture => {
-          const date = new Date(lecture.start_time);
-          return new DayAction(1, date.getDay(), "", date, lecture.duration, lecture.max_persons, 0)
+          const startTime = new Date(lecture.start_time * 1000);
+          return {
+            id: lecture.id,
+            dayIndex: startTime.getDate(),
+            name: lecture.lecture_name,
+            timeStart: startTime,
+            duration: lecture.duration,
+            reserved: lecture.reserved_clients,
+            capacity: lecture.max_persons
+            } as DayAction;
         }))
-        .then(dayActions => this.dayActions = dayActions)
+        .then(dayActions => this.dayActions.next(dayActions))
         .catch(reason =>  console.error(reason));
   }
 }

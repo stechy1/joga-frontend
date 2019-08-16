@@ -1,6 +1,9 @@
-<div class="calendar-window hoverable" [class.highlight]="calendarDay.highlight" (click)="onClick()">
-  <div class="day-numer">{{calendarDay.day}}.</div>
-  <div class="day-action" *ngFor="let action of calendarDay.actions">
-    {{action.name}}
+<div class="calendar-window hoverable vertical-center"
+     [ngClass]="{'bg-info': calendarDay.actions.length, 'highlight': calendarDay.highlight, 'view-schedule': calendarDay.viewSchedule}"
+     (click)="onClick()">
+  <div class="vertical-center">
+    <div class="day-numer text-center">
+      <h3>{{calendarDay.day}}.</h3>
+    </div>
   </div>
 </div>

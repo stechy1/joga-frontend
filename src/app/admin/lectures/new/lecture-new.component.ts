@@ -18,11 +18,15 @@ export class LectureNewComponent implements OnInit {
 
   constructor(private _lectureService: LectureService) {
     this.model = {
+      id: null,
       trainer: null,
       start_time: null,
       duration: null,
       max_persons: null,
       place: null,
+      trainer_name: null,
+      lecture_name: null,
+      reserved_clients: null
     };
   }
 
