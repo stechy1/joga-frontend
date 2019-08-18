@@ -45,7 +45,8 @@ import { MyComponent } from './my/my.component';
   exports: [],
   entryComponents: [
     UploadComponent,
-    UpdateComponent
+    UpdateComponent,
+    LectureNewComponent
   ]
 })
 export class AdminModule {

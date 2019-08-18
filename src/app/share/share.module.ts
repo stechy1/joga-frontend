@@ -42,7 +42,7 @@ import { CurrentMaxValueComponent } from './current-max-value/current-max-value.
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterModule,
   ],
   exports: [
     CardComponent,
@@ -55,7 +55,7 @@ import { CurrentMaxValueComponent } from './current-max-value/current-max-value.
     ToggleComponent,
     DialogChildsDirective,
     HeadingComponent,
-    CommonModule
+    CommonModule,
   ],
   entryComponents: [
     DayScheduleComponent

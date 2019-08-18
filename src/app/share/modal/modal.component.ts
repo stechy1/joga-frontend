@@ -94,7 +94,7 @@ export class ModalComponent implements OnDestroy {
     viewContainerRef.clear();
 
     const component = viewContainerRef.createComponent(componentFactory);
-    this._viewInstance = (<DialogChildComponent>component.instance);
+    this._viewInstance = (component.instance as DialogChildComponent);
     this._viewInstance.bind(this);
   }
 

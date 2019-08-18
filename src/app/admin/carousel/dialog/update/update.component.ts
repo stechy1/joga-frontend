@@ -23,7 +23,7 @@ export class UpdateComponent extends DialogChildComponent implements OnInit {
     view_order: new FormControl('-1')
   });
   private _formValid = new BehaviorSubject(false);
-  private _closeFunction: Function;
+  private _closeFunction: () => void;
 
   private _confirmSubscription: Subscription;
   private _cancelSubscription: Subscription;
@@ -60,13 +60,6 @@ export class UpdateComponent extends DialogChildComponent implements OnInit {
         );
   }
 
-  unbind() {
-    this._confirmSubscription.unsubscribe();
-    this._cancelSubscription.unsubscribe();
-    this._showSubscription.unsubscribe();
-    this._closeFunction = null;
-  }
-
   bind(modal: ModalComponent) {
     modal.title = 'Upravit obrázek';
     modal.confirmText = 'Upravit';
@@ -77,6 +70,13 @@ export class UpdateComponent extends DialogChildComponent implements OnInit {
     this._showSubscription =  modal.show.subscribe((args) => this.prepareForm(args[0]));
     modal.confirmDisabled = this._formValid;
     this._closeFunction = modal.close;
+  }
+
+  unbind() {
+    this._confirmSubscription.unsubscribe();
+    this._cancelSubscription.unsubscribe();
+    this._showSubscription.unsubscribe();
+    this._closeFunction = null;
   }
 
   get isProd(): boolean {

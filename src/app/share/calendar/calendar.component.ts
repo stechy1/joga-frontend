@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { DayScheduleDirective } from './day-schedule.directive';
 import { DayScheduleComponent } from './day-schedule/day-schedule.component';
 import { DayAction } from './day-action';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-calendar-widget',
@@ -18,9 +19,11 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   private static readonly DAYS_IN_ROW = 7;
 
   @Input() dayActions: Observable<DayAction[]>;
-  @ViewChildren(DayScheduleDirective) directives: QueryList<DayScheduleDirective>;
   @Input() enableAdmin: boolean;
   @Input() enableUser: boolean;
+  @ViewChildren(DayScheduleDirective) directives: QueryList<DayScheduleDirective>;
+
+  @Output() newDayAction: EventEmitter<Date> = new EventEmitter<Date>();
 
   days: string[] = Days.getShortNames();
   windows: CalendarDay[] = [];
@@ -116,5 +119,12 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 
     this._oldRowIndex = row;
     this._oldWindowIndex = window.day;
+  }
+
+  handleNewDayAction(calendarDay: CalendarDay) {
+    const viewDate = new Date(this._viewDate$.getValue());
+    viewDate.setDate(calendarDay.day);
+    viewDate.setHours(8, 0, 0, 0);
+    this.newDayAction.next(viewDate);
   }
 }

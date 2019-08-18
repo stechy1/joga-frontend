@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DayAction } from '../day-action';
 import { AuthService } from '../../../auth/auth.service';
 import { UserRole } from '../../../auth/user';
@@ -11,6 +11,7 @@ import { UserRole } from '../../../auth/user';
 export class DayScheduleComponent implements OnInit {
 
   @Input() actions: DayAction[];
+  @Output() newLecture: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private _authService: AuthService) { }
 
@@ -25,4 +26,7 @@ export class DayScheduleComponent implements OnInit {
     return this._authService.user.getValue().role === UserRole.ADMIN;
   }
 
+  handleNewLecture() {
+    this.newLecture.next();
+  }
 }

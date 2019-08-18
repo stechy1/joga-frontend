@@ -45,7 +45,7 @@ const routes: Routes = [
           },
           {
             path: 'new',
-            component: LectureNewComponent
+            component: LectureComponent
           },
           {
             path: ':id',

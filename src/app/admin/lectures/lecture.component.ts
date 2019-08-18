@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LectureService } from './lecture.service';
 import { DayAction } from '../../share/calendar/day-action';
 import { BehaviorSubject } from 'rxjs';
+import { ModalComponent } from '../../share/modal/modal.component';
+import { CalendarDay } from '../../share/calendar/day';
+import { LectureNewComponent } from './new/lecture-new.component';
 
 @Component({
   selector: 'app-admin-lecture',
@@ -11,7 +14,8 @@ import { BehaviorSubject } from 'rxjs';
 export class LectureComponent implements OnInit {
 
   dayActions = new BehaviorSubject<DayAction[]>([]);
-  viewDate: Date;
+
+  @ViewChild('modal', {static: true}) modal: ModalComponent;
 
   constructor(private _calendarService: LectureService) { }
 
@@ -33,5 +37,10 @@ export class LectureComponent implements OnInit {
         }))
         .then(dayActions => this.dayActions.next(dayActions))
         .catch(reason =>  console.error(reason));
+  }
+
+  handleNewLecture(date: Date) {
+    this.modal.showComponent = LectureNewComponent;
+    this.modal.open(date);
   }
 }

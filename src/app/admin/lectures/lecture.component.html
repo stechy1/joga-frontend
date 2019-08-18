@@ -1,1 +1,3 @@
-<app-calendar-widget (viewDate)="changeViewDate($event)" [dayActions]="dayActions"></app-calendar-widget>
+<app-calendar-widget (viewDate)="changeViewDate($event)" [dayActions]="dayActions" (newDayAction)="handleNewLecture($event)"></app-calendar-widget>
+
+<app-modal id="calendarModal" #modal></app-modal>
