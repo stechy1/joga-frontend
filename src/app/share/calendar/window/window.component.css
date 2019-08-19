@@ -5,6 +5,7 @@
   float: left;
   display: block;
   color: rgba(155, 155, 155, 0.77);
+  cursor: pointer;
 }
 
 .calendar-window.highlight {
