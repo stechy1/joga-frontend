@@ -59,7 +59,7 @@
 }
 
 #content.active {
-  width: 88%;
+  width: 100%;
   left: 0;
 }
 
@@ -77,12 +77,13 @@
     margin-left: 0;
   }
   #content {
-    width: 88%;
+    width: 100%;
     left: 0;
   }
   #content.active {
-    width: 88%;
+    width: 100%;
     left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
   }
   #sidebarCollapse span {
     display: none;

@@ -37,3 +37,7 @@
   -webkit-justify-content : center;
   justify-content : center;
 }
+
+.btn.disabled, .btn:disabled {
+  cursor: not-allowed !important;
+}
