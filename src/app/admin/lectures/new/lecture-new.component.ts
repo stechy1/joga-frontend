@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Trainer } from '../trainer';
-import { LectureService } from '../lecture.service';
+import { LectureService, LectureType } from '../lecture.service';
 import { DialogChildComponent } from '../../../share/modal/dialog-child.component';
 import { ModalComponent } from '../../../share/modal/modal.component';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -15,6 +15,8 @@ import { dateToISOFormat } from '../../../share/string-utils';
 export class LectureNewComponent extends DialogChildComponent implements OnInit {
 
   trainers: Trainer[] = [];
+  lectureTypes: LectureType[] = [];
+
   private _confirmSubscription: Subscription;
   private _cancelSubscription: Subscription;
   private _showSubscription: Subscription;
@@ -27,6 +29,7 @@ export class LectureNewComponent extends DialogChildComponent implements OnInit 
     duration: new FormControl('', [Validators.required]),
     max_persons: new FormControl('', [Validators.required]),
     place: new FormControl('', [Validators.required]),
+    type: new FormControl('', [Validators.required])
   });
 
   constructor(private _lectureService: LectureService) {
@@ -49,6 +52,11 @@ export class LectureNewComponent extends DialogChildComponent implements OnInit 
           this.trainers = trainers;
         })
         .catch(reason => console.log(reason));
+    this._lectureService.allLectureTypes()
+      .then(types => {
+        this.lectureTypes = types;
+      })
+      .catch(reason => console.log(reason));
   }
 
   bind(modal: ModalComponent) {

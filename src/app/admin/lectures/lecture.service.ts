@@ -3,6 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { BASE_ADMIN_API } from '../admin.share';
 import { Lecture } from './lecture';
 import { Trainer } from './trainer';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { LectureChangeEvent, LectureChangeType } from './lecture-change-event';
+
+export interface LectureType {
+  id: number;
+  name: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +18,9 @@ export class LectureService {
 
   private static readonly ACCESS_POINT = BASE_ADMIN_API + 'lectures';
   private static readonly GET_TRAINERS = `${LectureService.ACCESS_POINT}/trainers`;
+  private static readonly GET_LECTURE_TYPES = `${LectureService.ACCESS_POINT}/lecture_types`;
+
+  private readonly _lectureChangeEmmiter = new BehaviorSubject<LectureChangeEvent>(null);
 
   constructor(private _http: HttpClient) { }
 
@@ -32,6 +42,14 @@ export class LectureService {
                });
   }
 
+  allLectureTypes(): Promise<LectureType[]> {
+    return this._http.get<{lectureTypes: LectureType[]}>(LectureService.GET_LECTURE_TYPES)
+               .toPromise()
+               .then(result => {
+                 return result.lectureTypes;
+               });
+  }
+
   insert(lecture: Lecture): Promise<Lecture> {
     const formData = new FormData();
     const date = new Date(lecture.start_time);
@@ -41,11 +59,20 @@ export class LectureService {
     formData.append('duration', `${lecture.duration}`);
     formData.append('max_persons', `${lecture.max_persons}`);
     formData.append('place', lecture.place);
+    formData.append('type', `${lecture.type}`);
 
     return this._http.post<{lecture: Lecture}>(LectureService.ACCESS_POINT, formData)
                .toPromise()
                .then(result => {
+                 this._lectureChangeEmmiter.next({
+                   lecture: result.lecture,
+                   changeType: LectureChangeType.INSERT
+                 });
                  return result.lecture;
                });
+  }
+
+  get lectureChangeEmmiter(): Observable<LectureChangeEvent> {
+    return this._lectureChangeEmmiter;
   }
 }
