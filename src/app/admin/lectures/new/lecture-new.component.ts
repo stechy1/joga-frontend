@@ -20,8 +20,8 @@ export class LectureNewComponent extends DialogChildComponent implements OnInit 
   private _confirmSubscription: Subscription;
   private _cancelSubscription: Subscription;
   private _showSubscription: Subscription;
-  private _closeFunction: () => void;
   private _formInvalid: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  private _modal: ModalComponent;
 
   newLectureForm = new FormGroup({
     trainer: new FormControl('', [Validators.required]),
@@ -68,19 +68,19 @@ export class LectureNewComponent extends DialogChildComponent implements OnInit 
     this._cancelSubscription =  modal.cancel.subscribe(() => modal.close());
     this._showSubscription =  modal.show.subscribe((args) => this._prepareForm(args[0]));
     modal.confirmDisabled = this._formInvalid;
-    this._closeFunction = modal.close;
+    this._modal = modal;
   }
 
   unbind() {
     this._confirmSubscription.unsubscribe();
     this._cancelSubscription.unsubscribe();
     this._showSubscription.unsubscribe();
-    this._closeFunction = null;
+    this._modal = null;
   }
 
   handleCreateLecture() {
     this._lectureService.insert(this.newLectureForm.value)
-        .then(() => this._closeFunction())
+        .then(() => this._modal.close())
         .catch(reason => console.log(reason));
     return false;
   }

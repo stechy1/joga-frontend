@@ -23,12 +23,11 @@ export class UpdateComponent extends DialogChildComponent implements OnInit {
     view_order: new FormControl('-1')
   });
   private _formValid = new BehaviorSubject(false);
-  private _closeFunction: () => void;
 
   private _confirmSubscription: Subscription;
   private _cancelSubscription: Subscription;
   private _showSubscription: Subscription;
-
+  private _modal: ModalComponent;
 
   constructor(private _carouselService: CarouselService) {
     super();
@@ -47,7 +46,7 @@ export class UpdateComponent extends DialogChildComponent implements OnInit {
 
   private handleUpdate() {
     this._carouselService.update(this.uploadForm.value)
-        .then(() => this._closeFunction())
+        .then(() => this._modal.close())
         .catch(reason => console.log(reason));
   }
 
@@ -69,14 +68,13 @@ export class UpdateComponent extends DialogChildComponent implements OnInit {
     this._cancelSubscription =  modal.cancel.subscribe(() => modal.close());
     this._showSubscription =  modal.show.subscribe((args) => this.prepareForm(args[0]));
     modal.confirmDisabled = this._formValid;
-    this._closeFunction = modal.close;
+    this._modal = modal;
   }
 
   unbind() {
     this._confirmSubscription.unsubscribe();
     this._cancelSubscription.unsubscribe();
     this._showSubscription.unsubscribe();
-    this._closeFunction = null;
   }
 
   get isProd(): boolean {

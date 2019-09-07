@@ -21,9 +21,11 @@ export class UploadComponent extends DialogChildComponent implements OnInit {
   });
 
   private _file: File;
-  private _formValid = new BehaviorSubject(false);
+  private _formValid: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private _modal: ModalComponent;
 
   private _confirmSubscription: Subscription;
+  private _cancelSubscription: Subscription;
   private _showSubscription: Subscription;
 
   constructor(private _carouselService: CarouselService) {
@@ -39,19 +41,23 @@ export class UploadComponent extends DialogChildComponent implements OnInit {
         );
   }
 
-  unbind() {
-    this._confirmSubscription.unsubscribe();
-    this._showSubscription.unsubscribe();
-  }
-
   bind(modal: ModalComponent) {
     modal.title = 'Nový obrázek';
     modal.confirmText = 'Nahrát';
     modal.cancelText = 'Zrušit';
-    modal.confirmClose = false;
+    modal.confirmClose = true;
     this._confirmSubscription = modal.confirm.subscribe(() => this.handleUploadImage());
+    this._cancelSubscription =  modal.cancel.subscribe(() => modal.close());
     this._showSubscription = modal.show.subscribe(() => this.prepareForm());
     modal.confirmDisabled = this._formValid;
+    this._modal = modal;
+  }
+
+  unbind() {
+    this._confirmSubscription.unsubscribe();
+    this._cancelSubscription.unsubscribe();
+    this._showSubscription.unsubscribe();
+    this._modal = null;
   }
 
   prepareForm() {
@@ -82,6 +88,8 @@ export class UploadComponent extends DialogChildComponent implements OnInit {
       name: this.uploadForm.get('name').value,
       description: this.uploadForm.get('description').value,
       imageInput: this._file
-    }).catch(reason => console.log(reason));
+    })
+        .then(() => this._modal.close())
+        .catch(reason => console.log(reason));
   }
 }
