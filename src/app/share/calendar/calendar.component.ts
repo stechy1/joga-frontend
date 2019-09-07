@@ -75,14 +75,26 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private _hideDayAgenda() {
+    if (this._oldRowIndex === -1) {
+      return;
+    }
+
+    const firstDayOffset = getFirstDayOffset(this._viewDate$.getValue());
+
+    this.handleWindowClick(this._oldRowIndex, this.windows[firstDayOffset - 1 + this._oldWindowIndex]);
+    this._oldWindowIndex = -1;
+    this._oldRowIndex = -1;
+  }
+
   handleShowPrevMonth() {
+    this._hideDayAgenda();
     this._viewDate$.next(Months.getPrevMonth(this._viewDate$.getValue()));
   }
 
   handleShowNextMonth() {
-    const date = Months.getNextMonth(this._viewDate$.getValue());
-    console.log(date);
-    this._viewDate$.next(date);
+    this._hideDayAgenda();
+    this._viewDate$.next(Months.getNextMonth(this._viewDate$.getValue()));
   }
 
   @Output() get viewDate(): Observable<Date> {
