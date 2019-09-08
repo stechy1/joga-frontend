@@ -11,7 +11,7 @@ import { UserRole } from '../../../auth/user';
 export class DayScheduleComponent implements OnInit {
 
   @Input() actions: DayAction[];
-  @Output() newLecture: EventEmitter<void> = new EventEmitter<void>();
+  @Output() newDayAction: EventEmitter<void> = new EventEmitter<void>();
   @Output() updateDayAction: EventEmitter<DayAction> = new EventEmitter<DayAction>();
 
   constructor(private _authService: AuthService) { }
@@ -27,8 +27,8 @@ export class DayScheduleComponent implements OnInit {
     return this._authService.user.getValue().role === UserRole.ADMIN;
   }
 
-  handleNewLecture() {
-    this.newLecture.next();
+  handleNewDayAction() {
+    this.newDayAction.next();
   }
 
   handleUpdateDayAction(dayAction: DayAction) {

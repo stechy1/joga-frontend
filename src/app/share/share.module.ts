@@ -17,7 +17,6 @@ import { DialogChildsDirective } from './modal/dialog-childs.directive';
 import { HeadingComponent } from './heading/heading.component';
 import { DayScheduleComponent } from './calendar/day-schedule/day-schedule.component';
 import { DayScheduleDirective } from './calendar/day-schedule.directive';
-import { LectureStartPipe } from './calendar/lecture-start.pipe';
 import { CurrentMaxValueComponent } from './current-max-value/current-max-value.component';
 
 @NgModule({
@@ -36,7 +35,6 @@ import { CurrentMaxValueComponent } from './current-max-value/current-max-value.
     HeadingComponent,
     DayScheduleComponent,
     DayScheduleDirective,
-    LectureStartPipe,
     CurrentMaxValueComponent,
   ],
   imports: [
