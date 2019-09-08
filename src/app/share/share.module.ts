@@ -10,7 +10,6 @@ import { MonthYearTitlePipe } from './calendar/month-year-title.pipe';
 import { RouterModule } from '@angular/router';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { ModalComponent } from './modal/modal.component';
-import { ConfirmDialogComponent } from './modal/confirm-dialog/confirm-dialog.component';
 import { ToggleComponent } from './toggle/toggle.component';
 import { FormsModule } from '@angular/forms';
 import { DialogChildsDirective } from './modal/dialog-childs.directive';
@@ -29,7 +28,6 @@ import { CurrentMaxValueComponent } from './current-max-value/current-max-value.
     MonthYearTitlePipe,
     PaginatorComponent,
     ModalComponent,
-    ConfirmDialogComponent,
     ToggleComponent,
     DialogChildsDirective,
     HeadingComponent,
@@ -49,7 +47,6 @@ import { CurrentMaxValueComponent } from './current-max-value/current-max-value.
     CalendarComponent,
     PaginatorComponent,
     ModalComponent,
-    ConfirmDialogComponent,
     ToggleComponent,
     DialogChildsDirective,
     HeadingComponent,

@@ -19,6 +19,7 @@ import { UpdateComponent } from './carousel/dialog/update/update.component';
 import { ActiveImagesComponent } from './carousel/active-images/active-images.component';
 import { FilterActivePipe } from './carousel/active-images/filter-active.pipe';
 import { MyComponent } from './my/my.component';
+import { LectureDeleteComponent } from './lectures/dialog/delete/lecture-delete.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { MyComponent } from './my/my.component';
     ActiveImagesComponent,
     FilterActivePipe,
     MyComponent,
+    LectureDeleteComponent,
   ],
   imports: [
     CommonModule,
@@ -49,7 +51,8 @@ import { MyComponent } from './my/my.component';
     UploadComponent,
     UpdateComponent,
     LectureNewComponent,
-    LectureUpdateComponent
+    LectureUpdateComponent,
+    LectureDeleteComponent
   ]
 })
 export class AdminModule {

@@ -14,9 +14,11 @@ export class DayScheduleDirective {
   private _oldWindow: CalendarDay = null;
   private _newDayActionSubscription: Subscription;
   private _updateLectureSubscription: Subscription;
+  private _deleteLectureSubscription: Subscription;
 
   @Output() newDayAction: EventEmitter<CalendarDay> = new EventEmitter<CalendarDay>();
   @Output() updateDayAction: EventEmitter<DayAction> = new EventEmitter<DayAction>();
+  @Output() deleteDayAction: EventEmitter<DayAction> = new EventEmitter<DayAction>();
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
               private _viewContainerRef: ViewContainerRef) { }
@@ -35,6 +37,7 @@ export class DayScheduleDirective {
     this._instance.actions = window.actions;
     this._newDayActionSubscription = this._instance.newDayAction.subscribe(() => this.newDayAction.next(this._oldWindow));
     this._updateLectureSubscription = this._instance.updateDayAction.subscribe((dayAction) => this.updateDayAction.next(dayAction));
+    this._deleteLectureSubscription = this._instance.deleteDayAction.subscribe((dayAction) => this.deleteDayAction.next(dayAction));
     window.viewSchedule = true;
     this._oldWindow = window;
   }

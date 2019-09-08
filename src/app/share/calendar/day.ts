@@ -19,4 +19,8 @@ export class CalendarDay {
   get actions(): DayAction[] {
     return this._actions;
   }
+
+  clearActions() {
+    this._actions.splice(0);
+  }
 }

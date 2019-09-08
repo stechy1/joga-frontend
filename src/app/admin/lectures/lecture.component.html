@@ -2,6 +2,7 @@
   [dayActions]="dayActions"
   (viewDate)="changeViewDate($event)"
   (newDayAction)="handleNewLecture($event)"
-  (updateDayAction)="handleUpdateLecture($event)"></app-calendar-widget>
+  (updateDayAction)="handleUpdateLecture($event)"
+  (deleteDayAction)="handleDeleteLecture($event)"></app-calendar-widget>
 
 <app-modal id="calendarModal" #modal></app-modal>

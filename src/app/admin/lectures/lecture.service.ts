@@ -56,7 +56,7 @@ export class LectureService {
     const formData = new FormData();
     const date = new Date(lecture.start_time);
     date.setMonth(date.getMonth() + 1);
-    formData.append('trainer', `${lecture.trainer}`);
+    formData.append('trainer', `${lecture.trainer_id}`);
     formData.append('start_time', `${date.getTime()}`.substr(0, 10));
     formData.append('duration', `${lecture.duration}`);
     formData.append('max_persons', `${lecture.max_persons}`);
@@ -88,12 +88,12 @@ export class LectureService {
                });
   }
 
-  update(lecture: Lecture) {
+  update(lecture: Lecture): Promise<Lecture> {
     const formData = new FormData();
     const date = new Date(lecture.start_time);
     date.setMonth(date.getMonth() + 1);
     formData.append('id', `${lecture.lecture_id}`);
-    formData.append('trainer', `${lecture.trainer}`);
+    formData.append('trainer', `${lecture.trainer_id}`);
     formData.append('start_time', `${date.getTime()}`.substr(0, 10));
     formData.append('duration', `${lecture.duration}`);
     formData.append('max_persons', `${lecture.max_persons}`);
@@ -106,6 +106,18 @@ export class LectureService {
                  this._lectureChangeEmmiter.next({
                    lecture: result.lecture,
                    changeType: LectureChangeType.UPDATE
+                 });
+                 return result.lecture;
+               });
+  }
+
+  delete(lectureId: number): Promise<Lecture> {
+    return this._http.delete<{lecture: Lecture}>(`${LectureService.ACCESS_POINT}/${lectureId}`)
+               .toPromise()
+               .then(result => {
+                 this._lectureChangeEmmiter.next({
+                   lecture: result.lecture,
+                   changeType: LectureChangeType.DELETE
                  });
                  return result.lecture;
                });

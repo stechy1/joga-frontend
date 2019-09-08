@@ -7,6 +7,7 @@ import { LectureNewComponent } from './dialog/new/lecture-new.component';
 import { LectureChangeEvent, LectureChangeType } from './lecture-change-event';
 import { Lecture } from './lecture';
 import { LectureUpdateComponent } from './dialog/update/lecture-update.component';
+import { LectureDeleteComponent } from './dialog/delete/lecture-delete.component';
 
 @Component({
   selector: 'app-admin-lecture',
@@ -43,13 +44,18 @@ export class LectureComponent implements OnInit, OnDestroy {
 
     const dayAction = LectureComponent._mapLectureToDayAction(event.lecture);
     const actions: DayAction[] = this.dayActions.getValue();
+    const actionIndex = actions.findIndex(action => action.id === dayAction.id);
     switch (event.changeType) {
       case LectureChangeType.INSERT:
+        if (actionIndex !== -1) {
+          console.error(`Denní akce s ID: ${actionIndex} již existuje!`);
+          return;
+        }
+
         actions.push(dayAction);
         this.dayActions.next(actions);
         break;
       case LectureChangeType.UPDATE:
-        const actionIndex = actions.findIndex(action => action.id === dayAction.id);
         if (actionIndex === -1) {
           console.error(`Nebyla nalezena denní akce s ID: ${actionIndex}`);
           return;
@@ -58,6 +64,13 @@ export class LectureComponent implements OnInit, OnDestroy {
         this.dayActions.next(actions);
         break;
       case LectureChangeType.DELETE:
+        if (actionIndex === -1) {
+          console.error(`Nebyla nalezena denní akce s ID: ${actionIndex}`);
+          return;
+        }
+
+        actions.splice(actionIndex, 1);
+        this.dayActions.next(actions);
         break;
     }
   }
@@ -84,6 +97,11 @@ export class LectureComponent implements OnInit, OnDestroy {
 
   handleUpdateLecture(dayAction: DayAction) {
     this.modal.showComponent = LectureUpdateComponent;
+    this.modal.open(dayAction.id);
+  }
+
+  handleDeleteLecture(dayAction: DayAction) {
+    this.modal.showComponent = LectureDeleteComponent;
     this.modal.open(dayAction.id);
   }
 }

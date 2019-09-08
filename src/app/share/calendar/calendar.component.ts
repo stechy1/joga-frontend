@@ -23,6 +23,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 
   @Output() newDayAction: EventEmitter<Date> = new EventEmitter<Date>();
   @Output() updateDayAction: EventEmitter<DayAction> = new EventEmitter<DayAction>();
+  @Output() deleteDayAction: EventEmitter<DayAction> = new EventEmitter<DayAction>();
 
   days: string[] = Days.getShortNames();
   windows: CalendarDay[] = [];
@@ -69,6 +70,9 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   }
 
   private _renderDayActions(dayActions: DayAction[]) {
+    this.windows.forEach(window => {
+      window.clearActions();
+    });
     dayActions.forEach(action => {
       this.windows[this._curentCalendarDayOffset + action.dayIndex].addAction(action);
     });
@@ -141,5 +145,9 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 
   handleUpdateDayAction(dayAction: DayAction) {
     this.updateDayAction.next(dayAction);
+  }
+
+  handleDeleteDayAction(dayAction: DayAction) {
+    this.deleteDayAction.next(dayAction);
   }
 }
