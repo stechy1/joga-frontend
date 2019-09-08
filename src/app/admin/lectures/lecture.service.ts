@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BASE_ADMIN_API } from '../admin.share';
 import { Lecture } from './lecture';
 import { Trainer } from './trainer';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { LectureChangeEvent, LectureChangeType } from './lecture-change-event';
 
 export interface LectureType {
@@ -17,10 +17,11 @@ export interface LectureType {
 export class LectureService {
 
   private static readonly ACCESS_POINT = BASE_ADMIN_API + 'lectures';
-  private static readonly GET_LECTURE_BY_ID = `${LectureService.ACCESS_POINT}/id/`;
+  private static readonly GET_LECTURE_BY_ID = `${LectureService.ACCESS_POINT}/id`;
   private static readonly UPDATE_LECTURE = `${LectureService.ACCESS_POINT}/update`;
   private static readonly GET_TRAINERS = `${LectureService.ACCESS_POINT}/trainers`;
   private static readonly GET_LECTURE_TYPES = `${LectureService.ACCESS_POINT}/lecture_types`;
+  private static readonly GET_DATE_TIME_VALIDITY = `${LectureService.ACCESS_POINT}/date_time_validity`;
 
   private readonly _lectureChangeEmmiter = new BehaviorSubject<LectureChangeEvent>(null);
 
@@ -120,6 +121,15 @@ export class LectureService {
                    changeType: LectureChangeType.DELETE
                  });
                  return result.lecture;
+               });
+  }
+
+  checkDateValidity(dateTimeRaw: string): Promise<boolean> {
+    const dateTime = `${new Date(dateTimeRaw).getTime()}`.substr(0, 10);
+    return this._http.get<{valid: boolean}>(`${LectureService.GET_DATE_TIME_VALIDITY}/${dateTime}`)
+               .toPromise()
+               .then(result => {
+                 return result.valid;
                });
   }
 }

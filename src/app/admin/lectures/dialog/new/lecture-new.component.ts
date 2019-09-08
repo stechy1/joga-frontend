@@ -6,6 +6,7 @@ import { DialogChildComponent } from '../../../../share/modal/dialog-child.compo
 import { ModalComponent } from '../../../../share/modal/modal.component';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { dateToISOFormat } from '../../../../share/string-utils';
+import { LectureValidators } from '../../lecture-validators';
 
 @Component({
   selector: 'app-admin-lecture-new',
@@ -25,7 +26,7 @@ export class LectureNewComponent extends DialogChildComponent implements OnInit 
 
   newLectureForm = new FormGroup({
     trainer: new FormControl('', [Validators.required]),
-    start_time: new FormControl('', [Validators.required]),
+    start_time: new FormControl('', [Validators.required], LectureValidators.createDateValidator(this._lectureService).bind(this)),
     duration: new FormControl('', [Validators.required]),
     max_persons: new FormControl('', [Validators.required]),
     place: new FormControl('', [Validators.required]),
