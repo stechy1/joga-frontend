@@ -29,6 +29,7 @@
           </div>
           <div class="col">
             <button class="btn btn-success btn-sm" *ngIf="isClient && !isAdmin">Přihlásit</button>
+            <button class="btn btn-info btn-sm" *ngIf="isAdmin" [disabled]="action.reserved !== 0" (click)="handleUpdateDayAction(action)">Upravit</button>
             <button class="btn btn-danger btn-sm" *ngIf="isAdmin" [disabled]="action.reserved !== 0">Zrušit</button>
           </div>
         </div>

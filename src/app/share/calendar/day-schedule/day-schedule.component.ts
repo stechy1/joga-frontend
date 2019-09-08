@@ -12,6 +12,7 @@ export class DayScheduleComponent implements OnInit {
 
   @Input() actions: DayAction[];
   @Output() newLecture: EventEmitter<void> = new EventEmitter<void>();
+  @Output() updateDayAction: EventEmitter<DayAction> = new EventEmitter<DayAction>();
 
   constructor(private _authService: AuthService) { }
 
@@ -28,5 +29,9 @@ export class DayScheduleComponent implements OnInit {
 
   handleNewLecture() {
     this.newLecture.next();
+  }
+
+  handleUpdateDayAction(dayAction: DayAction) {
+    this.updateDayAction.next(dayAction);
   }
 }

@@ -17,6 +17,8 @@ export interface LectureType {
 export class LectureService {
 
   private static readonly ACCESS_POINT = BASE_ADMIN_API + 'lectures';
+  private static readonly GET_LECTURE_BY_ID = `${LectureService.ACCESS_POINT}/id/`;
+  private static readonly UPDATE_LECTURE = `${LectureService.ACCESS_POINT}/update`;
   private static readonly GET_TRAINERS = `${LectureService.ACCESS_POINT}/trainers`;
   private static readonly GET_LECTURE_TYPES = `${LectureService.ACCESS_POINT}/lecture_types`;
 
@@ -74,5 +76,38 @@ export class LectureService {
 
   get lectureChangeEmmiter(): Observable<LectureChangeEvent> {
     return this._lectureChangeEmmiter;
+  }
+
+  byId(lectureId: number): Promise<Lecture> {
+    const url = `${LectureService.GET_LECTURE_BY_ID}/${lectureId}`;
+
+    return this._http.get<{lecture: Lecture}>(url)
+               .toPromise()
+               .then(result => {
+                 return result.lecture;
+               });
+  }
+
+  update(lecture: Lecture) {
+    const formData = new FormData();
+    const date = new Date(lecture.start_time);
+    date.setMonth(date.getMonth() + 1);
+    formData.append('id', `${lecture.lecture_id}`);
+    formData.append('trainer', `${lecture.trainer}`);
+    formData.append('start_time', `${date.getTime()}`.substr(0, 10));
+    formData.append('duration', `${lecture.duration}`);
+    formData.append('max_persons', `${lecture.max_persons}`);
+    formData.append('place', lecture.place);
+    formData.append('type', `${lecture.type}`);
+
+    return this._http.post<{lecture: Lecture}>(LectureService.UPDATE_LECTURE, formData)
+               .toPromise()
+               .then((result) => {
+                 this._lectureChangeEmmiter.next({
+                   lecture: result.lecture,
+                   changeType: LectureChangeType.UPDATE
+                 });
+                 return result.lecture;
+               });
   }
 }

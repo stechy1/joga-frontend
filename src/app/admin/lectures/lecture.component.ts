@@ -6,6 +6,7 @@ import { ModalComponent } from '../../share/modal/modal.component';
 import { LectureNewComponent } from './dialog/new/lecture-new.component';
 import { LectureChangeEvent, LectureChangeType } from './lecture-change-event';
 import { Lecture } from './lecture';
+import { LectureUpdateComponent } from './dialog/update/lecture-update.component';
 
 @Component({
   selector: 'app-admin-lecture',
@@ -25,7 +26,7 @@ export class LectureComponent implements OnInit, OnDestroy {
   private static _mapLectureToDayAction(lecture: Lecture): DayAction {
     const startTime = new Date(lecture.start_time * 1000);
     return {
-      id: lecture.id,
+      id: lecture.lecture_id,
       dayIndex: startTime.getDate(),
       name: lecture.lecture_name,
       timeStart: startTime,
@@ -41,14 +42,21 @@ export class LectureComponent implements OnInit, OnDestroy {
     }
 
     const dayAction = LectureComponent._mapLectureToDayAction(event.lecture);
+    const actions: DayAction[] = this.dayActions.getValue();
     switch (event.changeType) {
       case LectureChangeType.INSERT:
-        const actions = this.dayActions.getValue();
         actions.push(dayAction);
         this.dayActions.next(actions);
         break;
       case LectureChangeType.UPDATE:
-          break;
+        const actionIndex = actions.findIndex(action => action.id === dayAction.id);
+        if (actionIndex === -1) {
+          console.error(`Nebyla nalezena denní akce s ID: ${actionIndex}`);
+          return;
+        }
+        actions[actionIndex] = dayAction;
+        this.dayActions.next(actions);
+        break;
       case LectureChangeType.DELETE:
         break;
     }
@@ -72,5 +80,10 @@ export class LectureComponent implements OnInit, OnDestroy {
   handleNewLecture(date: Date) {
     this.modal.showComponent = LectureNewComponent;
     this.modal.open(date);
+  }
+
+  handleUpdateLecture(dayAction: DayAction) {
+    this.modal.showComponent = LectureUpdateComponent;
+    this.modal.open(dayAction.id);
   }
 }

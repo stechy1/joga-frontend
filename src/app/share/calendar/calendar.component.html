@@ -11,7 +11,7 @@
     <div class="calendar-day-header" *ngFor="let day of days">{{day}}</div>
   </div>
   </div>
-  <div class="row" *ngFor="let row of rows" appDaySchedule (newDayAction)="handleNewDayAction($event)">
+  <div class="row" *ngFor="let row of rows" appDaySchedule (newDayAction)="handleNewDayAction($event)" (updateDayAction)="handleUpdateDayAction($event)">
     <div class="col" style="padding: 0" *ngFor="let window of getWindowInRow(row)">
       <app-window [calendarDay]="window" (showSchedule)="handleWindowClick(row, $event)"></app-window>
     </div>

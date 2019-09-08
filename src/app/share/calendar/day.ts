@@ -7,8 +7,13 @@ export class CalendarDay {
 
   constructor(public readonly day: number, public readonly highlight: boolean = true) {}
 
-  public addAction(action: DayAction) {
-    this._actions.push(action);
+  public addAction(dayAction: DayAction) {
+    const dayIndex = this._actions.findIndex(action => action.id === dayAction.id);
+    if (dayIndex === -1) {
+      this._actions.push(dayAction);
+    } else {
+      this._actions[dayIndex] = dayAction;
+    }
   }
 
   get actions(): DayAction[] {

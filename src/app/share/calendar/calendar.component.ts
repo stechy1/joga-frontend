@@ -3,9 +3,7 @@ import { CalendarDay } from './day';
 import { Days, getDaysInMonth, getDaysInPrevMonth, getFirstDayOffset, Months } from './calendar.utils';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DayScheduleDirective } from './day-schedule.directive';
-import { DayScheduleComponent } from './day-schedule/day-schedule.component';
 import { DayAction } from './day-action';
-import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-calendar-widget',
@@ -24,6 +22,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   @ViewChildren(DayScheduleDirective) directives: QueryList<DayScheduleDirective>;
 
   @Output() newDayAction: EventEmitter<Date> = new EventEmitter<Date>();
+  @Output() updateDayAction: EventEmitter<DayAction> = new EventEmitter<DayAction>();
 
   days: string[] = Days.getShortNames();
   windows: CalendarDay[] = [];
@@ -138,5 +137,9 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     viewDate.setDate(calendarDay.day);
     viewDate.setHours(8, 0, 0, 0);
     this.newDayAction.next(viewDate);
+  }
+
+  handleUpdateDayAction(dayAction: DayAction) {
+    this.updateDayAction.next(dayAction);
   }
 }
