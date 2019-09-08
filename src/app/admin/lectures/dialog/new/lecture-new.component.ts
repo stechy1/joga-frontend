@@ -1,11 +1,11 @@
 import { Component, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Trainer } from '../trainer';
-import { LectureService, LectureType } from '../lecture.service';
-import { DialogChildComponent } from '../../../share/modal/dialog-child.component';
-import { ModalComponent } from '../../../share/modal/modal.component';
+import { Trainer } from '../../trainer';
+import { LectureService, LectureType } from '../../lecture.service';
+import { DialogChildComponent } from '../../../../share/modal/dialog-child.component';
+import { ModalComponent } from '../../../../share/modal/modal.component';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { dateToISOFormat } from '../../../share/string-utils';
+import { dateToISOFormat } from '../../../../share/string-utils';
 
 @Component({
   selector: 'app-admin-lecture-new',

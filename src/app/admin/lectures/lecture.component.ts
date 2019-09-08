@@ -3,8 +3,7 @@ import { LectureService } from './lecture.service';
 import { DayAction } from '../../share/calendar/day-action';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ModalComponent } from '../../share/modal/modal.component';
-import { CalendarDay } from '../../share/calendar/day';
-import { LectureNewComponent } from './new/lecture-new.component';
+import { LectureNewComponent } from './dialog/new/lecture-new.component';
 import { LectureChangeEvent, LectureChangeType } from './lecture-change-event';
 import { Lecture } from './lecture';
 

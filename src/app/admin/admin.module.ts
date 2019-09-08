@@ -11,7 +11,7 @@ import { LectureComponent } from './lectures/lecture.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { ClientsComponent } from './clients/clients.component';
-import { LectureNewComponent } from './lectures/new/lecture-new.component';
+import { LectureNewComponent } from './lectures/dialog/new/lecture-new.component';
 import { AuthModule } from '../auth/auth.module';
 import { UploadComponent } from './carousel/dialog/upload/upload.component';
 import { UpdateComponent } from './carousel/dialog/update/update.component';

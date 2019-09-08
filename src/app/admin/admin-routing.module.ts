@@ -5,7 +5,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LectureComponent } from './lectures/lecture.component';
 import { AdminComponent } from './admin.component';
 import { ClientsComponent } from './clients/clients.component';
-import { LectureNewComponent } from './lectures/new/lecture-new.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { MyComponent } from './my/my.component';
 
