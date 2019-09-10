@@ -25,13 +25,14 @@ export class LectureComponent implements OnInit, OnDestroy {
   constructor(private _calendarService: LectureService) { }
 
   private static _mapLectureToDayAction(lecture: Lecture): DayAction {
-    const startTime = new Date(lecture.start_time * 1000);
+    const timeStart = new Date(lecture.time_start * 1000);
+    const timeEnd = new Date(lecture.time_end * 1000);
     return {
       id: lecture.lecture_id,
-      dayIndex: startTime.getDate(),
+      dayIndex: timeStart.getDate(),
       name: lecture.lecture_name,
-      timeStart: startTime,
-      duration: lecture.duration,
+      timeStart: timeStart,
+      timeEnd: timeEnd,
       reserved: lecture.reserved_clients,
       capacity: lecture.max_persons
     } as DayAction;

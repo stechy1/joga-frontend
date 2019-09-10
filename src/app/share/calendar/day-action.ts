@@ -3,7 +3,7 @@ export interface DayAction {
   dayIndex: number;
   name: string;
   timeStart: Date;
-  duration: number;
+  timeEnd: Date;
   capacity: number;
   reserved: number;
 }

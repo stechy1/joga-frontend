@@ -139,7 +139,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   handleNewDayAction(calendarDay: CalendarDay) {
     const viewDate = new Date(this._viewDate$.getValue());
     viewDate.setDate(calendarDay.day);
-    viewDate.setHours(8, 0, 0, 0);
+    viewDate.setHours(0, 0, 0, 0);
     this.newDayAction.next(viewDate);
   }
 

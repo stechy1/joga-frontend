@@ -18,11 +18,8 @@
           </div>
           <div class="col">
             <div class="text-center">
-              {{action.timeStart | date:"HH:mm"}}
+              {{action.timeStart | date:"HH:mm"}} - {{action.timeEnd | date:"HH:mm"}}
             </div>
-          </div>
-          <div class="col">
-            {{action.duration}} min.
           </div>
           <div class="col">
             <app-current-max-value [currentValue]="action.reserved" [maxValue]="action.capacity" lowerDelta="4" higherDelta="7"></app-current-max-value>

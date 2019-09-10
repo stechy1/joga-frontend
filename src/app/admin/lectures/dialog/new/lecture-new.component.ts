@@ -4,9 +4,10 @@ import { Trainer } from '../../trainer';
 import { LectureService, LectureType } from '../../lecture.service';
 import { DialogChildComponent } from '../../../../share/modal/dialog-child.component';
 import { ModalComponent } from '../../../../share/modal/modal.component';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { dateToISOFormat } from '../../../../share/string-utils';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { dateTimeToISOFormat, dateToISOFormat } from '../../../../share/string-utils';
 import { LectureValidators } from '../../lecture-validators';
+import { formValueToLecture } from '../lecture-dialog.utils';
 
 @Component({
   selector: 'app-admin-lecture-new',
@@ -26,12 +27,13 @@ export class LectureNewComponent extends DialogChildComponent implements OnInit 
 
   newLectureForm = new FormGroup({
     trainer: new FormControl('', [Validators.required]),
-    start_time: new FormControl('', [Validators.required], LectureValidators.createDateValidator(this._lectureService).bind(this)),
-    duration: new FormControl('', [Validators.required]),
+    lecture_day: new FormControl('', [Validators.required], LectureValidators.createDateValidator(this._lectureService).bind(this)),
+    time_start: new FormControl('', [Validators.required]),
+    time_end: new FormControl('', [Validators.required]),
     max_persons: new FormControl('', [Validators.required]),
     place: new FormControl('', [Validators.required]),
     type: new FormControl('', [Validators.required])
-  });
+  }, null,  /*LectureValidators.createDurationValidator(this._lectureService).bind(this)*/);
 
   constructor(private _lectureService: LectureService) {
     super();
@@ -39,13 +41,14 @@ export class LectureNewComponent extends DialogChildComponent implements OnInit 
 
   private _prepareForm(date: Date) {
     this.newLectureForm.patchValue({
-      start_time: dateToISOFormat(date)
+      lecture_day: dateToISOFormat(date)
     });
   }
 
   ngOnInit() {
     this.newLectureForm.statusChanges.subscribe((state: string) => {
-      this._formInvalid.next(state === 'INVALID');
+      console.log(state);
+      this._formInvalid.next(!(state !== 'INVALID'));
     });
 
     this._lectureService.allTrainers()
@@ -80,9 +83,32 @@ export class LectureNewComponent extends DialogChildComponent implements OnInit 
   }
 
   handleCreateLecture() {
-    this._lectureService.insert(this.newLectureForm.value)
+    this._lectureService.insert(formValueToLecture(this.newLectureForm.value))
         .then(() => this._modal.close())
         .catch(reason => console.log(reason));
     return false;
   }
+
+  get trainer() {
+    return this.newLectureForm.get('trainer');
+  }
+  get lecture_day() {
+    return this.newLectureForm.get('lecture_day');
+  }
+  get time_start() {
+    return this.newLectureForm.get('time_start');
+  }
+  get time_end() {
+    return this.newLectureForm.get('time_end');
+  }
+  get maxPersons() {
+    return this.newLectureForm.get('max_persons');
+  }
+  get place() {
+    return this.newLectureForm.get('place');
+  }
+  get type() {
+    return this.newLectureForm.get('type');
+  }
+
 }

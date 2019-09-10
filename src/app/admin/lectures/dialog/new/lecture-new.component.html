@@ -3,35 +3,44 @@
     <div class="col">
       <div class="form-group">
         <label for="trainer">Lektor</label>
-        <select name="trainer" id="trainer" class="custom-select" formControlName="trainer" required>
+        <select name="trainer" id="trainer" class="custom-select" formControlName="trainer">
           <option *ngFor="let trainer of trainers" [value]="trainer.id">{{trainer.name}}</option>
         </select>
-        <!--        <div *ngIf="f.submitted && trainer.dirty && !trainer.valid" class="help-block red-text">Lektor je vyžadován</div>-->
+        <small *ngIf="trainer.touched && trainer.errors?.required" class="form-text text-muted">Lektor je vyžadován.</small>
       </div>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label for="lecture_day">Datum lekce</label>
+        <input type="date" class="form-control" name="lecture_day" id="lecture_day"
+               formControlName="lecture_day"/>
+        <small *ngIf="lecture_day.touched && lecture_day.errors?.required" class="form-text text-muted">Datum lekce je vyžadován.</small>
+      </div>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-12 col-md-6">
       <div class="form-group">
-        <label for="start_time">Datum a čas lekce</label>
-        <input type="datetime-local" class="form-control" name="start_time" id="start_time"
-               formControlName="start_time" required/>
-<!--                <div *ngIf="f.submitted && start_time.dirty && !start_time.valid" class="help-block red-text">Datum a čas lekce je vyžadován, nebo není validní</div>-->
+        <label for="time_start">Čas začátku lekce</label>
+        <input type="time" class="form-control" name="time_start" id="time_start"
+               formControlName="time_start"/>
+        <small *ngIf="time_start.touched && time_start.errors?.required" class="form-text text-muted">Čas začátku lekce je vyžadován.</small>
+        <small *ngIf="time_start.touched && time_start.errors?.timeConflict" class="form-text text-muted">Čas začátku lekce je v rozporu s ostatními lekcemi!</small>
       </div>
     </div>
     <div class="col-12 col-md-6">
       <div class="form-group">
-        <label for="duration">Doba trvání lekce</label>
+        <label for="time_end">Čas konce lekce</label>
         <div class="input-group">
-          <input type="number" class="form-control" name="duration" id="duration"
-                 formControlName="duration" required/>
-          <div class="input-group-append">
-            <span class="input-group-text">minut</span>
-          </div>
+          <input type="time" class="form-control" name="time_end" id="time_end"
+                 formControlName="time_end"/>
         </div>
-        <!--        <div *ngIf="f.submitted && duration.dirty && !duration.valid" class="help-block red-text">-->
-        <!--          Doba trvání lekce je vyžadována, nebo není validní-->
-        <!--        </div>-->
+        <small *ngIf="time_end.touched && time_end.errors?.required" class="form-text text-muted">Čas konce lekce je vyžadován.</small>
+        <small *ngIf="time_end.touched && time_end.errors?.timeConflict" class="form-text text-muted">Čas konce lekce je v rozporu s ostatními lekcemi!</small>
       </div>
     </div>
   </div>
@@ -41,38 +50,34 @@
         <label for="max_persons">Kapacita</label>
         <div class="input-group">
           <input type="number" class="form-control" name="max_persons" id="max_persons"
-                 formControlName="max_persons" required/>
+                 formControlName="max_persons"/>
           <div class="input-group-append">
             <span class="input-group-text">osob</span>
           </div>
         </div>
-        <!--      <div *ngIf="f.submitted && max_persons.dirty && !max_persons.valid"-->
-        <!--           class="help-block red-text">Maxmální počet osob je vyžadován, nebo není validní-->
+        <small *ngIf="maxPersons.touched && maxPersons.errors?.required" class="form-text text-muted">Maxmální počet osob je vyžadován.</small>
+        <small *ngIf="maxPersons.touched && maxPersons.errors?.nagetiveNumber" class="form-text text-muted">Počet osob musí být kladný.</small>
       </div>
     </div>
 
-  <div class="col-12 col-md-6">
-    <div class="form-group">
-      <label for="type">Typ lekce</label>
-      <div class="input-group">
-        <select name="type" id="type" class="custom-select" formControlName="type" required>
-          <option *ngFor="let lectureType of lectureTypes" [value]="lectureType.id">{{lectureType.name}}</option>
-        </select>
+    <div class="col-12 col-md-6">
+      <div class="form-group">
+        <label for="type">Typ lekce</label>
+        <div class="input-group">
+          <select name="type" id="type" class="custom-select" formControlName="type">
+            <option *ngFor="let lectureType of lectureTypes" [value]="lectureType.id">{{lectureType.name}}</option>
+          </select>
+        </div>
+        <small *ngIf="type.touched && type.errors?.required" class="form-text text-muted">Type lekce je vyžadován.</small>
       </div>
-      <!--        <div *ngIf="f.submitted && duration.dirty && !duration.valid" class="help-block red-text">-->
-      <!--          Type lekce je vyžadován, nebo není validní-->
-      <!--        </div>-->
     </div>
-  </div>
   </div>
   <div class="row">
     <div class="col">
       <div class="form-group">
         <label for="place">Místo konání lekce</label>
-        <input type="text" class="form-control" name="place" id="place" formControlName="place" required/>
-<!--        <div *ngIf="f.submitted && !place.valid" class="help-block red-text">Místo konání je-->
-<!--          vyžadováno, nebo není validní-->
-<!--        </div>-->
+        <input type="text" class="form-control" name="place" id="place" formControlName="place"/>
+        <small *ngIf="place.touched && place.errors?.required" class="form-text text-muted">Místo konání je vyžadováno.</small>
       </div>
     </div>
   </div>

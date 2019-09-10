@@ -4,8 +4,10 @@ import { LectureService, LectureType } from '../../lecture.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ModalComponent } from '../../../../share/modal/modal.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { dateToISOFormat } from '../../../../share/string-utils';
+import { dateTimeToISOFormat } from '../../../../share/string-utils';
 import { DialogChildComponent } from '../../../../share/modal/dialog-child.component';
+import { LectureValidators } from '../../lecture-validators';
+import { formValueToLecture, lectureToFormValue } from '../lecture-dialog.utils';
 
 @Component({
   selector: 'app-lecture-update',
@@ -24,14 +26,15 @@ export class LectureUpdateComponent extends DialogChildComponent implements OnIn
   private _modal: ModalComponent;
 
   updateLectureForm = new FormGroup({
-    lecture_id: new FormControl('', [Validators.required]),
+    lecture_id: new FormControl(''),
     trainer: new FormControl('', [Validators.required]),
-    start_time: new FormControl('', [Validators.required]),
-    duration: new FormControl('', [Validators.required]),
+    lecture_day: new FormControl('', [Validators.required], LectureValidators.createDateValidator(this._lectureService).bind(this)),
+    time_start: new FormControl('', [Validators.required]),
+    time_end: new FormControl('', [Validators.required]),
     max_persons: new FormControl('', [Validators.required]),
     place: new FormControl('', [Validators.required]),
     type: new FormControl('', [Validators.required])
-  });
+  }, null,  /*LectureValidators.createDurationValidator(this._lectureService).bind(this)*/);
 
   constructor(private _lectureService: LectureService) {
     super();
@@ -40,15 +43,7 @@ export class LectureUpdateComponent extends DialogChildComponent implements OnIn
   private _prepareForm(lectureId: number) {
     this._lectureService.byId(lectureId)
         .then(lecture => {
-          this.updateLectureForm.patchValue({
-            lecture_id: lecture.lecture_id,
-            trainer: lecture.trainer_id,
-            start_time: dateToISOFormat(new Date(lecture.start_time * 1000)),
-            duration: lecture.duration,
-            max_persons: lecture.max_persons,
-            place: lecture.place,
-            type: lecture.type
-          });
+          this.updateLectureForm.patchValue(lectureToFormValue(lecture));
         })
         .catch(reason => {
           console.log(reason);
@@ -92,10 +87,32 @@ export class LectureUpdateComponent extends DialogChildComponent implements OnIn
   }
 
   handleCreateLecture() {
-    this._lectureService.update(this.updateLectureForm.value)
+    this._lectureService.update(formValueToLecture(this.updateLectureForm.value))
         .then(() => this._modal.close())
         .catch(reason => console.log(reason));
     return false;
+  }
+
+  get trainer() {
+    return this.updateLectureForm.get('trainer');
+  }
+  get lecture_day() {
+    return this.updateLectureForm.get('lecture_day');
+  }
+  get time_start() {
+    return this.updateLectureForm.get('time_start');
+  }
+  get time_end() {
+    return this.updateLectureForm.get('time_end');
+  }
+  get maxPersons() {
+    return this.updateLectureForm.get('max_persons');
+  }
+  get place() {
+    return this.updateLectureForm.get('place');
+  }
+  get type() {
+    return this.updateLectureForm.get('type');
   }
 
 }

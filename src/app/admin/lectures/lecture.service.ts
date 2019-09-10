@@ -22,6 +22,7 @@ export class LectureService {
   private static readonly GET_TRAINERS = `${LectureService.ACCESS_POINT}/trainers`;
   private static readonly GET_LECTURE_TYPES = `${LectureService.ACCESS_POINT}/lecture_types`;
   private static readonly GET_DATE_TIME_VALIDITY = `${LectureService.ACCESS_POINT}/date_time_validity`;
+  private static readonly GET_DURATION_VALIDITY = `${LectureService.ACCESS_POINT}/duration_validity`;
 
   private readonly _lectureChangeEmmiter = new BehaviorSubject<LectureChangeEvent>(null);
 
@@ -55,11 +56,15 @@ export class LectureService {
 
   insert(lecture: Lecture): Promise<Lecture> {
     const formData = new FormData();
-    const date = new Date(lecture.start_time);
-    date.setMonth(date.getMonth() + 1);
+
+    const dateTimeStart = new Date(lecture.time_start);
+    const dateTimeEnd = new Date(lecture.time_end);
+    dateTimeStart.setMonth(dateTimeStart.getMonth() + 1);
+    dateTimeEnd.setMonth(dateTimeEnd.getMonth() + 1);
+
     formData.append('trainer', `${lecture.trainer_id}`);
-    formData.append('start_time', `${date.getTime()}`.substr(0, 10));
-    formData.append('duration', `${lecture.duration}`);
+    formData.append('time_start', `${dateTimeStart.getTime()}`.substr(0, 10));
+    formData.append('time_end', `${dateTimeEnd.getTime()}`.substr(0, 10));
     formData.append('max_persons', `${lecture.max_persons}`);
     formData.append('place', lecture.place);
     formData.append('type', `${lecture.type}`);
@@ -91,12 +96,16 @@ export class LectureService {
 
   update(lecture: Lecture): Promise<Lecture> {
     const formData = new FormData();
-    const date = new Date(lecture.start_time);
-    date.setMonth(date.getMonth() + 1);
+
+    const dateTimeStart = new Date(lecture.time_start);
+    const dateTimeEnd = new Date(lecture.time_end);
+    dateTimeStart.setMonth(dateTimeStart.getMonth() + 1);
+    dateTimeEnd.setMonth(dateTimeEnd.getMonth() + 1);
+
     formData.append('id', `${lecture.lecture_id}`);
     formData.append('trainer', `${lecture.trainer_id}`);
-    formData.append('start_time', `${date.getTime()}`.substr(0, 10));
-    formData.append('duration', `${lecture.duration}`);
+    formData.append('time_start', `${dateTimeStart.getTime()}`.substr(0, 10));
+    formData.append('time_end', `${dateTimeEnd.getTime()}`.substr(0, 10));
     formData.append('max_persons', `${lecture.max_persons}`);
     formData.append('place', lecture.place);
     formData.append('type', `${lecture.type}`);
@@ -124,9 +133,24 @@ export class LectureService {
                });
   }
 
-  checkDateValidity(dateTimeRaw: string): Promise<boolean> {
+  checkDateValidity(dateRaw: string): Promise<boolean> {
+    return new Promise<boolean>(resolve => {
+      resolve(true);
+    })
+    // const date = new Date(dateRaw);
+    // date.setHours(0, 0, 0, 0);
+    // console.log(date);
+    // const dateTime = `${date.getTime()}`.substr(0, 10);
+    // return this._http.get<{valid: boolean}>(`${LectureService.GET_DATE_TIME_VALIDITY}/${dateTime}`)
+    //            .toPromise()
+    //            .then(result => {
+    //              return result.valid;
+    //            });
+  }
+
+  checkDurationValidity(dateTimeRaw: string, duration: string): Promise<boolean> {
     const dateTime = `${new Date(dateTimeRaw).getTime()}`.substr(0, 10);
-    return this._http.get<{valid: boolean}>(`${LectureService.GET_DATE_TIME_VALIDITY}/${dateTime}`)
+    return this._http.get<{valid: boolean}>(`${LectureService.GET_DURATION_VALIDITY}/${dateTime}/${duration}`)
                .toPromise()
                .then(result => {
                  return result.valid;
