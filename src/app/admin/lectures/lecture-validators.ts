@@ -1,8 +1,12 @@
-import { AbstractControl, AsyncValidatorFn, FormGroup, ValidationErrors } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { LectureService } from './lecture.service';
 import { Observable } from 'rxjs';
+import { timeToISOFormat } from '../../share/string-utils';
 
 export class LectureValidators {
+
+
+
   static createDateValidator(service: LectureService): AsyncValidatorFn {
     return ((control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
       return service.checkDateValidity(control.value)
@@ -12,17 +16,42 @@ export class LectureValidators {
     });
   }
 
-  static createDurationValidator(service: LectureService): AsyncValidatorFn {
-    return ((formGroup: FormGroup): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
-      const control = formGroup.get('time_end');
-
-      if (control.errors) {
-        return new Promise(resolve => null);
+  static createLectureStartAfterEndValidator(): ValidatorFn {
+    return ((control: AbstractControl): ValidationErrors | null => {
+      if (control.parent === undefined) {
+        return null;
       }
 
-      return service.checkDurationValidity(formGroup.get('time_start').value, formGroup.get('time_end').value)
+      const startTime = new Date(`${control.parent.get('lecture_day').value} ${control.value}`);
+      const endTime = new Date(`${control.parent.get('lecture_day').value} ${control.parent.get('time_end').value}`);
+      const delta = endTime.getTime() - startTime.getTime();
+
+      return delta < 0 ? {'startAfterEnd': true} : null;
+    });
+  }
+
+  static createLectureEndBeforeStartValidator(): ValidatorFn {
+    return ((control: AbstractControl): ValidationErrors | null => {
+      if (control.parent === undefined) {
+        return null;
+      }
+
+      const startTime = new Date(`${control.parent.get('lecture_day').value} ${control.parent.get('time_start').value}`);
+      const endTime = new Date(`${control.parent.get('lecture_day').value} ${control.value}`);
+      const delta = startTime.getTime() - endTime.getTime();
+
+      return delta > 0 ? {'endBeforeStart': true} : null;
+    });
+  }
+
+  static createLectureTimeValidator(service: LectureService, timePart: string): AsyncValidatorFn {
+    return ((control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
+      return service.checkTimeValidity(
+        timePart,
+        control.parent.get('lecture_day').value,
+        control.value,
+        control.parent.get('lecture_id').value)
                     .then(valid => {
-                      control.setErrors(!valid ?{'timeConflict': true} : null);
                       return !valid ? {'timeConflict': true} : null;
                     });
     });

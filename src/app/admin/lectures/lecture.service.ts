@@ -21,7 +21,9 @@ export class LectureService {
   private static readonly UPDATE_LECTURE = `${LectureService.ACCESS_POINT}/update`;
   private static readonly GET_TRAINERS = `${LectureService.ACCESS_POINT}/trainers`;
   private static readonly GET_LECTURE_TYPES = `${LectureService.ACCESS_POINT}/lecture_types`;
-  private static readonly GET_DATE_TIME_VALIDITY = `${LectureService.ACCESS_POINT}/date_time_validity`;
+  private static readonly GET_TIME_VALIDITY = `${LectureService.ACCESS_POINT}/time_validity`;
+  public static readonly TIME_START_VALIDITY = `time_start`;
+  public static readonly TIME_END_VALIDITY = `time_end`;
   private static readonly GET_DURATION_VALIDITY = `${LectureService.ACCESS_POINT}/duration_validity`;
 
   private readonly _lectureChangeEmmiter = new BehaviorSubject<LectureChangeEvent>(null);
@@ -156,4 +158,24 @@ export class LectureService {
                  return result.valid;
                });
   }
+
+  checkTimeValidity(timePart: string, day: string, time: string, lectureId?: number): Promise<boolean> {
+    const dateTime = new Date(`${day} ${time}`);
+    dateTime.setMonth(dateTime.getMonth() + 1);
+    const dateTimeRaw = `${dateTime.getTime()}`.substr(0, 10);
+    return this._http.get<{valid: boolean}>(`${LectureService.GET_TIME_VALIDITY}/${timePart}/${dateTimeRaw}/${lectureId}`)
+               .toPromise()
+               .then(result => {
+                 return result.valid;
+               });
+  }
+
+  // checkTimeStartValidity(day: string, time: string, lectureId?: number): Promise<boolean> {
+  //   return this._checkTimeValidity(LectureService.GET_TIME_START_VALIDITY, day, time, lectureId);
+  // }
+  //
+  // checkTimeEndValidity(day: string, time: string, lectureId?: number): Promise<boolean> {
+  //   return this._checkTimeValidity(LectureService.GET_TIME_END_VALIDITY, day, time, lectureId);
+  //
+  // }
 }

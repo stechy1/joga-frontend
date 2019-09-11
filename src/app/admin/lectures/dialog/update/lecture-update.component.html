@@ -30,6 +30,7 @@
                formControlName="time_start"/>
         <small *ngIf="time_start.touched && time_start.errors?.required" class="form-text text-muted">Čas začátku lekce je vyžadován.</small>
         <small *ngIf="time_start.touched && time_start.errors?.timeConflict" class="form-text text-muted">Čas začátku lekce je v rozporu s ostatními lekcemi!</small>
+        <small *ngIf="time_start.touched && time_start.errors?.startAfterEnd" class="form-text text-muted">Čas začátku lekce je později, než konec lekce!</small>
       </div>
     </div>
     <div class="col-12 col-md-6">
@@ -41,35 +42,10 @@
         </div>
         <small *ngIf="time_end.touched && time_end.errors?.required" class="form-text text-muted">Čas konce lekce je vyžadován.</small>
         <small *ngIf="time_end.touched && time_end.errors?.timeConflict" class="form-text text-muted">Čas konce lekce je v rozporu s ostatními lekcemi!</small>
+        <small *ngIf="time_end.touched && time_end.errors?.endBeforeStart" class="form-text text-muted">Čas konce lekce je před začátkem lekce!</small>
       </div>
     </div>
   </div>
-
-  <!--<div class="row">
-    <div class="col-12 col-md-6">
-      <div class="form-group">
-        <label for="start_time">Datum a čas lekce</label>
-        <input type="datetime-local" class="form-control" name="start_time" id="start_time"
-               formControlName="start_time" required/>
-        &lt;!&ndash;                <div *ngIf="f.submitted && time_start.dirty && !time_start.valid" class="help-block red-text">Datum a čas lekce je vyžadován, nebo není validní</div>&ndash;&gt;
-      </div>
-    </div>
-    <div class="col-12 col-md-6">
-      <div class="form-group">
-        <label for="duration">Doba trvání lekce</label>
-        <div class="input-group">
-          <input type="number" class="form-control" name="duration" id="duration"
-                 formControlName="duration" required/>
-          <div class="input-group-append">
-            <span class="input-group-text">minut</span>
-          </div>
-        </div>
-        &lt;!&ndash;        <div *ngIf="f.submitted && time_end.dirty && !time_end.valid" class="help-block red-text">&ndash;&gt;
-        &lt;!&ndash;          Doba trvání lekce je vyžadována, nebo není validní&ndash;&gt;
-        &lt;!&ndash;        </div>&ndash;&gt;
-      </div>
-    </div>
-  </div>-->
 
   <div class="row">
     <div class="col-12 col-md-6">

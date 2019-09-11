@@ -4,7 +4,6 @@ import { LectureService, LectureType } from '../../lecture.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ModalComponent } from '../../../../share/modal/modal.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { dateTimeToISOFormat } from '../../../../share/string-utils';
 import { DialogChildComponent } from '../../../../share/modal/dialog-child.component';
 import { LectureValidators } from '../../lecture-validators';
 import { formValueToLecture, lectureToFormValue } from '../lecture-dialog.utils';
@@ -28,13 +27,18 @@ export class LectureUpdateComponent extends DialogChildComponent implements OnIn
   updateLectureForm = new FormGroup({
     lecture_id: new FormControl(''),
     trainer: new FormControl('', [Validators.required]),
-    lecture_day: new FormControl('', [Validators.required], LectureValidators.createDateValidator(this._lectureService).bind(this)),
-    time_start: new FormControl('', [Validators.required]),
-    time_end: new FormControl('', [Validators.required]),
+    lecture_day: new FormControl('', [Validators.required],
+      LectureValidators.createDateValidator(this._lectureService).bind(this)),
+    time_start: new FormControl('',
+      [Validators.required, LectureValidators.createLectureStartAfterEndValidator()],
+      LectureValidators.createLectureTimeValidator(this._lectureService, LectureService.TIME_START_VALIDITY).bind(this)),
+    time_end: new FormControl('',
+      [Validators.required, LectureValidators.createLectureEndBeforeStartValidator()],
+      LectureValidators.createLectureTimeValidator(this._lectureService, LectureService.TIME_END_VALIDITY).bind(this)),
     max_persons: new FormControl('', [Validators.required]),
     place: new FormControl('', [Validators.required]),
     type: new FormControl('', [Validators.required])
-  }, null,  /*LectureValidators.createDurationValidator(this._lectureService).bind(this)*/);
+  });
 
   constructor(private _lectureService: LectureService) {
     super();

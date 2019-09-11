@@ -30,6 +30,7 @@
                formControlName="time_start"/>
         <small *ngIf="time_start.touched && time_start.errors?.required" class="form-text text-muted">Čas začátku lekce je vyžadován.</small>
         <small *ngIf="time_start.touched && time_start.errors?.timeConflict" class="form-text text-muted">Čas začátku lekce je v rozporu s ostatními lekcemi!</small>
+        <small *ngIf="time_start.touched && time_start.errors?.startAfterEnd" class="form-text text-muted">Čas začátku lekce je později, než konec lekce!</small>
       </div>
     </div>
     <div class="col-12 col-md-6">
@@ -41,6 +42,7 @@
         </div>
         <small *ngIf="time_end.touched && time_end.errors?.required" class="form-text text-muted">Čas konce lekce je vyžadován.</small>
         <small *ngIf="time_end.touched && time_end.errors?.timeConflict" class="form-text text-muted">Čas konce lekce je v rozporu s ostatními lekcemi!</small>
+        <small *ngIf="time_end.touched && time_end.errors?.endBeforeStart" class="form-text text-muted">Čas konce lekce je před začátkem lekce!</small>
       </div>
     </div>
   </div>
