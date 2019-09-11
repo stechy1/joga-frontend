@@ -3,10 +3,10 @@ import { LectureService } from './lecture.service';
 import { DayAction } from '../../share/calendar/day-action';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ModalComponent } from '../../share/modal/modal.component';
-import { LectureNewComponent } from './dialog/new/lecture-new.component';
+import { LectureNewComponent } from './dialog/lecture-new.component';
 import { LectureChangeEvent, LectureChangeType } from './lecture-change-event';
 import { Lecture } from './lecture';
-import { LectureUpdateComponent } from './dialog/update/lecture-update.component';
+import { LectureUpdateComponent } from './dialog/lecture-update.component';
 import { LectureDeleteComponent } from './dialog/delete/lecture-delete.component';
 
 @Component({

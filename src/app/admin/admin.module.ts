@@ -11,8 +11,7 @@ import { LectureComponent } from './lectures/lecture.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { ClientsComponent } from './clients/clients.component';
-import { LectureNewComponent } from './lectures/dialog/new/lecture-new.component';
-import { LectureUpdateComponent } from './lectures/dialog/update/lecture-update.component';
+import { LectureNewComponent } from './lectures/dialog/lecture-new.component';
 import { AuthModule } from '../auth/auth.module';
 import { UploadComponent } from './carousel/dialog/upload/upload.component';
 import { UpdateComponent } from './carousel/dialog/update/update.component';
@@ -20,6 +19,7 @@ import { ActiveImagesComponent } from './carousel/active-images/active-images.co
 import { FilterActivePipe } from './carousel/active-images/filter-active.pipe';
 import { MyComponent } from './my/my.component';
 import { LectureDeleteComponent } from './lectures/dialog/delete/lecture-delete.component';
+import { LectureUpdateComponent } from './lectures/dialog/lecture-update.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,7 @@ import { LectureDeleteComponent } from './lectures/dialog/delete/lecture-delete.
     ActiveImagesComponent,
     FilterActivePipe,
     MyComponent,
-    LectureDeleteComponent,
+    LectureDeleteComponent
   ],
   imports: [
     CommonModule,

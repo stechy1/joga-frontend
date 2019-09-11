@@ -1,20 +1,13 @@
-import { Component, OnInit} from '@angular/core';
+import { OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Trainer } from '../../trainer';
-import { LectureService, LectureType } from '../../lecture.service';
-import { DialogChildComponent } from '../../../../share/modal/dialog-child.component';
-import { ModalComponent } from '../../../../share/modal/modal.component';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { dateTimeToISOFormat, dateToISOFormat } from '../../../../share/string-utils';
-import { LectureValidators } from '../../lecture-validators';
-import { formValueToLecture } from '../lecture-dialog.utils';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { DialogChildComponent } from '../../../share/modal/dialog-child.component';
+import { Trainer } from '../trainer';
+import { LectureService, LectureType } from '../lecture.service';
+import { ModalComponent } from '../../../share/modal/modal.component';
+import { LectureValidators } from '../lecture-validators';
 
-@Component({
-  selector: 'app-admin-lecture-new',
-  templateUrl: './lecture-new.component.html',
-  styleUrls: ['./lecture-new.component.css']
-})
-export class LectureNewComponent extends DialogChildComponent implements OnInit {
+export abstract class LectureDialogComponent extends DialogChildComponent implements OnInit {
 
   trainers: Trainer[] = [];
   lectureTypes: LectureType[] = [];
@@ -25,7 +18,7 @@ export class LectureNewComponent extends DialogChildComponent implements OnInit 
   private _formInvalid: BehaviorSubject<boolean> = new BehaviorSubject(true);
   private _modal: ModalComponent;
 
-  newLectureForm = new FormGroup({
+  protected lectureForm = new FormGroup({
     lecture_id: new FormControl(''),
     trainer: new FormControl('', [Validators.required]),
     lecture_day: new FormControl('', [Validators.required],
@@ -41,18 +34,19 @@ export class LectureNewComponent extends DialogChildComponent implements OnInit 
     type: new FormControl('', [Validators.required])
   });
 
-  constructor(private _lectureService: LectureService) {
+  constructor(protected _lectureService: LectureService) {
     super();
   }
 
-  private _prepareForm(date: Date) {
-    this.newLectureForm.patchValue({
-      lecture_day: dateToISOFormat(date)
-    });
+  private _handleConfirmLecture() {
+    this.handleConfirmLecture()
+        .then(() => this._modal.close())
+        .catch(reason => console.log(reason));
+
   }
 
   ngOnInit() {
-    this.newLectureForm.statusChanges.subscribe((state: string) => {
+    this.lectureForm.statusChanges.subscribe((state: string) => {
       console.log(state);
       this._formInvalid.next(!(state !== 'INVALID'));
     });
@@ -70,13 +64,10 @@ export class LectureNewComponent extends DialogChildComponent implements OnInit 
   }
 
   bind(modal: ModalComponent) {
-    modal.title = 'Nová lekce';
-    modal.confirmText = 'Založit';
-    modal.cancelText = 'Zrušit';
     modal.confirmClose = true;
-    this._confirmSubscription =  modal.confirm.subscribe(() => this.handleCreateLecture());
+    this._confirmSubscription =  modal.confirm.subscribe(() => this._handleConfirmLecture());
     this._cancelSubscription =  modal.cancel.subscribe(() => modal.close());
-    this._showSubscription =  modal.show.subscribe((args) => this._prepareForm(args[0]));
+    this._showSubscription =  modal.show.subscribe((args) => this.prepareForm(args[0]));
     modal.confirmDisabled = this._formInvalid;
     this._modal = modal;
   }
@@ -88,33 +79,30 @@ export class LectureNewComponent extends DialogChildComponent implements OnInit 
     this._modal = null;
   }
 
-  handleCreateLecture() {
-    this._lectureService.insert(formValueToLecture(this.newLectureForm.value))
-        .then(() => this._modal.close())
-        .catch(reason => console.log(reason));
-    return false;
-  }
+  protected abstract prepareForm(value: any);
+
+  protected abstract handleConfirmLecture(): Promise<any>;
 
   get trainer() {
-    return this.newLectureForm.get('trainer');
+    return this.lectureForm.get('trainer');
   }
   get lecture_day() {
-    return this.newLectureForm.get('lecture_day');
+    return this.lectureForm.get('lecture_day');
   }
   get time_start() {
-    return this.newLectureForm.get('time_start');
+    return this.lectureForm.get('time_start');
   }
   get time_end() {
-    return this.newLectureForm.get('time_end');
+    return this.lectureForm.get('time_end');
   }
   get maxPersons() {
-    return this.newLectureForm.get('max_persons');
+    return this.lectureForm.get('max_persons');
   }
   get place() {
-    return this.newLectureForm.get('place');
+    return this.lectureForm.get('place');
   }
   get type() {
-    return this.newLectureForm.get('type');
+    return this.lectureForm.get('type');
   }
 
 }
