@@ -7,7 +7,6 @@ import { UpdateComponent } from './dialog/update/update.component';
 import { ModalComponent } from '../../share/modal/modal.component';
 
 @Component({
-  selector: 'app-admin-carousel',
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.css']
 })

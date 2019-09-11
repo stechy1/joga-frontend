@@ -3,9 +3,7 @@ import { Component } from '@angular/core';
 import { formValueToLecture, lectureToFormValue } from './lecture-dialog.utils';
 import { ModalComponent } from '../../../share/modal/modal.component';
 
-
 @Component({
-  selector: 'app-admin-lecture-update',
   templateUrl: './lecture-dialog.component.html'
 })
 export class LectureUpdateComponent extends LectureDialogComponent {

@@ -4,9 +4,7 @@ import { formValueToLecture } from './lecture-dialog.utils';
 import { dateToISOFormat } from '../../../share/string-utils';
 import { ModalComponent } from '../../../share/modal/modal.component';
 
-
 @Component({
-  selector: 'app-admin-lecture-new',
   templateUrl: './lecture-dialog.component.html'
 })
 export class LectureNewComponent extends LectureDialogComponent {

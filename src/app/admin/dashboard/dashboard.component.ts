@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { CarouselImageRecord } from '../../share/carousel/carousel-image-record';
 
 @Component({
-  selector: 'app-admin-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })

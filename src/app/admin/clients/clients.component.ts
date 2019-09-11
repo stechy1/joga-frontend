@@ -4,7 +4,6 @@ import { Client } from './client';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-admin-clients',
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.css']
 })
