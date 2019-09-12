@@ -7,6 +7,7 @@ import { AdminComponent } from './admin.component';
 import { ClientsComponent } from './clients/clients.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { MyComponent } from './my/my.component';
+import { LectureTypesComponent } from './lecture-types/lecture-types.component';
 
 const routes: Routes = [
 
@@ -51,6 +52,11 @@ const routes: Routes = [
             component: LectureComponent
           }
         ]
+      },
+      {
+        path: 'lectures',
+        component: LectureTypesComponent,
+        outlet: 'subpage'
       },
       {
         path: 'carousel',

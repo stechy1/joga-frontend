@@ -1,0 +1,36 @@
+<h2 *ngIf="lectures.length > 0">Přehled nabízených lekcí</h2>
+<div class="table-responsive">
+  <table class="table" *ngIf="lectures.length > 0">
+    <thead>
+    <tr>
+      <th scope="col" *ngIf="!isProd">ID</th>
+      <th scope="col">Název</th>
+      <th scope="col">Popis</th>
+      <th scope="col">Cena</th>
+      <th scope="col">Akce</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let lecture of lectures; let i = index">
+      <th scope="row" *ngIf="!isProd">{{lecture.id}}</th>
+      <td>{{lecture.name}}</td>
+      <td>{{lecture.description}}</td>
+      <td>{{lecture.price}} Kč</td>
+      <td>
+        <button class="btn btn-primary btn-sm" (click)="handleShowLectureTypeDialog(i)">Upravit</button>
+        <button class="btn btn-danger btn-sm" (click)="handleDeleteLectureType(i)">Smazat</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="row" *ngIf="lectures.length == 0">
+  <div class="col-12">
+    <h3>Nebyly nalezeny žádné typy lekcí ;(</h3>
+  </div>
+</div>
+
+<span id="new-lecture-type" class="btn-floating btn-lg btn-default floating-upload-btn"
+      (click)="handleShowLectureTypeDialog()"><i class="material-icons">add</i></span>
+
+<app-modal id="lectureTypeModal" #modal></app-modal>

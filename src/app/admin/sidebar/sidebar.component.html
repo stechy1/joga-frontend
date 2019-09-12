@@ -9,7 +9,7 @@
 
   <li  class="nav-item" routerLinkActive="active">
     <a [routerLinkActive]="'active'" [routerLink]="[{outlets: {subpage: 'my'}}]" class="nav-link">
-      <i class="material-icons">dashboard</i>
+      <i class="material-icons">info</i>
       Moje info
     </a>
   </li>
@@ -18,6 +18,13 @@
     <a [routerLinkActive]="'active'" [routerLink]="[{outlets: {subpage:'calendar'}}]" class="nav-link">
       <i class="material-icons">calendar_today</i>
       Kalendář
+    </a>
+  </li>
+
+  <li class="nav-item" routerLinkActive="active">
+    <a [routerLinkActive]="'active'" [routerLink]="[{outlets: {subpage:'lectures'}}]" class="nav-link">
+      <i class="material-icons">accessibility_new</i>
+      Typy lekcí
     </a>
   </li>
 
