@@ -20,12 +20,6 @@ export class CarouselImage {
 
   constructor(image: ICarouselImage) {
     this.update(image);
-    // this._id = new BehaviorSubject<string>(image.id);
-    // this._name = new BehaviorSubject<string>(image.name);
-    // this._description = new BehaviorSubject<string>(image.description);
-    // this._path = new BehaviorSubject<string>(image.path);
-    // this._enabled = new BehaviorSubject<boolean>(image.enabled !== 0);
-    // this._viewOrder = new BehaviorSubject<number>(image.viewOrder);
   }
 
   decreaseViewOrder() {

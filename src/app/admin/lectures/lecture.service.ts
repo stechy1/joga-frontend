@@ -3,8 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { BASE_ADMIN_API } from '../admin.share';
 import { Lecture } from './lecture';
 import { Trainer } from './trainer';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { LectureChangeEvent, LectureChangeType } from './lecture-change-event';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ChangeServiceEvent } from '../../share/change-service-event';
+import { CRUDServiceType } from '../../share/crud-service-type';
 
 @Injectable({
   providedIn: 'root'
@@ -20,18 +21,56 @@ export class LectureService {
   public static readonly TIME_END_VALIDITY = `time_end`;
   private static readonly GET_DURATION_VALIDITY = `${LectureService.ACCESS_POINT}/duration_validity`;
 
-  private readonly _lectureChangeEmmiter = new BehaviorSubject<LectureChangeEvent>(null);
+  private readonly lectures$: BehaviorSubject<Lecture[]> = new BehaviorSubject<Lecture[]>([]);
 
   constructor(private _http: HttpClient) { }
 
-  all(date: Date): Promise<Lecture[]> {
+  private _changeServiceEventHandler(event: ChangeServiceEvent<Lecture>) {
+    if (event === null) {
+      return
+    }
+
+    const lecture = event.record;
+    const lectures = this.lectures$.getValue();
+    const lectureIndex = lectures.findIndex(value => value.lecture_id === lecture.lecture_id);
+    switch (event.changeType) {
+      case CRUDServiceType.INSERT:
+        if (lectureIndex !== -1) {
+          console.error(`Lekce s ID: ${lectureIndex} již existuje!`);
+          return;
+        }
+
+        lectures.push(lecture);
+        break;
+      case CRUDServiceType.UPDATE:
+        if (lectureIndex === -1) {
+          console.error(`Lekce s ID: ${lectureIndex} nebyla nalezena!`);
+          return;
+        }
+
+        lectures[lectureIndex] = lecture;
+        break;
+      case CRUDServiceType.DELETE:
+        if (lectureIndex === -1) {
+          console.error(`Lekce s ID: ${lectureIndex} nebyla nalezena!`);
+          return;
+        }
+
+        lectures.splice(lectureIndex, 1);
+        break;
+    }
+    this.lectures$.next(lectures);
+  }
+
+  all(date: Date): void {
     const dateTime = `${date.getTime()}`.substr(0, 10);
-    return this._http.get<{lectures: Lecture[]}>(`${LectureService.ACCESS_POINT}/${dateTime}`)
+    this._http.get<{lectures: Lecture[]}>(`${LectureService.ACCESS_POINT}/${dateTime}`)
                .toPromise()
                .then(response => {
-                 console.log(response.lectures);
-                 return response.lectures;
+                 this.lectures$.next(response.lectures);
                });
+
+    // return this.lectures$;
   }
 
   allTrainers(): Promise<Trainer[]> {
@@ -39,6 +78,16 @@ export class LectureService {
                .toPromise()
                .then(result => {
                  return result.trainers;
+               });
+  }
+
+  byId(lectureId: number): Promise<Lecture> {
+    const url = `${LectureService.GET_LECTURE_BY_ID}/${lectureId}`;
+
+    return this._http.get<{lecture: Lecture}>(url)
+               .toPromise()
+               .then(result => {
+                 return result.lecture;
                });
   }
 
@@ -60,24 +109,11 @@ export class LectureService {
     return this._http.post<{lecture: Lecture}>(LectureService.ACCESS_POINT, formData)
                .toPromise()
                .then(result => {
-                 this._lectureChangeEmmiter.next({
-                   lecture: result.lecture,
-                   changeType: LectureChangeType.INSERT
+                 this._changeServiceEventHandler({
+                   record: result.lecture,
+                   changeType: CRUDServiceType.INSERT
                  });
-                 return result.lecture;
-               });
-  }
 
-  get lectureChangeEmmiter(): Observable<LectureChangeEvent> {
-    return this._lectureChangeEmmiter;
-  }
-
-  byId(lectureId: number): Promise<Lecture> {
-    const url = `${LectureService.GET_LECTURE_BY_ID}/${lectureId}`;
-
-    return this._http.get<{lecture: Lecture}>(url)
-               .toPromise()
-               .then(result => {
                  return result.lecture;
                });
   }
@@ -101,9 +137,9 @@ export class LectureService {
     return this._http.post<{lecture: Lecture}>(LectureService.UPDATE_LECTURE, formData)
                .toPromise()
                .then((result) => {
-                 this._lectureChangeEmmiter.next({
-                   lecture: result.lecture,
-                   changeType: LectureChangeType.UPDATE
+                 this._changeServiceEventHandler({
+                   record: result.lecture,
+                   changeType: CRUDServiceType.UPDATE
                  });
                  return result.lecture;
                });
@@ -113,9 +149,9 @@ export class LectureService {
     return this._http.delete<{lecture: Lecture}>(`${LectureService.ACCESS_POINT}/${lectureId}`)
                .toPromise()
                .then(result => {
-                 this._lectureChangeEmmiter.next({
-                   lecture: result.lecture,
-                   changeType: LectureChangeType.DELETE
+                 this._changeServiceEventHandler({
+                   record: result.lecture,
+                   changeType: CRUDServiceType.DELETE
                  });
                  return result.lecture;
                });
@@ -154,5 +190,9 @@ export class LectureService {
                .then(result => {
                  return result.valid;
                });
+  }
+
+  get lectures(): Observable<Lecture[]> {
+    return this.lectures$;
   }
 }

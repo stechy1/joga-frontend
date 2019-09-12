@@ -15,7 +15,7 @@ export class LectureTypesService {
   private static readonly GET_LECTURE_TYPE_BY_ID = `${LectureTypesService.ACCESS_POINT}/id`;
   private static readonly UPDATE_LECTURE_TYPE = `${LectureTypesService.ACCESS_POINT}/update`;
 
-  private readonly lectures$: BehaviorSubject<LectureType[]> = new BehaviorSubject<LectureType[]>([]);
+  private readonly lectureTypes$: BehaviorSubject<LectureType[]> = new BehaviorSubject<LectureType[]>([]);
 
   constructor(private _http: HttpClient) {}
 
@@ -24,7 +24,7 @@ export class LectureTypesService {
       return
     }
     const lectureType = event.record;
-    const lectureTypes = this.lectures$.getValue();
+    const lectureTypes = this.lectureTypes$.getValue();
     const lectureTypeIndex = lectureTypes.findIndex(value => value.id === lectureType.id);
     switch (event.changeType) {
       case CRUDServiceType.INSERT:
@@ -52,17 +52,17 @@ export class LectureTypesService {
         lectureTypes.splice(lectureTypeIndex, 1);
         break;
     }
-    this.lectures$.next(lectureTypes);
+    this.lectureTypes$.next(lectureTypes);
   }
 
   all(): Observable<LectureType[]> {
     this._http.get<{lectureTypes: LectureType[]}>(LectureTypesService.ACCESS_POINT)
                .toPromise()
                .then(result => {
-                 this.lectures$.next(result.lectureTypes);
+                 this.lectureTypes$.next(result.lectureTypes);
                });
 
-    return this.lectures$;
+    return this.lectureTypes$;
   }
 
   byId(lectureTypeId: number): Promise<LectureType> {

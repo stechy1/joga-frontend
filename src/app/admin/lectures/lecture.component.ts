@@ -8,6 +8,7 @@ import { LectureChangeEvent, LectureChangeType } from './lecture-change-event';
 import { Lecture } from './lecture';
 import { LectureUpdateComponent } from './dialog/lecture-update.component';
 import { ConfirmDialogComponent } from '../../share/modal/confirm/confirm-dialog.component';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-lecture',
@@ -22,7 +23,7 @@ export class LectureComponent implements OnInit, OnDestroy {
 
   private _lectureChangeSubscription: Subscription;
 
-  constructor(private _calendarService: LectureService) { }
+  constructor(private _lectureService: LectureService) { }
 
   private static _mapLectureToDayAction(lecture: Lecture): DayAction {
     const timeStart = new Date(lecture.time_start * 1000);
@@ -38,46 +39,12 @@ export class LectureComponent implements OnInit, OnDestroy {
     } as DayAction;
   }
 
-  private _lectureChangeHandler(event: LectureChangeEvent): void {
-    if (event === null) {
-      return;
-    }
-
-    const dayAction = LectureComponent._mapLectureToDayAction(event.lecture);
-    const actions: DayAction[] = this.dayActions.getValue();
-    const actionIndex = actions.findIndex(action => action.id === dayAction.id);
-    switch (event.changeType) {
-      case LectureChangeType.INSERT:
-        if (actionIndex !== -1) {
-          console.error(`Denní akce s ID: ${actionIndex} již existuje!`);
-          return;
-        }
-
-        actions.push(dayAction);
-        this.dayActions.next(actions);
-        break;
-      case LectureChangeType.UPDATE:
-        if (actionIndex === -1) {
-          console.error(`Nebyla nalezena denní akce s ID: ${actionIndex}`);
-          return;
-        }
-        actions[actionIndex] = dayAction;
-        this.dayActions.next(actions);
-        break;
-      case LectureChangeType.DELETE:
-        if (actionIndex === -1) {
-          console.error(`Nebyla nalezena denní akce s ID: ${actionIndex}`);
-          return;
-        }
-
-        actions.splice(actionIndex, 1);
-        this.dayActions.next(actions);
-        break;
-    }
-  }
-
   ngOnInit() {
-    this._lectureChangeSubscription = this._calendarService.lectureChangeEmmiter.subscribe(change => this._lectureChangeHandler(change));
+    this._lectureChangeSubscription = this._lectureService.lectures.subscribe(lectures => {
+        const dayActions = lectures.map(lecture => LectureComponent._mapLectureToDayAction(lecture));
+        this.dayActions.next(dayActions);
+      }
+    );
   }
 
   ngOnDestroy(): void {
@@ -85,10 +52,7 @@ export class LectureComponent implements OnInit, OnDestroy {
   }
 
   changeViewDate(date: Date) {
-    this._calendarService.all(date)
-        .then(lectures => lectures.map(lecture => LectureComponent._mapLectureToDayAction(lecture)))
-        .then(dayActions => this.dayActions.next(dayActions))
-        .catch(reason =>  console.error(reason));
+    this._lectureService.all(date)
   }
 
   handleNewLecture(date: Date) {
@@ -106,7 +70,7 @@ export class LectureComponent implements OnInit, OnDestroy {
     this.modal.showComponent = ConfirmDialogComponent;
     this.modal.open({
       'message': 'Opravdu si přejete smazat vybranou lekci?',
-      'confirm': () => self._calendarService.delete(dayAction.id)
+      'confirm': () => self._lectureService.delete(dayAction.id)
     });
   }
 }
