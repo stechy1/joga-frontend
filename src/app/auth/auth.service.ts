@@ -12,6 +12,11 @@ interface LoginResponce {
   jwt: string;
 }
 
+interface AuthModel {
+  email: string;
+  password: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -26,20 +31,20 @@ export class AuthService {
 
   constructor(private _http: HttpClient, private _storage: LocalStorageService, private _router: Router) {}
 
-  private _auth(email: string, password: string, url: string): Promise<object> {
+  private _auth(authModel: AuthModel, url: string): Promise<object> {
     const formData = new FormData();
-    formData.append('email', email);
-    formData.append('password', password);
+    formData.append('email', authModel.email);
+    formData.append('password', authModel.password);
 
     return this._http.post(url, formData).toPromise();
   }
 
-  public register(email: string, password: string): Promise<object> {
-    return this._auth(email, password, AuthService.AUTH_URL_REGISTER);
+  public register(authModel: AuthModel): Promise<object> {
+    return this._auth(authModel, AuthService.AUTH_URL_REGISTER);
   }
 
-  public login(email: string, password: string): Promise<object> {
-    return this._auth(email, password, AuthService.AUTH_URL_LOGIN)
+  public login(authModel: AuthModel): Promise<object> {
+    return this._auth(authModel, AuthService.AUTH_URL_LOGIN)
                .then((data: LoginResponce) => {
                  const jwtData = data.jwt;
                  this._storage.set(AuthService.STORAGE_JWT, jwtData);

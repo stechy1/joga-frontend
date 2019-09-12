@@ -2,8 +2,8 @@
   <div class="container">
     <div class="row">
       <div class="col-12 col-sm-8 offset-sm-2">
-        <form [formGroup]="authForm">
-          <h1>Přihlášení</h1>
+        <form [formGroup]="registerForm">
+          <h1>Registrace</h1>
 
           <div class="row">
             <div class="col-12">
@@ -33,27 +33,14 @@
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-12">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                <label class="form-check-label" for="defaultCheck1">
-                  Zapamatovat si mě
-                </label>
-              </div>
-            </div>
-          </div>
-
           <div class="form-group">
-            <button class="btn btn-primary" style="width: 100%" [disabled]="authForm.invalid">Přihlásit</button>
+            <button class="btn btn-primary" style="width: 100%" [disabled]="registerForm.invalid">Zaregistrovat se</button>
           </div>
         </form>
+
         <div class="row">
-          <div class="col-6 text-center">
-            <a [routerLink]="'register'">Nemáte ještě účet? Zaregistrujte se!</a>
-          </div>
-          <div class="col-6 text-center">
-          <a [routerLink]="'recover'">Zapoměli jste heslo?</a>
+          <div class="col">
+            <a [routerLink]="['/', 'auth']">Zpět na přihlášení</a>
           </div>
         </div>
       </div>

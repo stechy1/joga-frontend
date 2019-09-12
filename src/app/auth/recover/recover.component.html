@@ -1,0 +1,35 @@
+<section id="login">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-sm-8 offset-sm-2">
+        <form [formGroup]="recoverForm">
+          <h1>Obnovení hesla</h1>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">@</span>
+                  </div>
+                  <input type="text" class="form-control" name="email" id="email" formControlName="email" placeholder="E-mail"/>
+                </div>
+                <small *ngIf="email.touched && email.errors?.required" class="form-text text-muted">E-mail je vyžadován.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button class="btn btn-primary" style="width: 100%" [disabled]="recoverForm.invalid">Obnovit heslo</button>
+          </div>
+        </form>
+
+        <div class="row">
+          <div class="col">
+            <a [routerLink]="['/', 'auth']">Zpět na přihlášení</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

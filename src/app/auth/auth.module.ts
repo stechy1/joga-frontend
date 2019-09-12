@@ -1,21 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AuthRoutingModule } from './auth-routing.module';
 
 import { AuthComponent } from './auth.component';
 import { UserRolePipe } from './user-role.pipe';
+import { RegisterComponent } from './register/register.component';
+import { RecoverComponent } from './recover/recover.component';
 
 @NgModule({
   declarations: [
     AuthComponent,
     UserRolePipe,
+    RegisterComponent,
+    RecoverComponent,
   ],
   imports: [
     CommonModule,
     AuthRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     UserRolePipe
