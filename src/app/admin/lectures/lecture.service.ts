@@ -6,11 +6,6 @@ import { Trainer } from './trainer';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { LectureChangeEvent, LectureChangeType } from './lecture-change-event';
 
-export interface LectureType {
-  id: number;
-  name: string;
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +15,6 @@ export class LectureService {
   private static readonly GET_LECTURE_BY_ID = `${LectureService.ACCESS_POINT}/id`;
   private static readonly UPDATE_LECTURE = `${LectureService.ACCESS_POINT}/update`;
   private static readonly GET_TRAINERS = `${LectureService.ACCESS_POINT}/trainers`;
-  private static readonly GET_LECTURE_TYPES = `${LectureService.ACCESS_POINT}/lecture_types`;
   private static readonly GET_TIME_VALIDITY = `${LectureService.ACCESS_POINT}/time_validity`;
   public static readonly TIME_START_VALIDITY = `time_start`;
   public static readonly TIME_END_VALIDITY = `time_end`;
@@ -45,14 +39,6 @@ export class LectureService {
                .toPromise()
                .then(result => {
                  return result.trainers;
-               });
-  }
-
-  allLectureTypes(): Promise<LectureType[]> {
-    return this._http.get<{lectureTypes: LectureType[]}>(LectureService.GET_LECTURE_TYPES)
-               .toPromise()
-               .then(result => {
-                 return result.lectureTypes;
                });
   }
 
@@ -169,13 +155,4 @@ export class LectureService {
                  return result.valid;
                });
   }
-
-  // checkTimeStartValidity(day: string, time: string, lectureId?: number): Promise<boolean> {
-  //   return this._checkTimeValidity(LectureService.GET_TIME_START_VALIDITY, day, time, lectureId);
-  // }
-  //
-  // checkTimeEndValidity(day: string, time: string, lectureId?: number): Promise<boolean> {
-  //   return this._checkTimeValidity(LectureService.GET_TIME_END_VALIDITY, day, time, lectureId);
-  //
-  // }
 }

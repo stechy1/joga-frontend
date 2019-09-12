@@ -3,9 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { DialogChildComponent } from '../../../share/modal/dialog-child.component';
 import { Trainer } from '../trainer';
-import { LectureService, LectureType } from '../lecture.service';
+import { LectureService } from '../lecture.service';
 import { ModalComponent } from '../../../share/modal/modal.component';
 import { LectureValidators } from '../lecture-validators';
+import { LectureType } from '../../lecture-types/lecture-type';
+import { LectureTypesService } from '../../lecture-types/lecture-types.service';
 
 export abstract class LectureDialogComponent extends DialogChildComponent implements OnInit {
 
@@ -34,7 +36,8 @@ export abstract class LectureDialogComponent extends DialogChildComponent implem
     type: new FormControl('', [Validators.required])
   });
 
-  constructor(protected _lectureService: LectureService) {
+  constructor(protected _lectureService: LectureService,
+              private _lectureTypesService: LectureTypesService) {
     super();
   }
 
@@ -56,11 +59,10 @@ export abstract class LectureDialogComponent extends DialogChildComponent implem
           this.trainers = trainers;
         })
         .catch(reason => console.log(reason));
-    this._lectureService.allLectureTypes()
-      .then(types => {
-        this.lectureTypes = types;
-      })
-      .catch(reason => console.log(reason));
+    this._lectureTypesService.all()
+        .subscribe(types => {
+          this.lectureTypes = types;
+        });
   }
 
   bind(modal: ModalComponent) {
