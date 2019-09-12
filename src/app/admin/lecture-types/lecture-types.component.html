@@ -17,8 +17,8 @@
       <td>{{lecture.description}}</td>
       <td>{{lecture.price}} Kč</td>
       <td>
-        <button class="btn btn-primary btn-sm" (click)="handleShowLectureTypeDialog(i)">Upravit</button>
-        <button class="btn btn-danger btn-sm" (click)="handleDeleteLectureType(i)">Smazat</button>
+        <button class="btn btn-primary btn-sm" (click)="handleShowLectureTypeDialog(lecture.id)">Upravit</button>
+        <button class="btn btn-danger btn-sm" (click)="handleDeleteLectureType(lecture.id)">Smazat</button>
       </td>
     </tr>
     </tbody>

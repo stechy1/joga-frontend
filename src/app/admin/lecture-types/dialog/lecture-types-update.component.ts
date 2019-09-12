@@ -15,7 +15,7 @@ export class LectureTypesUpdateComponent extends LectureTypesDialogComponent{
   }
 
   protected prepareForm(lectureTypeId: number) {
-    this._lectureTypesService.byId(lectureTypeId+1)
+    this._lectureTypesService.byId(lectureTypeId)
         .then(lectureType => {
           this.lectureTypeForm.patchValue(lectureType);
         })

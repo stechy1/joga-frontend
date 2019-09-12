@@ -17,6 +17,8 @@ import { HeadingComponent } from './heading/heading.component';
 import { DayScheduleComponent } from './calendar/day-schedule/day-schedule.component';
 import { DayScheduleDirective } from './calendar/day-schedule.directive';
 import { CurrentMaxValueComponent } from './current-max-value/current-max-value.component';
+import { ConfirmDialogComponent } from './modal/confirm/confirm-dialog.component';
+import { InformDialogComponent } from './modal/inform/inform-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { CurrentMaxValueComponent } from './current-max-value/current-max-value.
     DayScheduleComponent,
     DayScheduleDirective,
     CurrentMaxValueComponent,
+    ConfirmDialogComponent,
+    InformDialogComponent
   ],
   imports: [
     CommonModule,
@@ -50,10 +54,14 @@ import { CurrentMaxValueComponent } from './current-max-value/current-max-value.
     ToggleComponent,
     DialogChildsDirective,
     HeadingComponent,
+    ConfirmDialogComponent,
+    InformDialogComponent,
     CommonModule,
   ],
   entryComponents: [
-    DayScheduleComponent
+    DayScheduleComponent,
+    ConfirmDialogComponent,
+    InformDialogComponent
   ]
 })
 export class ShareModule {

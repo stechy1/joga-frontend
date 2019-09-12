@@ -18,7 +18,6 @@ import { UpdateComponent } from './carousel/dialog/update/update.component';
 import { ActiveImagesComponent } from './carousel/active-images/active-images.component';
 import { FilterActivePipe } from './carousel/active-images/filter-active.pipe';
 import { MyComponent } from './my/my.component';
-import { LectureDeleteComponent } from './lectures/dialog/delete/lecture-delete.component';
 import { LectureUpdateComponent } from './lectures/dialog/lecture-update.component';
 import { LectureTypesComponent } from './lecture-types/lecture-types.component';
 import { LectureTypesNewComponent } from './lecture-types/dialog/lecture-types-new.component';
@@ -39,7 +38,6 @@ import { LectureTypesUpdateComponent } from './lecture-types/dialog/lecture-type
     ActiveImagesComponent,
     FilterActivePipe,
     MyComponent,
-    LectureDeleteComponent,
     LectureTypesComponent,
     LectureTypesNewComponent,
     LectureTypesUpdateComponent
@@ -58,7 +56,6 @@ import { LectureTypesUpdateComponent } from './lecture-types/dialog/lecture-type
     UpdateComponent,
     LectureNewComponent,
     LectureUpdateComponent,
-    LectureDeleteComponent,
     LectureTypesNewComponent,
     LectureTypesUpdateComponent
   ]

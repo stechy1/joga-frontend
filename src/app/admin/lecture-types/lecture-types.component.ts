@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { ModalComponent } from '../../share/modal/modal.component';
 import { LectureTypesNewComponent } from './dialog/lecture-types-new.component';
 import { LectureTypesUpdateComponent } from './dialog/lecture-types-update.component';
+import { ConfirmDialogComponent } from '../../share/modal/confirm/confirm-dialog.component';
 
 @Component({
   selector: 'app-lecture-types',
@@ -39,6 +40,11 @@ export class LectureTypesComponent implements OnInit {
   }
 
   handleDeleteLectureType(index: number) {
-
+    const self = this;
+    this.modal.showComponent = ConfirmDialogComponent;
+    this.modal.open({
+      'message': 'Opravdu si přejete smazat vybranou lekci?',
+      'confirm': () => self._service.delete(index)
+    });
   }
 }

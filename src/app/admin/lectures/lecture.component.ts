@@ -7,7 +7,7 @@ import { LectureNewComponent } from './dialog/lecture-new.component';
 import { LectureChangeEvent, LectureChangeType } from './lecture-change-event';
 import { Lecture } from './lecture';
 import { LectureUpdateComponent } from './dialog/lecture-update.component';
-import { LectureDeleteComponent } from './dialog/delete/lecture-delete.component';
+import { ConfirmDialogComponent } from '../../share/modal/confirm/confirm-dialog.component';
 
 @Component({
   selector: 'app-admin-lecture',
@@ -102,7 +102,11 @@ export class LectureComponent implements OnInit, OnDestroy {
   }
 
   handleDeleteLecture(dayAction: DayAction) {
-    this.modal.showComponent = LectureDeleteComponent;
-    this.modal.open(dayAction.id);
+    const self = this;
+    this.modal.showComponent = ConfirmDialogComponent;
+    this.modal.open({
+      'message': 'Opravdu si přejete smazat vybranou lekci?',
+      'confirm': () => self._calendarService.delete(dayAction.id)
+    });
   }
 }
