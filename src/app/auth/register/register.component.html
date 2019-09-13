@@ -10,11 +10,26 @@
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text">@</span>
+                    <span class="input-group-text"><i class="material-icons">email</i></span>
                   </div>
                   <input type="text" class="form-control" name="email" id="email" formControlName="email" placeholder="E-mail"/>
                 </div>
                 <small *ngIf="email.touched && email.errors?.required" class="form-text text-muted">E-mail je vyžadován.</small>
+                <small *ngIf="email.touched && email.errors?.email" class="form-text text-muted">E-mail není ve validním tvaru.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="material-icons">account_box</i></span>
+                  </div>
+                  <input type="text" class="form-control" name="name" id="name" formControlName="name" placeholder="Jméno uživatele"/>
+                </div>
+                <small *ngIf="name.touched && name.errors?.required" class="form-text text-muted">Jméno uživatele je vyžadováno.</small>
               </div>
             </div>
           </div>
@@ -26,15 +41,42 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="material-icons">lock</i></span>
                   </div>
-                  <input type="password" class="form-control" name="password" id="password" formControlName="password" placeholder="Heslo"/>
+                  <input type="password" class="form-control" name="password" id="password" formControlName="password" placeholder="Heslo" minlength="7"/>
                 </div>
                 <small *ngIf="password.touched && password.errors?.required" class="form-text text-muted">Heslo je vyžadováno.</small>
+                <small *ngIf="password.touched && password.errors?.minlength" class="form-text text-muted">
+                  Minimální délka hesla je: {{password.errors?.minlength.requiredLength}}.
+                  Zbývá znaků: {{password.errors.minlength?.requiredLength - password.errors.minLength?.actualLength}}
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="material-icons">
+                        {{(password2.touched && registerForm.hasError('notSame')) ? 'lock_open' : 'lock'}}
+                      </i>
+                    </span>
+                  </div>
+                  <input type="password" class="form-control" name="password2" id="password2" formControlName="password2" placeholder="Heslo znovu" minlength="7"/>
+                </div>
+                <small *ngIf="password2.touched && password2.errors?.required" class="form-text text-muted">Heslo je vyžadováno.</small>
+                <small *ngIf="password2.touched && password2.errors?.minlength" class="form-text text-muted">
+                  Minimální délka hesla je: {{password2.errors?.minlength.requiredLength}}.
+                  Zbývá znaků: {{password2.errors.minlength?.requiredLength - password2.errors.minLength?.actualLength}}
+                </small>
+                <small *ngIf="password2.touched && registerForm.hasError('notSame')" class="form-text text-muted">Heslo se neshoduje s originálním.</small>
               </div>
             </div>
           </div>
 
           <div class="form-group">
-            <button class="btn btn-primary" style="width: 100%" [disabled]="registerForm.invalid">Zaregistrovat se</button>
+            <button class="btn btn-primary" style="width: 100%" [disabled]="registerForm.invalid" (click)="handleRegister()">Zaregistrovat se</button>
           </div>
         </form>
 

@@ -15,6 +15,7 @@
                   <input type="text" class="form-control" name="email" id="email" formControlName="email" placeholder="E-mail"/>
                 </div>
                 <small *ngIf="email.touched && email.errors?.required" class="form-text text-muted">E-mail je vyžadován.</small>
+                <small *ngIf="email.touched && email.errors?.email" class="form-text text-muted">E-mail není ve validním tvaru.</small>
               </div>
             </div>
           </div>
@@ -29,6 +30,10 @@
                   <input type="password" class="form-control" name="password" id="password" formControlName="password" placeholder="Heslo"/>
                 </div>
                 <small *ngIf="password.touched && password.errors?.required" class="form-text text-muted">Heslo je vyžadováno.</small>
+                <small *ngIf="password.touched && password.errors?.minlength" class="form-text text-muted">
+                  Minimální délka hesla je: {{password.errors?.minlength.requiredLength}}.
+                  Zbývá znaků: {{password.errors.minlength?.requiredLength - password.errors.minLength?.actualLength}}
+                </small>
               </div>
             </div>
           </div>
@@ -36,8 +41,8 @@
           <div class="row">
             <div class="col-12">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                <label class="form-check-label" for="defaultCheck1">
+                <input type="checkbox" class="form-check-input" name="remember" id="remember" formControlName="remember" >
+                <label class="form-check-label" for="remember">
                   Zapamatovat si mě
                 </label>
               </div>
@@ -45,7 +50,7 @@
           </div>
 
           <div class="form-group">
-            <button class="btn btn-primary" style="width: 100%" [disabled]="authForm.invalid">Přihlásit</button>
+            <button class="btn btn-primary" style="width: 100%" [disabled]="authForm.invalid" (click)="handleLogin()">Přihlásit</button>
           </div>
         </form>
         <div class="row">

@@ -14,7 +14,10 @@ interface LoginResponce {
 
 interface AuthModel {
   email: string;
+  name?: string;
   password: string;
+  password2?: string;
+  remember?: boolean;
 }
 
 @Injectable({
@@ -27,6 +30,8 @@ export class AuthService {
 
   private static readonly STORAGE_JWT = 'jwt';
 
+  public static readonly MIN_PASSWORD_LENGTH = 7;
+
   user: BehaviorSubject<User> = new BehaviorSubject(new User());
 
   constructor(private _http: HttpClient, private _storage: LocalStorageService, private _router: Router) {}
@@ -34,7 +39,10 @@ export class AuthService {
   private _auth(authModel: AuthModel, url: string): Promise<object> {
     const formData = new FormData();
     formData.append('email', authModel.email);
+    formData.append('name', authModel.name);
     formData.append('password', authModel.password);
+    formData.append('password2', authModel.password2);
+    formData.append('remember', `${authModel.remember}`);
 
     return this._http.post(url, formData).toPromise();
   }

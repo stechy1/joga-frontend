@@ -15,7 +15,8 @@ export class AuthComponent implements OnInit {
 
   authForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required])
+    password: new FormControl('', [Validators.required, Validators.minLength(AuthService.MIN_PASSWORD_LENGTH)]),
+    remember: new FormControl(false)
   });
 
   constructor(private _authService: AuthService, private _router: Router) { }
@@ -26,14 +27,14 @@ export class AuthComponent implements OnInit {
     });
   }
 
-  login() {
-      this._authService.login(this.authForm.value)
-          .then(value => {
-            this._router.navigate(['/account/my']);
-          })
-          .catch(reason => {
-            console.error(reason);
-          });
+  handleLogin() {
+    this._authService.login(this.authForm.value)
+        .then(value => {
+          this._router.navigate(['/account/my']);
+        })
+        .catch(reason => {
+          console.error(reason);
+        });
   }
 
   get email() {
@@ -43,5 +44,4 @@ export class AuthComponent implements OnInit {
   get password() {
     return this.authForm.get('password');
   }
-
 }
