@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { BehaviorSubject } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ShareValidators } from '../share/ShareValidators';
 
 @Component({
   templateUrl: './auth.component.html',
@@ -15,7 +16,7 @@ export class AuthComponent implements OnInit {
 
   authForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(AuthService.MIN_PASSWORD_LENGTH)]),
+    password: new FormControl('', ShareValidators.getPasswordValidators()),
     remember: new FormControl(false)
   });
 

@@ -1,4 +1,194 @@
-<h1>Osobní informace</h1>
 <div class="row">
+  <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3">
 
+    <section id="personalInformation">
+      <div class="row">
+        <div class="col">
+          <form [formGroup]="personalForm">
+            <h2>Osobní informace</h2>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="material-icons">account_box</i></span>
+                    </div>
+                    <input type="text" class="form-control" name="personalName" id="personalName" formControlName="personalName" placeholder="Jméno uživatele"/>
+                  </div>
+                  <small *ngIf="personalName.touched && personalName.errors?.required" class="form-text text-muted">Jméno uživatele je vyžadováno.</small>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="material-icons">lock</i></span>
+                    </div>
+                    <input type="password" class="form-control" name="personalPassword" id="personalPassword" formControlName="personalPassword" placeholder="Aktuální heslo"/>
+                  </div>
+                  <small *ngIf="personalPassword.touched && personalPassword.errors?.required" class="form-text text-muted">Heslo je vyžadováno.</small>
+                  <small *ngIf="personalPassword.touched && personalPassword.errors?.minlength" class="form-text text-muted">
+                    Minimální délka hesla je: {{personalPassword.errors?.minlength.requiredLength}}.
+                    Zbývá znaků: {{personalPassword.errors.minlength?.requiredLength - personalPassword.errors.minLength?.actualLength}}
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button class="btn btn-primary" style="width: 100%" [disabled]="personalForm.invalid" (click)="handleUpdatePersonalInformations()">Aktualizovat údaje</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="accountChecked">
+      <div class="row">
+        <div class="col">
+          <form [formGroup]="checkedForm">
+            <h2>Ověření účtu</h2>
+
+            <div class="row" *ngIf="notChecked.value">
+              <div class="col-12">
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="material-icons">code</i></span>
+                    </div>
+                    <input type="text" class="form-control" name="checkCode" id="checkCode" formControlName="checkCode" placeholder="Ověřovací kód"/>
+                  </div>
+                  <small *ngIf="checkCode.touched && checkCode.errors?.required" class="form-text text-muted">Je vyžadován ověřovací kód.</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" *ngIf="notChecked.value">
+              <button class="btn btn-primary" style="width: 100%" [disabled]="checkedForm.invalid" (click)="handleCheckCode()">Ověřit účet</button>
+            </div>
+
+            <p class="bg-success p-1" *ngIf="!notChecked.value">
+              <i class="material-icons">done</i>
+              Váš účet byl úspěšně ověřen.
+            </p>
+
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="passwordSettings">
+      <div class="row">
+        <div class="col">
+          <form [formGroup]="passwordForm">
+            <h2>Nastavení hesla</h2>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="material-icons">lock</i></span>
+                    </div>
+                    <input type="password" class="form-control" name="passwordOldPassword" id="passwordOldPassword" formControlName="passwordOldPassword" placeholder="Staré heslo"/>
+                  </div>
+                  <small *ngIf="passwordOldPassword.touched && passwordOldPassword.errors?.required" class="form-text text-muted">Heslo je vyžadováno.</small>
+                  <small *ngIf="passwordOldPassword.touched && passwordOldPassword.errors?.minlength" class="form-text text-muted">
+                    Minimální délka hesla je: {{passwordOldPassword.errors?.minlength.requiredLength}}.
+                    Zbývá znaků: {{passwordOldPassword.errors.minlength?.requiredLength - passwordOldPassword.errors.minLength?.actualLength}}
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="material-icons">lock</i></span>
+                    </div>
+                    <input type="password" class="form-control" name="passwordNewPassword" id="passwordNewPassword" formControlName="passwordNewPassword" placeholder="Nové heslo"/>
+                  </div>
+                  <small *ngIf="passwordNewPassword.touched && passwordNewPassword.errors?.required" class="form-text text-muted">Heslo je vyžadováno.</small>
+                  <small *ngIf="passwordNewPassword.touched && passwordNewPassword.errors?.minlength" class="form-text text-muted">
+                    Minimální délka hesla je: {{passwordNewPassword.errors?.minlength.requiredLength}}.
+                    Zbývá znaků: {{passwordNewPassword.errors.minlength?.requiredLength - passwordNewPassword.errors.minLength?.actualLength}}
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="material-icons">lock</i></span>
+                    </div>
+                    <input type="password" class="form-control" name="passwordNewPassword2" id="passwordNewPassword2" formControlName="passwordNewPassword2" placeholder="Nové heslo znovu"/>
+                  </div>
+                  <small *ngIf="passwordNewPassword2.touched && passwordNewPassword2.errors?.required" class="form-text text-muted">Heslo je vyžadováno.</small>
+                  <small *ngIf="passwordNewPassword2.touched && passwordNewPassword2.errors?.minlength" class="form-text text-muted">
+                    Minimální délka hesla je: {{passwordNewPassword2.errors?.minlength.requiredLength}}.
+                    Zbývá znaků: {{passwordNewPassword2.errors.minlength?.requiredLength - passwordNewPassword2.errors.minLength?.actualLength}}
+                  </small>
+                  <small *ngIf="passwordNewPassword2.touched && passwordForm.hasError('notSame')" class="form-text text-muted">Heslo se neshoduje s novým.</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button class="btn btn-primary" style="width: 100%" [disabled]="passwordForm.invalid" (click)="handleUpdatePassword()">Aktualizovat heslo</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="dangerZone">
+      <div class="row">
+        <div class="col">
+          <form [formGroup]="dangerForm">
+            <h2>Nebezpečná zóna</h2>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="material-icons">lock</i></span>
+                    </div>
+                    <input type="password" class="form-control" name="dangerPassword" id="dangerPassword" formControlName="dangerPassword" placeholder="Aktuální heslo"/>
+                  </div>
+                  <small *ngIf="dangerPassword.touched && dangerPassword.errors?.required" class="form-text text-muted">Heslo je vyžadováno.</small>
+                  <small *ngIf="dangerPassword.touched && dangerPassword.errors?.minlength" class="form-text text-muted">
+                    Minimální délka hesla je: {{dangerPassword.errors?.minlength.requiredLength}}.
+                    Zbývá znaků: {{dangerPassword.errors.minlength?.requiredLength - dangerPassword.errors.minLength?.actualLength}}
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button class="btn btn-danger" style="width: 100%" [disabled]="dangerForm.invalid" (click)="handleDisableAccount()">Zrušit účet</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+      <app-modal #modal></app-modal>
+
+    </section>
+
+  </div>
 </div>

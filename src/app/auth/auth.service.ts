@@ -6,6 +6,7 @@ import { BehaviorSubject} from 'rxjs';
 import { LocalStorageService } from 'angular-2-local-storage';
 
 import { User } from './user';
+import { BASE_ACCOUNT_API } from '../account/account.share';
 
 interface LoginResponce {
   result: string;
@@ -25,8 +26,11 @@ interface AuthModel {
 })
 export class AuthService {
 
-  private static readonly AUTH_URL_REGISTER = 'api/auth/register';
-  private static readonly AUTH_URL_LOGIN = 'api/auth/login';
+  private static readonly ACCESS_POINT = `api/auth`;
+
+  private static readonly AUTH_URL_REGISTER = `${AuthService.ACCESS_POINT}/register`;
+  private static readonly AUTH_URL_LOGIN = `${AuthService.ACCESS_POINT}/login`;
+  public  static readonly AUTH_URL_CHECK_CODE = `${AuthService.ACCESS_POINT}/check_code`;
 
   private static readonly STORAGE_JWT = 'jwt';
 
@@ -61,6 +65,11 @@ export class AuthService {
                });
   }
 
+  checkCode(checkCode: string): Promise<any> {
+    return this._http.get(`${AuthService.AUTH_URL_CHECK_CODE}/${checkCode}`)
+               .toPromise()
+  }
+
   autoLogin() {
     const jwtData = this._storage.get<string>(AuthService.STORAGE_JWT);
     if (jwtData) {
@@ -74,7 +83,7 @@ export class AuthService {
 
   public logout() {
     this._storage.remove(AuthService.STORAGE_JWT);
-    this.user.next(null);
+    this.user.next(new User());
     this._router.navigate(['/auth']);
   }
 }

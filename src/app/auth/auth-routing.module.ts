@@ -6,6 +6,7 @@ import { AuthComponent } from './auth.component';
 import { AuthGuard } from './auth.guard';
 import { RegisterComponent } from './register/register.component';
 import { RecoverComponent } from './recover/recover.component';
+import { CheckCodeComponent } from './check-code/check-code.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,14 @@ const routes: Routes = [
     path: 'recover',
     component: RecoverComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'check-code',
+    component: CheckCodeComponent
+  },
+  {
+    path: 'check-code/:code',
+    component: CheckCodeComponent
   }
 ];
 

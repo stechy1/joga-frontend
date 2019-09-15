@@ -8,6 +8,7 @@ import { AuthComponent } from './auth.component';
 import { UserRolePipe } from './user-role.pipe';
 import { RegisterComponent } from './register/register.component';
 import { RecoverComponent } from './recover/recover.component';
+import { CheckCodeComponent } from './check-code/check-code.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { RecoverComponent } from './recover/recover.component';
     UserRolePipe,
     RegisterComponent,
     RecoverComponent,
+    CheckCodeComponent,
   ],
   imports: [
     CommonModule,

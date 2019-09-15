@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { ShareValidators } from '../../share/ShareValidators';
 
 @Component({
   selector: 'app-register',
@@ -16,8 +17,8 @@ export class RegisterComponent implements OnInit {
   registerForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     name: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required, Validators.minLength(7)]),
-    password2: new FormControl('', [Validators.required, Validators.minLength(7)])
+    password: new FormControl('', ShareValidators.getPasswordValidators()),
+    password2: new FormControl('', ShareValidators.getPasswordValidators())
   }, RegisterComponent._passwordMatchesCheck);
 
   constructor(private _authService: AuthService, private _router: Router) { }
