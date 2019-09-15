@@ -55,7 +55,10 @@ export class PersonalComponent implements OnInit {
   handleUpdatePersonalInformations() {
     this._personalService.updatePersonalInformations(formToPersonalData(this.personalForm.value))
         .then(() => {
-          this.personalForm.reset();
+          this.personalForm.patchValue({
+            personalPassword: ''
+          });
+          this.personalForm.markAsUntouched();
         });
   }
 
@@ -66,6 +69,7 @@ export class PersonalComponent implements OnInit {
             notChecked: false,
             checkCode: ''
           });
+          this.checkedForm.markAsUntouched();
         });
   }
 
@@ -73,9 +77,9 @@ export class PersonalComponent implements OnInit {
     this._personalService.updatePassword(formToPasswordData(this.passwordForm.value))
         .then(() => {
           this.passwordForm.reset();
+          this.passwordForm.markAsUntouched();
         });
   }
-
 
   handleDisableAccount() {
     this.modal.showComponent = ConfirmDialogComponent;
