@@ -16,6 +16,8 @@ import {ShareModule} from './share/share.module';
 import { UserInterceptor } from './auth/user.interceptor';
 import { AccountGuard } from './account/account.guard';
 import { AdminGuard } from './admin/admin.guard';
+import { ResponseInterceptor } from './share/response.interceptor';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -29,12 +31,18 @@ import { AdminGuard } from './admin/admin.guard';
 
     // Third party modules
     LocalStorageModule.forRoot(),
+    ToastrModule.forRoot(),
 
     // Root routing module
     AppRoutingModule,
     ShareModule
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ResponseInterceptor,
+      multi: true
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

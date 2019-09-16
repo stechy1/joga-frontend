@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ShareValidators } from '../../share/ShareValidators';
 import { PersonalService } from './personal.service';
 import { formToPasswordData, formToPersonalData } from './formConvertors';
-import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { ModalComponent } from '../../share/modal/modal.component';
 import { ConfirmDialogComponent } from '../../share/modal/confirm/confirm-dialog.component';
