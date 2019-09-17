@@ -6,50 +6,18 @@
       </div>
     </div>
     <div class="row text-center">
-      <div class="col-4">
-        <div class="services align-center " style="text-align:center;">
-          <div class="services-inside">
-            <div class="thumbnail">
-              <a title="Cvičení s dětmi" class="" href="#">
-                <span class="" style="color:#b69e59;font-size:70px !important;"></span> </a>
-            </div>
-            <div class="sep-2"></div>
-            <app-heading [text]="'Haircut'" [type]="2"></app-heading>
-            <div class="services-content">
-              <p class="p1">Jednoduché cviky pro ty nejmenší</p>
-              <p class="p3"><a class="font-weight-bold" href="#">$25/lekce</a></p></div>
-          </div>
-        </div>
-      </div>
 
-      <div class="col-4">
+      <div class="col-4" *ngFor="let lectureType of lectureTypes">
         <div class="services align-center " style="text-align:center;">
           <div class="services-inside">
             <div class="thumbnail">
-              <a title="Cvičení s dospěláky" class="" href="#">
-                <span class="" style="color:#b69e59;font-size:70px !important;"></span> </a>
+              <a [title]="lectureType.name" [routerLink]="['/', 'lecture-type', lectureType.id]">
+                <span style="color:#b69e59;font-size:70px !important;"></span> </a>
             </div>
             <div class="sep-2"></div>
-            <app-heading [text]="'Haircut'" [type]="2"></app-heading>
             <div class="services-content">
-              <p class="p1">Základní cviky pro dospělé</p>
-              <p class="p3"><a class="font-weight-bold" href="#">$25/lekce</a></p></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-4">
-        <div class="services align-center " style="text-align:center;">
-          <div class="services-inside">
-            <div class="thumbnail">
-              <a title="Cvičení pro staré" class="" href="#">
-                <span class="" style="color:#b69e59;font-size:70px !important;"></span> </a>
-            </div>
-            <div class="sep-2"></div>
-            <app-heading [text]="'Haircut'" [type]="2"></app-heading>
-            <div class="services-content">
-              <p class="p1">Cviky pro starší lidi</p>
-              <p class="p3"><a class="font-weight-bold" href="#">$25/lekce</a></p></div>
+              <p class="p1">{{lectureType.name}}</p>
+              <p class="p3"><a class="font-weight-bold" href="#">{{lectureType.price}} Kč</a></p></div>
           </div>
         </div>
       </div>
@@ -57,5 +25,3 @@
     </div>
   </div>
 </section>
-
-
