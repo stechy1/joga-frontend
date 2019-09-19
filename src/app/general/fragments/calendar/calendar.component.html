@@ -3,7 +3,11 @@
     <div class="row">
       <div class="col-12 text-center">
         <app-heading [text]="'Kalendář akcí'" [type]="1"></app-heading>
-<!--        <app-calendar-widget></app-calendar-widget>-->
+        <app-calendar-widget
+          [dayActions]="dayActions"
+          (viewDate)="changeViewDate($event)"
+          enableAdmin="'false'"
+          enableUser="'false'"></app-calendar-widget>
       </div>
     </div>
   </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LectureType } from '../../general.share';
-import { ServicesService } from './services.service';
+import { GeneralService } from '../../general.service';
 
 @Component({
   selector: 'app-services',
@@ -11,7 +11,7 @@ export class ServicesComponent implements OnInit {
 
   lectureTypes: LectureType[] = [];
 
-  constructor(private _service: ServicesService) { }
+  constructor(private _service: GeneralService) { }
 
   ngOnInit() {
     this._service.lectureTypes()

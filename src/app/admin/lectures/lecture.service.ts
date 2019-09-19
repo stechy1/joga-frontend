@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BASE_ADMIN_API } from '../admin.share';
-import { Lecture } from './lecture';
+import { Lecture } from '../../share/lecture';
 import { Trainer } from './trainer';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChangeServiceEvent } from '../../share/change-service-event';

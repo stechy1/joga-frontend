@@ -1,4 +1,4 @@
-import { Lecture } from './lecture';
+import { Lecture } from '../../share/lecture';
 
 export interface LectureChangeEvent {
 
