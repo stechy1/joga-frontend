@@ -26,7 +26,7 @@ export class LectureUpdateComponent extends LectureDialogComponent {
   }
 
   protected handleConfirmLecture(): Promise<any> {
-    return this._lectureService.update(formValueToLecture(this.lectureForm.value))
+    return this._lectureService.update(formValueToLecture(this.lectureForm.value));
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ModalComponent } from '../modal.component';
 import { DialogChildComponent } from '../dialog-child.component';
@@ -18,7 +18,7 @@ export class InformDialogComponent extends DialogChildComponent {
   }
 
   private _prepareForm(args: any) {
-    this.message = args['message'];
+    this.message = args.message;
   }
 
   bind(modal: ModalComponent) {

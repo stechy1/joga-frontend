@@ -1,14 +1,14 @@
 export interface PersonalData {
-  id?: number,
-  email?: string,
-  password?: string,
-  role?: number,
-  name?: string,
-  firstLogin?: number,
-  lastLogin?: number,
-  banned?: number,
-  activated?: number,
-  checked?: number
+  id?: number;
+  email?: string;
+  password?: string;
+  role?: number;
+  name?: string;
+  firstLogin?: number;
+  lastLogin?: number;
+  banned?: number;
+  activated?: number;
+  checked?: number;
 }
 
 export interface PasswordData {

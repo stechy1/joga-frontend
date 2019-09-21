@@ -2,7 +2,7 @@ import { CRUDServiceType } from './crud-service-type';
 
 export interface ChangeServiceEvent<T> {
   record: T;
-  changeType: CRUDServiceType
+  changeType: CRUDServiceType;
 }
 
 //  private _changeServiceEventHandler(event: ChangeServiceEvent<LectureType>) {

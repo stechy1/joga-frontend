@@ -27,7 +27,7 @@ export class RegisterComponent implements OnInit {
     const pass = group.get('password').value;
     const checkPass = group.get('password2').value;
 
-    return pass !== checkPass ? {'notSame': true} : null;
+    return pass !== checkPass ? {notSame: true} : null;
   }
 
   ngOnInit() {
@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit {
 
   handleRegister() {
     this._authService.register(this.registerForm.value)
-        .then(value => {
+        .then(() => {
           this._router.navigate(['/auth']);
         })
         .catch(reason => {

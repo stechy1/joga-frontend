@@ -18,7 +18,7 @@ export class ToggleComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._subscription = this.checked.subscribe(value => {
       this.localValue = value;
-    })
+    });
   }
 
   ngOnDestroy(): void {

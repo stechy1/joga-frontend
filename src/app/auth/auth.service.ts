@@ -6,7 +6,6 @@ import { BehaviorSubject} from 'rxjs';
 import { LocalStorageService } from 'angular-2-local-storage';
 
 import { User } from './user';
-import { BASE_ACCOUNT_API } from '../account/account.share';
 
 interface LoginResponce {
   result: string;
@@ -33,8 +32,6 @@ export class AuthService {
   public  static readonly AUTH_URL_CHECK_CODE = `${AuthService.ACCESS_POINT}/check_code`;
 
   private static readonly STORAGE_JWT = 'jwt';
-
-  public static readonly MIN_PASSWORD_LENGTH = 7;
 
   user: BehaviorSubject<User> = new BehaviorSubject(new User());
 
@@ -67,7 +64,7 @@ export class AuthService {
 
   checkCode(checkCode: string): Promise<any> {
     return this._http.get(`${AuthService.AUTH_URL_CHECK_CODE}/${checkCode}`)
-               .toPromise()
+               .toPromise();
   }
 
   autoLogin() {

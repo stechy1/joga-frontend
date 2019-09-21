@@ -43,8 +43,8 @@ export class LectureTypesComponent implements OnInit {
     const self = this;
     this.modal.showComponent = ConfirmDialogComponent;
     this.modal.open({
-      'message': 'Opravdu si přejete smazat vybranou lekci?',
-      'confirm': () => self._service.delete(index)
+      message: 'Opravdu si přejete smazat vybranou lekci?',
+      confirm: () => self._service.delete(index)
     });
   }
 }

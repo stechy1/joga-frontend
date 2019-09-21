@@ -62,7 +62,7 @@ export class Months {
       Months.OCTOBER.name,
       Months.NOVEMBER.name,
       Months.DECEMBER.name,
-    ]
+    ];
   }
 
   public static getFullName(index: number): string {
@@ -161,11 +161,11 @@ export function getDaysInMonth(date: Date) {
 }
 
 export function getDaysInPrevMonth(date: Date) {
-  return Months.getPrevMonth(date).getDate()+1;
+  return Months.getPrevMonth(date).getDate() + 1;
 }
 
 export function getDaysInNextMonth(date: Date) {
-  return Months.getNextMonth(date).getDate()+1;
+  return Months.getNextMonth(date).getDate() + 1;
 }
 
 export function getFirstDayOffset(date: Date) {

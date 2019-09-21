@@ -5,7 +5,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-export abstract class LectureTypesDialogComponent extends DialogChildComponent implements OnInit{
+export abstract class LectureTypesDialogComponent extends DialogChildComponent implements OnInit {
 
   private _confirmSubscription: Subscription;
   private _cancelSubscription: Subscription;

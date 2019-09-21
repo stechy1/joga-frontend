@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DayAction } from '../../../share/calendar/day-action';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject} from 'rxjs';
 import { GeneralService } from '../../general.service';
 import { mapLectureToDayAction } from '../../../share/general-utils';
 

@@ -23,7 +23,7 @@ export class LectureNewComponent extends LectureDialogComponent {
   }
 
   protected handleConfirmLecture() {
-    return this._lectureService.insert(formValueToLecture(this.lectureForm.value))
+    return this._lectureService.insert(formValueToLecture(this.lectureForm.value));
   }
 
 }

@@ -62,7 +62,7 @@ export class PersonalComponent implements OnInit {
   }
 
   handleCheckCode() {
-    this._auth.checkCode(this.checkedForm.value['checkCode'])
+    this._auth.checkCode(this.checkedForm.value.checkCode)
         .then(() => {
           this.checkedForm.patchValue({
             notChecked: false,
@@ -85,7 +85,7 @@ export class PersonalComponent implements OnInit {
     this.modal.open({
       message: 'Opravdu si přejete zrušit účet?',
       confirm: () => this._personalService
-                         .disableAccount(this.dangerForm.value['dangerPassword'])
+                         .disableAccount(this.dangerForm.value.dangerPassword)
                          .then(() => this._auth.logout())
     });
   }

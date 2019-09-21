@@ -5,7 +5,7 @@ import { ModalComponent } from '../../../share/modal/modal.component';
 @Component({
   templateUrl: './lecture-types-dialog.component.html'
 })
-export class LectureTypesUpdateComponent extends LectureTypesDialogComponent{
+export class LectureTypesUpdateComponent extends LectureTypesDialogComponent {
 
   bind(modal: ModalComponent) {
     super.bind(modal);

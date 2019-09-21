@@ -1,7 +1,6 @@
-import { AbstractControl, AsyncValidatorFn, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { LectureService } from './lecture.service';
 import { Observable } from 'rxjs';
-import { timeToISOFormat } from '../../share/string-utils';
 
 export class LectureValidators {
 
@@ -11,7 +10,7 @@ export class LectureValidators {
     return ((control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
       return service.checkDateValidity(control.value)
                     .then(valid => {
-                      return !valid ? {'dateInvalid': true} : null;
+                      return !valid ? {dateInvalid: true} : null;
                     });
     });
   }
@@ -26,7 +25,7 @@ export class LectureValidators {
       const endTime = new Date(`${control.parent.get('lecture_day').value} ${control.parent.get('time_end').value}`);
       const delta = endTime.getTime() - startTime.getTime();
 
-      return delta < 0 ? {'startAfterEnd': true} : null;
+      return delta < 0 ? {startAfterEnd: true} : null;
     });
   }
 
@@ -40,7 +39,7 @@ export class LectureValidators {
       const endTime = new Date(`${control.parent.get('lecture_day').value} ${control.value}`);
       const delta = startTime.getTime() - endTime.getTime();
 
-      return delta > 0 ? {'endBeforeStart': true} : null;
+      return delta > 0 ? {endBeforeStart: true} : null;
     });
   }
 
@@ -52,7 +51,7 @@ export class LectureValidators {
         control.value,
         control.parent.get('lecture_id').value)
                     .then(valid => {
-                      return !valid ? {'timeConflict': true} : null;
+                      return !valid ? {timeConflict: true} : null;
                     });
     });
   }

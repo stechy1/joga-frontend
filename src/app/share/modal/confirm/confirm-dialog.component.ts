@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { DialogChildComponent } from '../dialog-child.component';
 import { ModalComponent } from '../modal.component';
 import { Subscription } from 'rxjs';
@@ -23,17 +23,17 @@ export class ConfirmDialogComponent extends DialogChildComponent {
   }
 
   private _prepareForm(args: any) {
-    this.message = args['message'];
-    this._handleConfirmDialog = args['confirm'] || (() => {});
-    this._handleCancelDialog = args['cancel'] || (() => {});
+    this.message = args.message;
+    this._handleConfirmDialog = args.confirm || (() => {});
+    this._handleCancelDialog = args.cancel || (() => {});
   }
 
   private _handleConfirm() {
-    this._handleConfirmDialog()
+    this._handleConfirmDialog();
   }
 
   private _handleNotConfirm() {
-    this._handleCancelDialog()
+    this._handleCancelDialog();
   }
 
   bind(modal: ModalComponent) {

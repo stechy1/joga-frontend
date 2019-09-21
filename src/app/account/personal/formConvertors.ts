@@ -15,5 +15,5 @@ export function formToPasswordData(formData: any): PasswordData {
     oldPassword: formData.passwordOldPassword,
     newPassword: formData.passwordNewPassword,
     newPassword2: formData.passwordNewPassword2
-  }
+  };
 }

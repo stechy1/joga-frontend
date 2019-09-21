@@ -1,5 +1,4 @@
-import { ComponentFactoryResolver, Directive, EventEmitter, Output, Type, ViewContainerRef } from '@angular/core';
-import { DialogChildComponent } from '../modal/dialog-child.component';
+import { ComponentFactoryResolver, Directive, EventEmitter, Output, ViewContainerRef } from '@angular/core';
 import { DayScheduleComponent } from './day-schedule/day-schedule.component';
 import { CalendarDay } from './day';
 import { Subscription } from 'rxjs';

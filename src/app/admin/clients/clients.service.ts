@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BASE_ADMIN_API } from '../admin.share';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Client } from './client';
 
 @Injectable({

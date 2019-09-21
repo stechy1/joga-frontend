@@ -27,7 +27,7 @@ export class LectureService {
 
   private _changeServiceEventHandler(event: ChangeServiceEvent<Lecture>) {
     if (event === null) {
-      return
+      return;
     }
 
     const lecture = event.record;
@@ -69,8 +69,6 @@ export class LectureService {
                .then(response => {
                  this.lectures$.next(response.lectures);
                });
-
-    // return this.lectures$;
   }
 
   allTrainers(): Promise<Trainer[]> {
@@ -160,7 +158,7 @@ export class LectureService {
   checkDateValidity(dateRaw: string): Promise<boolean> {
     return new Promise<boolean>(resolve => {
       resolve(true);
-    })
+    });
     // const date = new Date(dateRaw);
     // date.setHours(0, 0, 0, 0);
     // console.log(date);

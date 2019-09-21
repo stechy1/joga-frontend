@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CarouselService } from '../../carousel.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogChildComponent } from '../../../../share/modal/dialog-child.component';
@@ -73,8 +73,7 @@ export class UploadComponent extends DialogChildComponent implements OnInit {
 
     const reader = new FileReader();
     reader.onload = () => {
-      const dataURL = reader.result as string;
-      this.image.nativeElement.src = dataURL;
+      this.image.nativeElement.src = reader.result as string;
     };
     reader.onerror = (reason) => {
       console.log(reason);

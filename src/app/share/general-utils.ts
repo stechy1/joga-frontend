@@ -5,7 +5,7 @@ export function objectToFormData(object: any): FormData {
   const formData = new FormData();
 
   const keys = Object.keys(object);
-  for (const key in keys) {
+  for (const key of keys) {
     const value = object[keys[key]];
     if (value !== undefined) {
       formData.append(keys[key], `${value}`);
@@ -22,8 +22,8 @@ export function mapLectureToDayAction(lecture: Lecture): DayAction {
     id: lecture.lecture_id,
     dayIndex: timeStart.getDate(),
     name: lecture.lecture_name,
-    timeStart: timeStart,
-    timeEnd: timeEnd,
+    timeStart,
+    timeEnd,
     reserved: lecture.reserved_clients,
     capacity: lecture.max_persons
   } as DayAction;

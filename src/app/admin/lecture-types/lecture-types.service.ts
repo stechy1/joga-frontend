@@ -21,7 +21,7 @@ export class LectureTypesService {
 
   private _changeServiceEventHandler(event: ChangeServiceEvent<LectureType>) {
     if (event === null) {
-      return
+      return;
     }
     const lectureType = event.record;
     const lectureTypes = this.lectureTypes$.getValue();
@@ -88,7 +88,7 @@ export class LectureTypesService {
                    record: result.lectureType,
                    changeType: CRUDServiceType.INSERT
                  });
-                 return result.lectureType
+                 return result.lectureType;
                });
   }
 
@@ -106,7 +106,7 @@ export class LectureTypesService {
                    record: result.lectureType,
                    changeType: CRUDServiceType.UPDATE
                  });
-                 return result.lectureType
+                 return result.lectureType;
                });
   }
 

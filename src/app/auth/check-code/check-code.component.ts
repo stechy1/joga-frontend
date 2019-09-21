@@ -16,11 +16,11 @@ export class CheckCodeComponent implements OnInit {
   constructor(private _auth: AuthService, private _route: ActivatedRoute, private _router: Router) { }
 
   ngOnInit() {
-    const code = this._route.snapshot.params['code'];
+    const code = this._route.snapshot.params.code;
     if (code !== undefined) {
       this._auth.checkCode(code)
           .then(() => {
-            this._router.navigate(["/auth"]);
+            this._router.navigate(['/auth']);
           });
     }
   }

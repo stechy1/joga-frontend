@@ -37,16 +37,16 @@ export class ResponseInterceptor implements HttpInterceptor {
                .pipe(
                  tap(response => {
                    if (response instanceof HttpResponse) {
-                     if (response.body['response_message']) {
-                       this._handleResponseMessage(response.body['response_message']);
+                     if (response.body.response_message) {
+                       this._handleResponseMessage(response.body.response_message);
                      }
                    }
                  }),
                  catchError((response: any) => {
                    if (response instanceof HttpErrorResponse) {
                      const errorResponse = response as HttpErrorResponse;
-                     if (errorResponse.error['response_message']) {
-                       this._handleResponseMessage(errorResponse.error['response_message']);
+                     if (errorResponse.error.response_message) {
+                       this._handleResponseMessage(errorResponse.error.response_message);
                      }
                    }
 

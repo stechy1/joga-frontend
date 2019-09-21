@@ -23,8 +23,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.showSidebar = false;
-   this._userSubscription = this._auth.user.subscribe(user => {
-     this.isAuthenticated = user.role !== UserRole.NONE;
+    this._userSubscription = this._auth.user.subscribe(user => {
+      this.isAuthenticated = user.role !== UserRole.NONE;
     });
     this._route.events.subscribe(event => {
       if (!(event instanceof NavigationEnd)) {

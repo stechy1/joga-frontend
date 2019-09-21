@@ -4,11 +4,8 @@ import { DayAction } from '../../share/calendar/day-action';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ModalComponent } from '../../share/modal/modal.component';
 import { LectureNewComponent } from './dialog/lecture-new.component';
-import { LectureChangeEvent, LectureChangeType } from './lecture-change-event';
-import { Lecture } from '../../share/lecture';
 import { LectureUpdateComponent } from './dialog/lecture-update.component';
 import { ConfirmDialogComponent } from '../../share/modal/confirm/confirm-dialog.component';
-import { map, tap } from 'rxjs/operators';
 import { mapLectureToDayAction } from '../../share/general-utils';
 
 @Component({
@@ -39,7 +36,7 @@ export class LectureComponent implements OnInit, OnDestroy {
   }
 
   changeViewDate(date: Date) {
-    this._lectureService.all(date)
+    this._lectureService.all(date);
   }
 
   handleNewLecture(date: Date) {
@@ -56,8 +53,8 @@ export class LectureComponent implements OnInit, OnDestroy {
     const self = this;
     this.modal.showComponent = ConfirmDialogComponent;
     this.modal.open({
-      'message': 'Opravdu si přejete smazat vybranou lekci?',
-      'confirm': () => self._lectureService.delete(dayAction.id)
+      message: 'Opravdu si přejete smazat vybranou lekci?',
+      confirm: () => self._lectureService.delete(dayAction.id)
     });
   }
 }

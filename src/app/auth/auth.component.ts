@@ -30,7 +30,7 @@ export class AuthComponent implements OnInit {
 
   handleLogin() {
     this._authService.login(this.authForm.value)
-        .then(value => {
+        .then(() => {
           this._router.navigate(['/account/my']);
         })
         .catch(reason => {

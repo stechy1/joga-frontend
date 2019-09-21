@@ -9,7 +9,7 @@ export class ShareValidators {
       const value1 = formGroup.get(controlName1).value;
       const value2 = formGroup.get(controlName2).value;
 
-      return value1 !== value2 ? {'notSame': true} : null;
+      return value1 !== value2 ? {notSame: true} : null;
     });
   }
 

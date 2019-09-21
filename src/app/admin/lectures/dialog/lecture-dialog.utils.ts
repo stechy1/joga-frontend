@@ -3,13 +3,13 @@ import { dateToISOFormat, timeToISOFormat } from '../../../share/string-utils';
 
 export interface LectureDialogModel {
   lecture_id?: number;
-  trainer: number
-  lecture_day: string
-  time_start: string
-  time_end: string
-  max_persons: number
-  place: string
-  type: number
+  trainer: number;
+  lecture_day: string;
+  time_start: string;
+  time_end: string;
+  max_persons: number;
+  place: string;
+  type: number;
 }
 
 export function formValueToLecture(value: LectureDialogModel): Lecture {
@@ -24,7 +24,7 @@ export function formValueToLecture(value: LectureDialogModel): Lecture {
     max_persons: value.max_persons,
     place: value.place,
     type: value.type
-  }
+  };
 }
 
 export function lectureToFormValue(lecture: Lecture): LectureDialogModel {
