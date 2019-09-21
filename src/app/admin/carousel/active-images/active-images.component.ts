@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { CarouselService } from '../carousel.service';
 import { CarouselImage } from '../carousel-image';
 
@@ -7,49 +7,40 @@ import { CarouselImage } from '../carousel-image';
   templateUrl: './active-images.component.html',
   styleUrls: ['./active-images.component.css']
 })
-export class ActiveImagesComponent implements OnInit {
+export class ActiveImagesComponent {
 
-  images: CarouselImage[] = [];
+  @Input() images: CarouselImage[] = [];
 
   constructor(private _carouselService: CarouselService) { }
 
   private _getImageByViewOrder(viewOrder: number): CarouselImage {
-    return this.images[this.images.findIndex(image => image.getView_order() === viewOrder)];
-  }
-
-  ngOnInit() {
-    this.images = this._carouselService.images;
-    console.log(this.images);
+    return this.images[this.images.findIndex(image => image.view_order === viewOrder)];
   }
 
   handleMoveLeft(image: CarouselImage) {
-    if (image.getView_order() === 0) {
+    if (image.view_order === 0) {
       return;
     }
 
-    const leftImage = this._getImageByViewOrder(image.getView_order() - 1);
-    console.log('This image: ');
-    console.log(image.toCarouselImage());
-    console.log('Left image: ');
-    console.log(leftImage.toCarouselImage());
+    const leftImage = this._getImageByViewOrder(image.view_order - 1);
+    leftImage.view_order++;
+    image.view_order--;
 
-    leftImage.increaseViewOrder();
-    image.decreaseViewOrder();
-    this._carouselService.update(image.toCarouselImage()).catch(reason => console.log(reason));
-    this._carouselService.update(leftImage.toCarouselImage()).catch(reason => console.log(reason));
-    console.log(this.images);
+    this._carouselService.update(image).catch(reason => console.log(reason));
+    this._carouselService.update(leftImage).catch(reason => console.log(reason));
   }
 
   handleMoveRight(image: CarouselImage) {
-    if (image.getView_order() === this.images.length - 1) {
+    if (image.view_order === this.images.length - 1) {
       return;
     }
 
-    const rightImage = this._getImageByViewOrder(image.getView_order() + 1);
-    rightImage.decreaseViewOrder();
-    image.increaseViewOrder();
-    this._carouselService.update(image.toCarouselImage()).catch(reason => console.log(reason));
-    this._carouselService.update(rightImage.toCarouselImage()).catch(reason => console.log(reason));
-    console.log(this.images);
+    const rightImage = this._getImageByViewOrder(image.view_order + 1);
+    rightImage.view_order--;
+    image.view_order++;
+
+    this._carouselService.update(image).catch(reason => console.log(reason));
+    this._carouselService.update(rightImage).catch(reason => console.log(reason));
   }
+
 }

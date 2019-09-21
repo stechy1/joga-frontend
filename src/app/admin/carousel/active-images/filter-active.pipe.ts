@@ -8,10 +8,10 @@ import { CarouselImage } from '../carousel-image';
 export class FilterActivePipe implements PipeTransform {
 
   transform(value: CarouselImage[]): CarouselImage[] {
-    return value.filter(image => image.isEnabled())
+    return value.filter(image => image.enabled)
                 .sort((a, b) => {
-                  const leftOrder = a.getView_order();
-                  const rightOrder = b.getView_order();
+                  const leftOrder = a.view_order;
+                  const rightOrder = b.view_order;
 
                   return -(rightOrder - leftOrder);
     });

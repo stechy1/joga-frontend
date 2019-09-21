@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12">
-    <form [formGroup]="uploadForm" enctype="multipart/form-data">
+    <form [formGroup]="carouselForm" enctype="multipart/form-data">
       <div class="form-group">
         <label for="name">Název</label>
         <input type="text" class="form-control" id="name"
@@ -13,11 +13,11 @@
       </div>
       <div class="form-group">
         <label for="imageInput">Obrázek</label>
-        <div class="input-group">
+        <div class="input-group" *ngIf="isNew">
           <div class="custom-file">
             <input type="file" class="custom-file-input" id="imageInput"
-                   aria-describedby="imageUpload" formControlName="imageInput" required="" (change)="onFilesAdded($event)">
-            <label class="custom-file-label" for="imageInput">Vyberte soubor...</label>
+                   aria-describedby="imageUpload" required="" (change)="onFilesAdded($event)" #inputElement>
+            <label class="custom-file-label" for="imageInput">{{inputElement.value || 'Vyberte soubor...'}}</label>
           </div>
         </div>
         <div>

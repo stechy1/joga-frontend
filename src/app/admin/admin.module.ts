@@ -13,8 +13,6 @@ import { CarouselComponent } from './carousel/carousel.component';
 import { ClientsComponent } from './clients/clients.component';
 import { LectureNewComponent } from './lectures/dialog/lecture-new.component';
 import { AuthModule } from '../auth/auth.module';
-import { UploadComponent } from './carousel/dialog/upload/upload.component';
-import { UpdateComponent } from './carousel/dialog/update/update.component';
 import { ActiveImagesComponent } from './carousel/active-images/active-images.component';
 import { FilterActivePipe } from './carousel/active-images/filter-active.pipe';
 import { MyComponent } from './my/my.component';
@@ -22,6 +20,8 @@ import { LectureUpdateComponent } from './lectures/dialog/lecture-update.compone
 import { LectureTypesComponent } from './lecture-types/lecture-types.component';
 import { LectureTypesNewComponent } from './lecture-types/dialog/lecture-types-new.component';
 import { LectureTypesUpdateComponent } from './lecture-types/dialog/lecture-types-update.component';
+import { CarouselNewComponent } from './carousel/dialog/carousel-new.component';
+import { CarouselUpdateComponent } from './carousel/dialog/carousel-update.component';
 
 @NgModule({
   declarations: [
@@ -33,14 +33,14 @@ import { LectureTypesUpdateComponent } from './lecture-types/dialog/lecture-type
     ClientsComponent,
     LectureNewComponent,
     LectureUpdateComponent,
-    UploadComponent,
-    UpdateComponent,
     ActiveImagesComponent,
     FilterActivePipe,
     MyComponent,
     LectureTypesComponent,
     LectureTypesNewComponent,
-    LectureTypesUpdateComponent
+    LectureTypesUpdateComponent,
+    CarouselNewComponent,
+    CarouselUpdateComponent
   ],
   imports: [
     CommonModule,
@@ -52,12 +52,12 @@ import { LectureTypesUpdateComponent } from './lecture-types/dialog/lecture-type
   ],
   exports: [],
   entryComponents: [
-    UploadComponent,
-    UpdateComponent,
+    CarouselNewComponent,
+    CarouselUpdateComponent,
     LectureNewComponent,
     LectureUpdateComponent,
     LectureTypesNewComponent,
-    LectureTypesUpdateComponent
+    LectureTypesUpdateComponent,
   ]
 })
 export class AdminModule {
