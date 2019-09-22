@@ -8,7 +8,8 @@ import { User, UserRole } from './user';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {
+  }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     return this.authService.user.pipe(
@@ -17,15 +18,16 @@ export class AuthInterceptor implements HttpInterceptor {
         switch (user.role) {
           case UserRole.NONE:
             return next.handle(req);
-            case UserRole.CLIENT:
-            case UserRole.ADMIN: {
-              const modifiedReq = req.clone({
-                setHeaders: {
-                  Authorization: user.token
-                }
-              });
-              return next.handle(modifiedReq);
-            }
+          case UserRole.CLIENT:
+          case UserRole.LECTOR:
+          case UserRole.ADMIN: {
+            const modifiedReq = req.clone({
+              setHeaders: {
+                Authorization: user.token
+              }
+            });
+            return next.handle(modifiedReq);
+          }
         }
       })
     );

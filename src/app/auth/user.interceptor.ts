@@ -41,6 +41,7 @@ export class UserInterceptor implements HttpInterceptor {
             this._router.navigate(['/auth']);
             return EMPTY;
           case UserRole.CLIENT:
+          case UserRole.LECTOR:
           case UserRole.ADMIN: {
             return next.handle(req);
           }

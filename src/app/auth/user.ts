@@ -38,5 +38,5 @@ export class User {
 }
 
 export enum UserRole {
-  NONE, CLIENT, ADMIN
+  NONE, CLIENT, LECTOR, ADMIN
 }
