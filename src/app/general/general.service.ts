@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BASE_GENERAL_API, LectureType } from './general.share';
 import { HttpClient } from '@angular/common/http';
 import { Lecture } from '../share/lecture';
+import { CarouselImage } from '../admin/carousel/carousel-image';
 
 @Injectable({
   providedIn: 'root'
@@ -31,11 +32,11 @@ export class GeneralService {
                });
   }
 
-  carousel(): Promise<any[]> {
-    return this._http.get<{carousel: any[]}>(GeneralService.GET_CAROUSEL)
+  carousel(): Promise<CarouselImage[]> {
+    return this._http.get<{carousel: CarouselImage[]}>(GeneralService.GET_CAROUSEL)
                .toPromise()
                .then(response => {
-                 return response.carousel;
+                 return response.carousel.sort((a, b) => a.view_order - b.view_order);
                });
   }
 }

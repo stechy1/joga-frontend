@@ -11,12 +11,7 @@ export class IntroComponent implements OnInit {
 
   private static readonly URL_PATH = '/public/uploads/image';
 
-  private _images = [
-    // 'https://lorempixel.com/800/400/food/1',
-    // 'https://lorempixel.com/800/400/food/2',
-    // 'https://lorempixel.com/800/400/food/3',
-    // 'https://lorempixel.com/800/400/food/4'
-  ];
+  private _images = [];
 
 
   constructor(private _service: GeneralService) { }
