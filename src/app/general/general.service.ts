@@ -11,6 +11,7 @@ export class GeneralService {
 
   private static readonly GET_SERVICES = `${BASE_GENERAL_API}/services`;
   private static readonly GET_LECTURES = `${BASE_GENERAL_API}/lectures`;
+  private static readonly GET_LECTURE_TYPE  = `${BASE_GENERAL_API}/lecture_type`;
   private static readonly GET_CAROUSEL = `${BASE_GENERAL_API}/carousel`;
 
   constructor(private _http: HttpClient) { }
@@ -37,6 +38,14 @@ export class GeneralService {
                .toPromise()
                .then(response => {
                  return response.carousel.sort((a, b) => a.view_order - b.view_order);
+               });
+  }
+
+  lectureTypeById(lectureId: number) {
+    return this._http.get<{lecture_type: LectureType}>(`${GeneralService.GET_LECTURE_TYPE}/${lectureId}`)
+               .toPromise()
+               .then(response => {
+                 return response.lecture_type;
                });
   }
 }

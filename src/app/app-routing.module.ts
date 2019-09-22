@@ -6,7 +6,7 @@ import { AccountGuard } from './account/account.guard';
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
+    pathMatch: 'prefix',
     loadChildren: () => import('./general/general.module').then(mod => mod.GeneralModule)
   },
   {

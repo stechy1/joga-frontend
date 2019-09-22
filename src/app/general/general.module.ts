@@ -11,6 +11,7 @@ import { CalendarComponent } from './fragments/calendar/calendar.component';
 import { ContactComponent } from './fragments/contact/contact.component';
 import { ShareModule } from '../share/share.module';
 import { ServicesComponent } from './fragments/services/services.component';
+import { LectureTypeComponent } from './lecture-type/lecture-type.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ServicesComponent } from './fragments/services/services.component';
     InformationComponent,
     CalendarComponent,
     ContactComponent,
-    ServicesComponent
+    ServicesComponent,
+    LectureTypeComponent
   ],
   imports: [
     GeneralRoutingModule,
