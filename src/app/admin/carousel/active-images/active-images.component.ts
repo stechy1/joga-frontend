@@ -31,7 +31,7 @@ export class ActiveImagesComponent {
   }
 
   handleMoveRight(image: CarouselImage) {
-    if (image.view_order === this.images.length - 1) {
+    if (image.view_order === this.images.length) {
       return;
     }
 
