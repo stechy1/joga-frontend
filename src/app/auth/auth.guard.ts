@@ -18,6 +18,7 @@ export class AuthGuard implements CanActivate {
       take(1),
       map(user => {
         const notAuth = user.role === UserRole.NONE;
+        console.log("Auth guard - canActivate: " + notAuth);
         if (notAuth) {
           return true;
         }

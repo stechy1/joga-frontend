@@ -16,7 +16,9 @@ export class AccountGuard implements CanActivate, CanLoad {
       take(1),
       map(user => {
         const userRole = user.role;
+        console.log("Account guard - canActivate: " + UserRole[userRole]);
         switch (userRole) {
+          case UserRole.LECTOR:
           case UserRole.ADMIN:
             return this._router.createUrlTree(['/admin']);
           case UserRole.CLIENT:
@@ -32,7 +34,8 @@ export class AccountGuard implements CanActivate, CanLoad {
     return this._authService.user.pipe(
       take(1),
       map(user => {
-        const canLoad = user.role === UserRole.CLIENT || user.role === UserRole.ADMIN;
+        const canLoad = user.role >= UserRole.CLIENT;
+        console.log("Account guard - canLoad: " + canLoad);
 
         if (!canLoad) {
           this._router.navigate(['/auth']);

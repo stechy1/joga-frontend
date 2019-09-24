@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { AuthService } from '../auth/auth.service';
-import { UserRole } from '../auth/user';
+import { User, UserRole } from '../auth/user';
 
 @Injectable({providedIn: 'root'})
 export class AdminGuard implements CanActivate, CanLoad {
@@ -15,8 +15,9 @@ export class AdminGuard implements CanActivate, CanLoad {
     | boolean | UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree> {
     return this._authService.user.pipe(
       take(1),
-      map(user => {
-        const isAuth = user.role === UserRole.ADMIN;
+      map((user: User) => {
+        const isAuth = user.role >= UserRole.LECTOR;
+        console.log("Admin guard - canActivate: " + isAuth);
         if (isAuth) {
           return true;
         }
@@ -29,8 +30,8 @@ export class AdminGuard implements CanActivate, CanLoad {
     return this._authService.user.pipe(
       take(1),
       map(user => {
-        const canLoad = user.role === UserRole.ADMIN;
-
+        const canLoad = user.role >= UserRole.LECTOR;
+        console.log("Admin guard - canLoad: " + canLoad);
         if (!canLoad) {
           this._router.navigate(['/auth']);
           return false;
