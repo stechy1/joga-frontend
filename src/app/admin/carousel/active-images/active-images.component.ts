@@ -1,6 +1,7 @@
 import { Component, Input} from '@angular/core';
 import { CarouselService } from '../carousel.service';
 import { CarouselImage } from '../carousel-image';
+import { NGXLogger } from 'ngx-logger';
 
 @Component({
   selector: 'app-active-images',
@@ -11,7 +12,8 @@ export class ActiveImagesComponent {
 
   @Input() images: CarouselImage[] = [];
 
-  constructor(private _carouselService: CarouselService) { }
+  constructor(private _carouselService: CarouselService,
+              private logger: NGXLogger) { }
 
   private _getImageByViewOrder(viewOrder: number): CarouselImage {
     return this.images[this.images.findIndex(image => image.view_order === viewOrder)];
@@ -26,8 +28,8 @@ export class ActiveImagesComponent {
     leftImage.view_order++;
     image.view_order--;
 
-    this._carouselService.update(image).catch(reason => console.log(reason));
-    this._carouselService.update(leftImage).catch(reason => console.log(reason));
+    this._carouselService.update(image).catch(reason => this.logger.error(reason));
+    this._carouselService.update(leftImage).catch(reason => this.logger.error(reason));
   }
 
   handleMoveRight(image: CarouselImage) {
@@ -39,8 +41,8 @@ export class ActiveImagesComponent {
     rightImage.view_order--;
     image.view_order++;
 
-    this._carouselService.update(image).catch(reason => console.log(reason));
-    this._carouselService.update(rightImage).catch(reason => console.log(reason));
+    this._carouselService.update(image).catch(reason => this.logger.error(reason));
+    this._carouselService.update(rightImage).catch(reason => this.logger.error(reason));
   }
 
 }

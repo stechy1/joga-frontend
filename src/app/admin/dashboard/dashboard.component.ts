@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CarouselImageRecord } from '../../share/carousel/carousel-image-record';
+import { NGXLogger } from 'ngx-logger';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -20,7 +21,8 @@ export class DashboardComponent implements OnInit {
     // 'https://lorempixel.com/800/400/food/4'
   ];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private logger: NGXLogger) { }
 
   ngOnInit() {
 
@@ -29,8 +31,8 @@ export class DashboardComponent implements OnInit {
   handleClick() {
     this.http.get('/api/admin/dashboard/users')
     .toPromise()
-    .then(value => {
-      console.log(value);
+    .catch(reason => {
+      this.logger.error(reason);
     });
   }
 

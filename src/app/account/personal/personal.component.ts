@@ -47,7 +47,6 @@ export class PersonalComponent implements OnInit {
           this.checkedForm.patchValue({
             notChecked: personalData.checked == 0
           });
-          console.log(personalData.checked == 0);
         });
   }
 

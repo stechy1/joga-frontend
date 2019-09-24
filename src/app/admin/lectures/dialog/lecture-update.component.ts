@@ -2,11 +2,19 @@ import { LectureDialogComponent } from './lecture-dialog.component';
 import { Component } from '@angular/core';
 import { formValueToLecture, lectureToFormValue } from './lecture-dialog.utils';
 import { ModalComponent } from '../../../share/modal/modal.component';
+import { LectureService } from '../lecture.service';
+import { LectureTypesService } from '../../lecture-types/lecture-types.service';
+import { NGXLogger } from 'ngx-logger';
 
 @Component({
   templateUrl: './lecture-dialog.component.html'
 })
 export class LectureUpdateComponent extends LectureDialogComponent {
+
+
+  constructor(lectureService: LectureService, lectureTypesService: LectureTypesService, logger: NGXLogger) {
+    super(lectureService, lectureTypesService, logger);
+  }
 
   bind(modal: ModalComponent) {
     super.bind(modal);
@@ -21,7 +29,7 @@ export class LectureUpdateComponent extends LectureDialogComponent {
           this.lectureForm.patchValue(lectureToFormValue(lecture));
         })
         .catch(reason => {
-          console.log(reason);
+          this.logger.error(reason);
         });
   }
 

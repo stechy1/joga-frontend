@@ -31,32 +31,16 @@ export class CarouselComponent implements OnInit {
 
   handleChangeEnabled(enabled: boolean, imageId: number) {
     this._carouselService.enable(imageId, enabled);
-    // const image = this._images[index].toCarouselImage();
-    // image.enabled = enabled ? 1 : 0;
-    // if (image.enabled) {
-    //   image.view_order = this._carouselService.lastImageFreeIndex;
-    // } else {
-    //   image.view_order = -1;
-    // }
-    // this._carouselService.update(image).catch(reason => console.log(reason));
   }
 
   handleUpdateImage(imageId: number) {
     this.modal.showComponent = CarouselUpdateComponent;
     this.modal.open(imageId);
-    // this.modal.showComponent = UpdateComponent;
-    // this.modal.open(this._images[index].toCarouselImage());
   }
 
   handleDeleteImage(imageId: number) {
     this._carouselService.delete(imageId)
         .then(() => {});
-    // const image = this._images[index];
-    // if (image.isEnabled()) {
-    //   return;
-    // }
-
-    // this._carouselService.delete(image.toCarouselImage()).catch(reason => console.log(reason));
   }
 
   get isProd(): boolean {

@@ -161,7 +161,6 @@ export class LectureService {
     });
     // const date = new Date(dateRaw);
     // date.setHours(0, 0, 0, 0);
-    // console.log(date);
     // const dateTime = `${date.getTime()}`.substr(0, 10);
     // return this._http.get<{valid: boolean}>(`${LectureService.GET_DATE_TIME_VALIDITY}/${dateTime}`)
     //            .toPromise()

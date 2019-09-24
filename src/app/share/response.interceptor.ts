@@ -2,6 +2,7 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { NGXLogger } from 'ngx-logger';
 
 interface ResponseMessage {
   message: string;
@@ -10,7 +11,8 @@ interface ResponseMessage {
 
 export class ResponseInterceptor implements HttpInterceptor {
 
-  constructor(private _toaster: ToastrService) {}
+  constructor(private _toaster: ToastrService,
+              private logger: NGXLogger) {}
 
   private _handleResponseMessage(message: ResponseMessage) {
     switch (message.type) {
@@ -46,6 +48,7 @@ export class ResponseInterceptor implements HttpInterceptor {
                    if (response instanceof HttpErrorResponse) {
                      const errorResponse = response as HttpErrorResponse;
                      if (errorResponse.error.response_message) {
+                       this.logger.error(response);
                        this._handleResponseMessage(errorResponse.error.response_message);
                      }
                    }

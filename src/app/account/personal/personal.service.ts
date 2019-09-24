@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { PasswordData, PersonalData } from './personalData';
 import { AuthService } from '../../auth/auth.service';
 import { objectToFormData } from '../../share/general-utils';
+import { NGXLogger } from 'ngx-logger';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,6 @@ export class PersonalService {
     return this._http.get<{personalData: PersonalData}>(url)
                .toPromise()
                .then(result => {
-                 console.log(result.personalData);
                  return result.personalData;
                });
   }

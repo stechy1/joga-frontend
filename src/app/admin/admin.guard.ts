@@ -5,11 +5,13 @@ import { map, take } from 'rxjs/operators';
 
 import { AuthService } from '../auth/auth.service';
 import { User, UserRole } from '../auth/user';
+import { NGXLogger } from 'ngx-logger';
 
 @Injectable({providedIn: 'root'})
 export class AdminGuard implements CanActivate, CanLoad {
 
-  constructor(private readonly _authService: AuthService, private readonly _router: Router) {}
+  constructor(private readonly _authService: AuthService, private readonly _router: Router,
+              private logger: NGXLogger) {}
 
   canActivate(route: ActivatedRouteSnapshot, router: RouterStateSnapshot):
     | boolean | UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree> {
@@ -17,7 +19,7 @@ export class AdminGuard implements CanActivate, CanLoad {
       take(1),
       map((user: User) => {
         const isAuth = user.role >= UserRole.LECTOR;
-        console.log("Admin guard - canActivate: " + isAuth);
+        this.logger.debug("Admin guard - canActivate: " + isAuth);
         if (isAuth) {
           return true;
         }
@@ -31,7 +33,7 @@ export class AdminGuard implements CanActivate, CanLoad {
       take(1),
       map(user => {
         const canLoad = user.role >= UserRole.LECTOR;
-        console.log("Admin guard - canLoad: " + canLoad);
+        this.logger.debug("Admin guard - canLoad: " + canLoad);
         if (!canLoad) {
           this._router.navigate(['/auth']);
           return false;

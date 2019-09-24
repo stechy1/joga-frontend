@@ -4,6 +4,7 @@ import { LectureTypesService } from '../lecture-types.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NGXLogger } from 'ngx-logger';
 
 export abstract class LectureTypesDialogComponent extends DialogChildComponent implements OnInit {
 
@@ -20,14 +21,15 @@ export abstract class LectureTypesDialogComponent extends DialogChildComponent i
     price: new FormControl('', [Validators.required])
   });
 
-  constructor(protected _lectureTypesService: LectureTypesService) {
+  constructor(protected _lectureTypesService: LectureTypesService,
+              protected logger: NGXLogger) {
     super();
   }
 
   private _handleConfirmLectureType() {
     this.handleConfirmLectureType()
         .then(() => this._modal.close())
-        .catch(reason => console.log(reason));
+        .catch(reason => this.logger.error(reason));
 
   }
 

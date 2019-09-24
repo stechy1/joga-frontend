@@ -6,11 +6,13 @@ import { map, take } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 import { UserRole } from './user';
+import { NGXLogger } from 'ngx-logger';
 
 @Injectable({providedIn: 'root'})
 export class AuthGuard implements CanActivate {
 
-  constructor(private readonly _authService: AuthService, private readonly _router: Router) {}
+  constructor(private readonly _authService: AuthService, private readonly _router: Router,
+              private logger: NGXLogger) {}
 
   canActivate(route: ActivatedRouteSnapshot, router: RouterStateSnapshot):
     | boolean | UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree> {
@@ -18,7 +20,7 @@ export class AuthGuard implements CanActivate {
       take(1),
       map(user => {
         const notAuth = user.role === UserRole.NONE;
-        console.log("Auth guard - canActivate: " + notAuth);
+        this.logger.debug("Auth guard - canActivate: " + notAuth);
         if (notAuth) {
           return true;
         }

@@ -4,6 +4,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CarouselService } from '../carousel.service';
+import { NGXLogger } from 'ngx-logger';
 
 export abstract class CarouselDialogComponent extends DialogChildComponent implements OnInit {
 
@@ -22,14 +23,15 @@ export abstract class CarouselDialogComponent extends DialogChildComponent imple
     blob: new FormControl(null, Validators.required)
   });
 
-  constructor(protected _service: CarouselService) {
+  constructor(protected _service: CarouselService,
+              private logger: NGXLogger) {
     super();
   }
 
   private _handleConfirmLecture() {
     this.handleConfirmLecture()
         .then(() => this._modal.close())
-        .catch(reason => console.log(reason));
+        .catch(reason => this.logger.error(reason));
   }
 
   ngOnInit() {
@@ -66,7 +68,7 @@ export abstract class CarouselDialogComponent extends DialogChildComponent imple
       this.image.nativeElement.src = reader.result as string;
     };
     reader.onerror = (reason) => {
-      console.log(reason);
+      this.logger.error(reason);
     };
     reader.readAsDataURL(target.files[0]);
     this.carouselForm.patchValue({

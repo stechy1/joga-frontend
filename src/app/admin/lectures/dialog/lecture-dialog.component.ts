@@ -8,6 +8,7 @@ import { ModalComponent } from '../../../share/modal/modal.component';
 import { LectureValidators } from '../lecture-validators';
 import { LectureType } from '../../lecture-types/lecture-type';
 import { LectureTypesService } from '../../lecture-types/lecture-types.service';
+import { NGXLogger } from 'ngx-logger';
 
 export abstract class LectureDialogComponent extends DialogChildComponent implements OnInit {
 
@@ -37,20 +38,20 @@ export abstract class LectureDialogComponent extends DialogChildComponent implem
   });
 
   constructor(protected _lectureService: LectureService,
-              private _lectureTypesService: LectureTypesService) {
+              private _lectureTypesService: LectureTypesService,
+              protected logger: NGXLogger) {
     super();
   }
 
   private _handleConfirmLecture() {
     this.handleConfirmLecture()
         .then(() => this._modal.close())
-        .catch(reason => console.log(reason));
+        .catch(reason => this.logger.error(reason));
 
   }
 
   ngOnInit() {
     this.lectureForm.statusChanges.subscribe((state: string) => {
-      console.log(state);
       this._formInvalid.next(!(state !== 'INVALID'));
     });
 
@@ -58,7 +59,7 @@ export abstract class LectureDialogComponent extends DialogChildComponent implem
         .then(trainers => {
           this.trainers = trainers;
         })
-        .catch(reason => console.log(reason));
+        .catch(reason => this.logger.error(reason));
     this._lectureTypesService.all()
         .subscribe(types => {
           this.lectureTypes = types;

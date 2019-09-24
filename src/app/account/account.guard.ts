@@ -4,11 +4,13 @@ import { AuthService } from '../auth/auth.service';
 import { map, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { UserRole } from '../auth/user';
+import { NGXLogger } from 'ngx-logger';
 
 @Injectable({providedIn: 'root'})
 export class AccountGuard implements CanActivate, CanLoad {
 
-  constructor(private _authService: AuthService, private _router: Router) {}
+  constructor(private _authService: AuthService, private _router: Router,
+              private logger: NGXLogger) {}
 
   canActivate(route: ActivatedRouteSnapshot, router: RouterStateSnapshot):
     | boolean | UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree> {
@@ -16,7 +18,7 @@ export class AccountGuard implements CanActivate, CanLoad {
       take(1),
       map(user => {
         const userRole = user.role;
-        console.log("Account guard - canActivate: " + UserRole[userRole]);
+        this.logger.debug("Account guard - canActivate: " + UserRole[userRole]);
         switch (userRole) {
           case UserRole.LECTOR:
           case UserRole.ADMIN:
@@ -35,7 +37,7 @@ export class AccountGuard implements CanActivate, CanLoad {
       take(1),
       map(user => {
         const canLoad = user.role >= UserRole.CLIENT;
-        console.log("Account guard - canLoad: " + canLoad);
+        this.logger.debug("Account guard - canLoad: " + canLoad);
 
         if (!canLoad) {
           this._router.navigate(['/auth']);
