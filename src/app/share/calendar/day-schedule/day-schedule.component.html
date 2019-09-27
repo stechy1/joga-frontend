@@ -1,7 +1,7 @@
 <div class="row day-schedule" *ngIf="actions.length === 0">
   <div class="col-12 bg-warning" >
     <h3 class="text-center">Pro tento den nejsou naplánované žádné akce</h3>
-    <div class="text-center" *ngIf="isAdmin">
+    <div class="text-center" *ngIf="isLector">
       <button class="btn btn-primary" (click)="handleNewDayAction()">Přidat</button>
     </div>
   </div>
@@ -25,12 +25,13 @@
             <app-current-max-value [currentValue]="action.reserved" [maxValue]="action.capacity" lowerDelta="4" higherDelta="7"></app-current-max-value>
           </div>
           <div class="col-3">
-            <button class="btn btn-success btn-sm" *ngIf="isClient && !isAdmin">Přihlásit</button>
-            <button class="btn btn-info btn-sm" *ngIf="isAdmin" [disabled]="action.reserved !== 0" (click)="handleUpdateDayAction(action)">Upravit</button>
-            <button class="btn btn-danger btn-sm" *ngIf="isAdmin" [disabled]="action.reserved !== 0" (click)="handleDeleteDayAction(action)">Odstranit</button>
+            <button class="btn btn-success btn-sm" *ngIf="isClient && !action.assigned" [disabled]="canAssign(action)">Přihlásit</button>
+            <button class="btn btn-danger btn-sm" *ngIf="isClient && action.assigned">Odhlásit</button>
+            <button class="btn btn-info btn-sm" *ngIf="isLector" [disabled]="action.reserved !== 0" (click)="handleUpdateDayAction(action)">Upravit</button>
+            <button class="btn btn-danger btn-sm" *ngIf="isLector" [disabled]="action.reserved !== 0" (click)="handleDeleteDayAction(action)">Odstranit</button>
           </div>
         </div>
-        <div class="row" style="margin-top: 4px" *ngIf="isAdmin">
+        <div class="row" style="margin-top: 4px" *ngIf="isLector">
           <div class="col-12">
             <div class="vertical-center">
               <button class="btn btn-primary" (click)="handleNewDayAction()">Přidat</button>

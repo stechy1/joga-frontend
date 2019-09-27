@@ -4,6 +4,7 @@ import { Days, getDaysInMonth, getDaysInPrevMonth, getFirstDayOffset, Months } f
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DayScheduleDirective } from './day-schedule.directive';
 import { DayAction } from './day-action';
+import { DayActionCrud } from './day-action-crud';
 
 @Component({
   selector: 'app-calendar-widget',
@@ -19,11 +20,8 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   @Input() dayActions: Observable<DayAction[]>;
   @Input() enableAdmin: boolean;
   @Input() enableUser: boolean;
+  @Input() dayActionHandler: DayActionCrud;
   @ViewChildren(DayScheduleDirective) directives: QueryList<DayScheduleDirective>;
-
-  @Output() newDayAction: EventEmitter<Date> = new EventEmitter<Date>();
-  @Output() updateDayAction: EventEmitter<DayAction> = new EventEmitter<DayAction>();
-  @Output() deleteDayAction: EventEmitter<DayAction> = new EventEmitter<DayAction>();
 
   days: string[] = Days.getShortNames();
   windows: CalendarDay[] = [];
@@ -134,20 +132,5 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 
     this._oldRowIndex = row;
     this._oldWindowIndex = window.day;
-  }
-
-  handleNewDayAction(calendarDay: CalendarDay) {
-    const viewDate = new Date(this._viewDate$.getValue());
-    viewDate.setDate(calendarDay.day);
-    viewDate.setHours(0, 0, 0, 0);
-    this.newDayAction.next(viewDate);
-  }
-
-  handleUpdateDayAction(dayAction: DayAction) {
-    this.updateDayAction.next(dayAction);
-  }
-
-  handleDeleteDayAction(dayAction: DayAction) {
-    this.deleteDayAction.next(dayAction);
   }
 }

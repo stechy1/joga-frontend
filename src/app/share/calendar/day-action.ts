@@ -6,4 +6,5 @@ export interface DayAction {
   timeEnd: Date;
   capacity: number;
   reserved: number;
+  assigned?: boolean;
 }

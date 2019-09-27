@@ -5,6 +5,7 @@ import { CarouselImage } from './carousel-image';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChangeServiceEvent } from '../../share/change-service-event';
 import { CRUDServiceType } from '../../share/crud-service-type';
+import { NGXLogger } from 'ngx-logger';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,93 @@ export class CarouselService {
 
   private readonly images$: BehaviorSubject<CarouselImage[]> = new BehaviorSubject<CarouselImage[]>([]);
 
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient, private logger: NGXLogger) {
+  }
+
+  get lastImageFreeIndex(): number {
+    return this.images$.getValue()
+               .filter(image => image.enabled).length;
+  }
+
+  all(): Observable<CarouselImage[]> {
+    this._http.get<{ images: CarouselImage[] }>(CarouselService.ACCESS_POINT)
+        .toPromise()
+        .then(result => {
+          this.images$.next(result.images);
+        });
+
+    return this.images$;
+  }
+
+  byId(imageId: number): Promise<CarouselImage> {
+    return this._http.get<{ image: CarouselImage }>(CarouselService.GET_IMAGE + imageId)
+               .toPromise()
+               .then(result => {
+                 return result.image;
+               });
+  }
+
+  upload(imageModel: CarouselImage): Promise<CarouselImage> {
+    const formData = new FormData();
+    formData.append(CarouselService.KEY_IMAGE_NAME, imageModel.name);
+    formData.append(CarouselService.KEY_IMAGE_DESCRIPTION, imageModel.description);
+    formData.append(CarouselService.KEY_IMAGE_INPUT, imageModel.blob);
+
+    return this._http
+               .post<{ image: CarouselImage }>(CarouselService.ACCESS_POINT, formData)
+               .toPromise()
+               .then(result => {
+                 this._changeServiceEventHandler({
+                   record: result.image,
+                   changeType: CRUDServiceType.INSERT
+                 });
+
+                 return result.image;
+               });
+  }
+
+  update(imageModel: CarouselImage): Promise<CarouselImage> {
+    const formData = new FormData();
+    formData.append(CarouselService.KEY_IMAGE_ID, `${imageModel.id}`);
+    formData.append(CarouselService.KEY_IMAGE_NAME, imageModel.name);
+    formData.append(CarouselService.KEY_IMAGE_DESCRIPTION, imageModel.description);
+    formData.append(CarouselService.KEY_IMAGE_ENABLED, `${imageModel.enabled}`);
+    formData.append(CarouselService.KEY_IMAGE_VIEW_ORDER, `${imageModel.view_order}`);
+
+    return this._http
+               .post<{ image: CarouselImage }>(`${CarouselService.ACCESS_POINT}/update`, formData)
+               .toPromise()
+               .then(result => {
+                 this._changeServiceEventHandler({
+                   record: result.image,
+                   changeType: CRUDServiceType.UPDATE
+                 });
+
+                 return result.image;
+               });
+  }
+
+  delete(imageId: number): Promise<any> {
+    return this._http
+               .delete<{ image: CarouselImage }>(`${CarouselService.ACCESS_POINT}/${imageId}`)
+               .toPromise()
+               .then(result => {
+                 this._changeServiceEventHandler({
+                   record: result.image,
+                   changeType: CRUDServiceType.DELETE
+                 });
+
+                 return result.image;
+               });
+  }
+
+  enable(imageId: number, enabled: boolean): Promise<CarouselImage> {
+    const image = this.images$.getValue()[this.images$.getValue()
+                                              .findIndex(value => value.id === imageId)];
+    image.enabled = enabled ? 1 : 0;
+    image.view_order = enabled ? this.lastImageFreeIndex : -1;
+    return this.update(image);
+  }
 
   private _changeServiceEventHandler(event: ChangeServiceEvent<CarouselImage>) {
     if (event === null) {
@@ -60,88 +147,5 @@ export class CarouselService {
         break;
     }
     this.images$.next(images);
-  }
-
-  all(): Observable<CarouselImage[]> {
-    this._http.get<{ images: CarouselImage[] }>(CarouselService.ACCESS_POINT)
-        .toPromise()
-        .then(result => {
-          this.images$.next(result.images);
-        });
-
-    return this.images$;
-  }
-
-  byId(imageId: number): Promise<CarouselImage> {
-    return this._http.get<{image: CarouselImage}>(CarouselService.GET_IMAGE + imageId)
-               .toPromise()
-               .then(result => {
-                 return result.image;
-               });
-  }
-
-  upload(imageModel: CarouselImage): Promise<CarouselImage> {
-    const formData = new FormData();
-    formData.append(CarouselService.KEY_IMAGE_NAME, imageModel.name);
-    formData.append(CarouselService.KEY_IMAGE_DESCRIPTION, imageModel.description);
-    formData.append(CarouselService.KEY_IMAGE_INPUT, imageModel.blob);
-
-    return this._http
-               .post<{image: CarouselImage}>(CarouselService.ACCESS_POINT, formData)
-               .toPromise()
-               .then(result => {
-                 this._changeServiceEventHandler({
-                   record: result.image,
-                   changeType: CRUDServiceType.INSERT
-                 });
-
-                 return result.image;
-               });
-  }
-
-  update(imageModel: CarouselImage): Promise<CarouselImage> {
-    const formData = new FormData();
-    formData.append(CarouselService.KEY_IMAGE_ID, `${imageModel.id}`);
-    formData.append(CarouselService.KEY_IMAGE_NAME, imageModel.name);
-    formData.append(CarouselService.KEY_IMAGE_DESCRIPTION, imageModel.description);
-    formData.append(CarouselService.KEY_IMAGE_ENABLED, `${imageModel.enabled}`);
-    formData.append(CarouselService.KEY_IMAGE_VIEW_ORDER, `${imageModel.view_order}`);
-
-    return this._http
-               .post<{image: CarouselImage}>(`${CarouselService.ACCESS_POINT}/update`, formData)
-               .toPromise()
-               .then(result => {
-                 this._changeServiceEventHandler({
-                   record: result.image,
-                   changeType: CRUDServiceType.UPDATE
-                 });
-
-                 return result.image;
-               });
-  }
-
-  delete(imageId: number): Promise<any> {
-    return this._http
-               .delete<{image: CarouselImage}>(`${CarouselService.ACCESS_POINT}/${imageId}`)
-               .toPromise()
-               .then(result => {
-                 this._changeServiceEventHandler({
-                   record: result.image,
-                   changeType: CRUDServiceType.DELETE
-                 });
-
-                 return result.image;
-               });
-  }
-
-  get lastImageFreeIndex(): number {
-    return this.images$.getValue().filter(image => image.enabled).length;
-  }
-
-  enable(imageId: number, enabled: boolean): Promise<CarouselImage> {
-    const image = this.images$.getValue()[this.images$.getValue().findIndex(value => value.id === imageId)];
-    image.enabled = enabled ? 1 : 0;
-    image.view_order = enabled ? this.lastImageFreeIndex : -1;
-    return this.update(image);
   }
 }

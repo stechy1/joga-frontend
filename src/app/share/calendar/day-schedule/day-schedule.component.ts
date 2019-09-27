@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DayAction } from '../day-action';
 import { AuthService } from '../../../auth/auth.service';
 import { UserRole } from '../../../auth/user';
+import { DayActionCrud } from '../day-action-crud';
 
 @Component({
   selector: 'app-day-schedule',
@@ -11,9 +12,7 @@ import { UserRole } from '../../../auth/user';
 export class DayScheduleComponent implements OnInit {
 
   @Input() actions: DayAction[];
-  @Output() newDayAction: EventEmitter<void> = new EventEmitter<void>();
-  @Output() updateDayAction: EventEmitter<DayAction> = new EventEmitter<DayAction>();
-  @Output() deleteDayAction: EventEmitter<DayAction> = new EventEmitter<DayAction>();
+  @Input() dayAction: DayActionCrud;
 
   constructor(private _authService: AuthService) { }
 
@@ -24,19 +23,24 @@ export class DayScheduleComponent implements OnInit {
     return this._authService.user.getValue().role === UserRole.CLIENT;
   }
 
-  get isAdmin(): boolean {
-    return this._authService.user.getValue().role === UserRole.ADMIN;
+  get isLector(): boolean {
+    return this._authService.user.getValue().role >= UserRole.LECTOR;
   }
 
+
   handleNewDayAction() {
-    this.newDayAction.next();
+    this.dayAction.create();
   }
 
   handleUpdateDayAction(dayAction: DayAction) {
-    this.updateDayAction.next(dayAction);
+    this.dayAction.update(dayAction);
   }
 
   handleDeleteDayAction(dayAction: DayAction) {
-    this.deleteDayAction.next(dayAction);
+    this.dayAction.delete(dayAction);
+  }
+
+  canAssign(action: DayAction) {
+    return action.reserved < action.capacity;
   }
 }

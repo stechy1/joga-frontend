@@ -7,19 +7,21 @@ import { LectureNewComponent } from './dialog/lecture-new.component';
 import { LectureUpdateComponent } from './dialog/lecture-update.component';
 import { ConfirmDialogComponent } from '../../share/modal/confirm/confirm-dialog.component';
 import { mapLectureToDayAction } from '../../share/general-utils';
+import { DayActionCrud } from '../../share/calendar/day-action-crud';
 
 @Component({
   selector: 'app-admin-lecture',
   templateUrl: './lecture.component.html',
   styleUrls: ['./lecture.component.css']
 })
-export class LectureComponent implements OnInit, OnDestroy {
+export class LectureComponent implements OnInit, OnDestroy, DayActionCrud {
 
   dayActions: BehaviorSubject<DayAction[]> = new BehaviorSubject<DayAction[]>([]);
 
   @ViewChild('modal', {static: true}) modal: ModalComponent;
 
   private _lectureChangeSubscription: Subscription;
+  private _viewDate: Date;
 
   constructor(private _lectureService: LectureService) { }
 
@@ -36,25 +38,33 @@ export class LectureComponent implements OnInit, OnDestroy {
   }
 
   changeViewDate(date: Date) {
+    this._viewDate = date;
     this._lectureService.all(date);
   }
 
-  handleNewLecture(date: Date) {
+  // -------------- DayActionCrud implementation --------------
+
+  create(): void {
+    const date = new Date();
+    date.setTime(this._viewDate.getTime());
+    date.setHours(0, 0, 0, 0);
     this.modal.showComponent = LectureNewComponent;
     this.modal.open(date);
-  }
+  };
 
-  handleUpdateLecture(dayAction: DayAction) {
+  update(dayAction: DayAction): void {
     this.modal.showComponent = LectureUpdateComponent;
     this.modal.open(dayAction.id);
-  }
+  };
 
-  handleDeleteLecture(dayAction: DayAction) {
+  delete(dayAction: DayAction): void {
     const self = this;
     this.modal.showComponent = ConfirmDialogComponent;
     this.modal.open({
       message: 'Opravdu si přejete smazat vybranou lekci?',
       confirm: () => self._lectureService.delete(dayAction.id)
     });
-  }
+  };
+
+  // ----------- end of dayActionCrud implementation ----------
 }

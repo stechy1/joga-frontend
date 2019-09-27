@@ -1,8 +1,11 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { EMPTY, NEVER, Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { NGXLogger } from 'ngx-logger';
+import { HttpStatusCode } from './HttpStatusCode';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 interface ResponseMessage {
   message: string;
@@ -12,6 +15,7 @@ interface ResponseMessage {
 export class ResponseInterceptor implements HttpInterceptor {
 
   constructor(private _toaster: ToastrService,
+              private readonly _auth: AuthService,
               private logger: NGXLogger) {}
 
   private _handleResponseMessage(message: ResponseMessage) {
@@ -45,15 +49,19 @@ export class ResponseInterceptor implements HttpInterceptor {
                    }
                  }),
                  catchError((response: any) => {
+                   this.logger.error(response);
                    if (response instanceof HttpErrorResponse) {
                      const errorResponse = response as HttpErrorResponse;
                      if (errorResponse.error.response_message) {
-                       this.logger.error(response);
                        this._handleResponseMessage(errorResponse.error.response_message);
+                     }
+                     if (errorResponse.status === HttpStatusCode.Unauthorized) {
+                       this._auth.logout();
+                       return NEVER;
                      }
                    }
 
-                   return of(response);
+                   return NEVER;
                  })
                );
   }
