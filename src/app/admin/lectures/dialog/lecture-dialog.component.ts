@@ -24,14 +24,21 @@ export abstract class LectureDialogComponent extends DialogChildComponent implem
   protected lectureForm = new FormGroup({
     lecture_id: new FormControl(''),
     trainer: new FormControl('', [Validators.required]),
-    lecture_day: new FormControl('', [Validators.required],
-      LectureValidators.createDateValidator(this._lectureService).bind(this)),
-    time_start: new FormControl('',
-      [Validators.required, LectureValidators.createLectureStartAfterEndValidator()],
-      LectureValidators.createLectureTimeValidator(this._lectureService, LectureService.TIME_START_VALIDITY).bind(this)),
-    time_end: new FormControl('',
-      [Validators.required, LectureValidators.createLectureEndBeforeStartValidator()],
-      LectureValidators.createLectureTimeValidator(this._lectureService, LectureService.TIME_END_VALIDITY).bind(this)),
+    lecture_day: new FormControl('', {
+      validators: [Validators.required],
+      asyncValidators: [LectureValidators.createDateValidator(this._lectureService).bind(this)],
+      updateOn: 'blur'
+    }),
+    time_start: new FormControl('', {
+      validators: [Validators.required, LectureValidators.createLectureStartAfterEndValidator()],
+      asyncValidators: [LectureValidators.createLectureTimeValidator(this._lectureService, LectureService.TIME_START_VALIDITY).bind(this)],
+      updateOn: 'blur'
+    }),
+    time_end: new FormControl('', {
+      validators: [Validators.required, LectureValidators.createLectureEndBeforeStartValidator()],
+      asyncValidators: LectureValidators.createLectureTimeValidator(this._lectureService, LectureService.TIME_END_VALIDITY).bind(this),
+      updateOn: 'blur'
+    }),
     max_persons: new FormControl('', [Validators.required]),
     place: new FormControl('', [Validators.required]),
     type: new FormControl('', [Validators.required])
