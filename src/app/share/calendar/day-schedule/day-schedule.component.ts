@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { DayAction } from '../day-action';
 import { AuthService } from '../../../auth/auth.service';
 import { UserRole } from '../../../auth/user';

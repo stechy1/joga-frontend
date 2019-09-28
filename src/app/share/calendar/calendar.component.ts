@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { CalendarDay } from './day';
 import { Days, getDaysInMonth, getDaysInPrevMonth, getFirstDayOffset, Months } from './calendar.utils';
 import { BehaviorSubject, Observable } from 'rxjs';
