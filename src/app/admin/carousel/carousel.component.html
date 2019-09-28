@@ -1,49 +1,54 @@
 <app-active-images [images]="(images | async) | filterActive"></app-active-images>
 
-      <h2 *ngIf="(images | async).length > 0">Přehled obrázků</h2>
-      <table class="table table-responsive" *ngIf="(images | async).length > 0">
-        <thead>
-        <tr>
-          <th scope="col" *ngIf="!isProd">ID</th>
-          <th scope="col">Obrázek</th>
-          <th scope="col">Název</th>
-          <th scope="col">Popis</th>
-          <th scope="col" *ngIf="!isProd">Cesta</th>
-          <th scope="col">Aktivní</th>
-          <th scope="col" *ngIf="!isProd">Pořadí</th>
-          <th scope="col">Akce</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let image of (images | async); let i = index">
-          <th scope="row" *ngIf="!isProd">{{image.id}}</th>
-          <td>
-            <div class="col-with-image">
-              <img src="/public/uploads/image/{{image.path}}"
-                   alt="{{image.description}}">
-            </div>
-          </td>
-          <td>{{image.name}}</td>
-          <td>{{image.description}}</td>
-          <td *ngIf="!isProd" class="text-truncate">{{image.path}}</td>
-          <td>
-            <app-toggle [localValue]="image.enabled"
-                        (changed)="handleChangeEnabled($event, image.id)"></app-toggle>
-          </td>
-          <td *ngIf="!isProd">{{image.view_order}}</td>
-          <td>
-            <button class="btn btn-primary btn-sm" (click)="handleUpdateImage(image.id)">Upravit</button>
-            <button class="btn btn-danger btn-sm" [class.disabled]="image.enabled"
-                    (click)="handleDeleteImage(image.id)">Smazat
-            </button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+<h2 *ngIf="(images | async).length > 0">Přehled obrázků</h2>
+<div class="table-responsive">
+  <table class="table table-striped table-hover" *ngIf="(images | async).length > 0">
+    <thead>
+    <tr>
+      <th scope="col" *ngIf="!isProd">ID</th>
+      <th scope="col">Obrázek</th>
+      <th scope="col">Název</th>
+      <th scope="col">Popis</th>
+      <th scope="col" *ngIf="!isProd">Cesta</th>
+      <th scope="col">Aktivní</th>
+      <th scope="col" *ngIf="!isProd">Pořadí</th>
+      <th scope="col">Akce</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let image of (images | async); let i = index">
+      <th scope="row" *ngIf="!isProd">{{image.id}}</th>
+      <td>
+        <div class="col-with-image">
+          <img src="/public/uploads/image/{{image.path}}"
+               alt="{{image.description}}">
+        </div>
+      </td>
+      <td>{{image.name}}</td>
+      <td>{{image.description}}</td>
+      <td *ngIf="!isProd" class="text-truncate">{{image.path}}</td>
+      <td>
+        <app-toggle [localValue]="image.enabled"
+                    (changed)="handleChangeEnabled($event, image.id)"></app-toggle>
+      </td>
+      <td *ngIf="!isProd">{{image.view_order}}</td>
+      <td>
+        <button class="btn btn-primary btn-sm" (click)="handleUpdateImage(image.id)">Upravit
+        </button>
+        <button class="btn btn-danger btn-sm" [class.disabled]="image.enabled"
+                (click)="handleDeleteImage(image.id)">Smazat
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
-<div class="row" *ngIf="(images | async).length == 0">
-  <div class="col-12">
-    <h3>Nebyly nalezeny žádné obrázky ;(</h3>
+<div class="table-responsive">
+  <div class="row" *ngIf="(images | async).length == 0">
+    <div class="col-12">
+      <h3>Nebyly nalezeny žádné obrázky ;(</h3>
+    </div>
   </div>
 </div>
 
