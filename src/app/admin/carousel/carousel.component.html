@@ -28,7 +28,7 @@
       <td>{{image.description}}</td>
       <td *ngIf="!isProd" class="text-truncate">{{image.path}}</td>
       <td>
-        <app-toggle [localValue]="image.enabled"
+        <app-toggle [localValue]="image.enabled != 0"
                     (changed)="handleChangeEnabled($event, image.id)"></app-toggle>
       </td>
       <td *ngIf="!isProd">{{image.view_order}}</td>
