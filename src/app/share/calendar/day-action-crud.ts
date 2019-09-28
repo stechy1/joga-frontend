@@ -4,8 +4,10 @@ export interface DayActionCrud {
 
   /**
    * Založí novou akci pro vybraný den
+   *
+   * @param date Den, pro který se má založit nová akce
    */
-  create?(): void;
+  create?(date: Date): void;
 
   /**
    * Aktualizuje vybranou akci

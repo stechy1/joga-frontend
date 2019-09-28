@@ -44,18 +44,15 @@ export class LectureComponent implements OnInit, OnDestroy, DayActionCrud {
 
   // -------------- DayActionCrud implementation --------------
 
-  create(): void {
-    const date = new Date();
-    date.setTime(this._viewDate.getTime());
-    date.setHours(0, 0, 0, 0);
+  create(date: Date): void {
     this.modal.showComponent = LectureNewComponent;
     this.modal.open(date);
-  };
+  }
 
   update(dayAction: DayAction): void {
     this.modal.showComponent = LectureUpdateComponent;
     this.modal.open(dayAction.id);
-  };
+  }
 
   delete(dayAction: DayAction): void {
     const self = this;
@@ -64,7 +61,7 @@ export class LectureComponent implements OnInit, OnDestroy, DayActionCrud {
       message: 'Opravdu si přejete smazat vybranou lekci?',
       confirm: () => self._lectureService.delete(dayAction.id)
     });
-  };
+  }
 
   // ----------- end of dayActionCrud implementation ----------
 }

@@ -7,4 +7,5 @@ export interface DayAction {
   capacity: number;
   reserved: number;
   assigned?: boolean;
+  place: string;
 }

@@ -4,6 +4,7 @@ export class CalendarDay {
 
   private _actions: DayAction[] = [];
   public viewSchedule: boolean;
+  public date: Date;
 
   constructor(public readonly day: number, public readonly highlight: boolean = true) {}
 

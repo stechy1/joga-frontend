@@ -18,3 +18,7 @@
 .day-schedule > div {
   padding-bottom: 4px;
 }
+
+.action-name {
+  margin: 0;
+}

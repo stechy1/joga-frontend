@@ -57,8 +57,13 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
 
     this._curentCalendarDayOffset = firstDayOffset - 1;
+    const viewDate = this._viewDate$.getValue();
     for (let dayIndex = 1; index < todayDays; index++, dayIndex++) {
       const day = new CalendarDay(dayIndex);
+      const dayDate = new Date();
+      dayDate.setTime(viewDate.getTime());
+      dayDate.setFullYear(viewDate.getFullYear(), viewDate.getMonth() + 1, dayIndex);
+      day.date = dayDate;
       this.windows.push(day);
     }
 

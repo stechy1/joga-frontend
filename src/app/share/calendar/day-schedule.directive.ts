@@ -26,6 +26,7 @@ export class DayScheduleDirective {
     this._instance = (component.instance as DayScheduleComponent);
     this._instance.actions = window.actions;
     this._instance.dayAction = this.dayActionHandler;
+    this._instance.date = window.date;
     window.viewSchedule = true;
     this._oldWindow = window;
   }

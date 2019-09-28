@@ -25,6 +25,7 @@ export function mapLectureToDayAction(lecture: Lecture): DayAction {
     timeStart,
     timeEnd,
     reserved: lecture.reserved_clients,
-    capacity: lecture.max_persons
+    capacity: lecture.max_persons,
+    place: lecture.place
   } as DayAction;
 }

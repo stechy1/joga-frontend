@@ -13,6 +13,7 @@ export class DayScheduleComponent implements OnInit {
 
   @Input() actions: DayAction[];
   @Input() dayAction: DayActionCrud;
+  @Input() date: Date;
 
   constructor(private _authService: AuthService) { }
 
@@ -27,9 +28,8 @@ export class DayScheduleComponent implements OnInit {
     return this._authService.user.getValue().role >= UserRole.LECTOR;
   }
 
-
   handleNewDayAction() {
-    this.dayAction.create();
+    this.dayAction.create(this.date);
   }
 
   handleUpdateDayAction(dayAction: DayAction) {
