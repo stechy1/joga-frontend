@@ -1,0 +1,1371 @@
+Index: src/app/admin/lectures/lecture.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/lectures/lecture.component.html	(revision 487af1446eeb09c9694ff3236f740393f4d0c7ac)
++++ src/app/admin/lectures/lecture.component.html	(date 1569745885280)
+@@ -1,7 +1,9 @@
+ <app-calendar-widget
+   [dayActions]="dayActions"
+   (viewDate)="changeViewDate($event)"
+-  [dayActionHandler]="this"></app-calendar-widget>
++  [dayActionHandler]="this">
++
++</app-calendar-widget>
+ <!--  (newDayAction)="handleNewLecture($event)"-->
+ <!--  (updateDayAction)="handleUpdateLecture($event)"-->
+ <!--  (deleteDayAction)="handleDeleteLecture($event)"></app-calendar-widget>-->
+Index: src/app/share/calendar/calendar.component.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/share/calendar/calendar.component.css	(revision 487af1446eeb09c9694ff3236f740393f4d0c7ac)
++++ src/app/share/calendar/calendar.component.css	(date 1569745582580)
+@@ -3,6 +3,17 @@
+   margin: 0 auto;
+ }
+ 
++.calendar-nav .nav-link {
++  cursor: pointer;
++}
++.calendar-nav .nav-link.active {
++  background: rgba(0, 0, 0, 0.25);
++}
++
++.calendar-nav .nav-link:hover {
++  background: rgba(0, 0, 0, 0.25);
++}
++
+ .calendar-header {
+   display: block;
+   margin: 0 auto;
+@@ -10,7 +21,7 @@
+   height: 25px;
+ }
+ 
+-.calendar-header .month-year-title {
++.calendar-header .calendar-title {
+   margin: 0 20px;
+ }
+ 
+Index: src/app/share/calendar/calendar.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/share/calendar/calendar.component.html	(revision 487af1446eeb09c9694ff3236f740393f4d0c7ac)
++++ src/app/share/calendar/calendar.component.html	(date 1569751428276)
+@@ -1,21 +1,56 @@
+ <div class="calendar-wrapper">
+-  <div class="row">
+-  <div class="calendar-header text-center">
+-    <span class="prev-month pointer" (click)="handleShowPrevMonth()"><</span>
+-    <span class="month-year-title">{{viewDate | async | monthYearTitle}}</span>
+-    <span class="next-month pointer" (click)="handleShowNextMonth()">></span>
+-  </div>
++  <div class="calendar-nav">
++    <ul class="nav nav-pills nav-fill">
++      <li class="nav-item">
++        <span class="nav-link" [class.active]="viewType == ViewType.MONTH" (click)="viewType = ViewType.MONTH">Měsíc</span>
++      </li>
++      <li class="nav-item">
++        <span class="nav-link" [class.active]="viewType == ViewType.WEEK" (click)="viewType = ViewType.WEEK">Týden</span>
++      </li>
++      <li class="nav-item">
++        <span class="nav-link" [class.active]="viewType == ViewType.AGENDA" (click)="viewType = ViewType.AGENDA">Agenda</span>
++      </li>
++    </ul>
+   </div>
+   <div class="row">
+-  <div class="calendar-day-header-wrapper">
+-    <div class="calendar-day-header" *ngFor="let day of days">{{day}}</div>
+-  </div>
+-  </div>
+-  <div class="row" *ngFor="let row of rows"
+-       appDaySchedule
+-       [dayActionHandler]="dayActionHandler">
+-    <div class="col" style="padding: 0" *ngFor="let window of getWindowInRow(row)">
+-      <app-window [calendarDay]="window" (showSchedule)="handleWindowClick(row, $event)"></app-window>
++    <div class="calendar-header text-center">
++      <span class="pointer" (click)="handleShowPrev()"><</span>
++      <span class="calendar-title">{{viewDate | async | monthYearTitle:viewType}}</span>
++      <span class="pointer" (click)="handleShowNext()">></span>
+     </div>
+   </div>
++  <ng-container [ngSwitch]="viewType">
++    <app-calendar-view-type-month
++      *ngSwitchCase="ViewType.MONTH"
++      [dayActions]="dayActions"
++      [dayActionHandler]="dayActionHandler"
++      [enableAdmin]="enableAdmin"
++      [enableUser]="enableUser"
++      [showPrev]="showPrev"
++      [showNext]="showNext"
++      (viewDate)="handleChangeViewDate($event)"
++
++    ></app-calendar-view-type-month>
++    <app-calendar-view-type-week
++      *ngSwitchCase="ViewType.WEEK"
++
++    ></app-calendar-view-type-week>
++    <app-calendar-view-type-agenda
++      *ngSwitchCase="ViewType.AGENDA"
++    ></app-calendar-view-type-agenda>
++  </ng-container>
++
++<!--  <div class="row">-->
++<!--    <div class="calendar-day-header-wrapper">-->
++<!--      <div class="calendar-day-header" *ngFor="let day of days">{{day}}</div>-->
++<!--    </div>-->
++<!--  </div>-->
++<!--  <div class="row" *ngFor="let row of rows"-->
++<!--       appDaySchedule-->
++<!--       [dayActionHandler]="dayActionHandler">-->
++<!--    <div class="col" style="padding: 0" *ngFor="let window of getWindowInRow(row)">-->
++<!--      <app-window [calendarDay]="window"-->
++<!--                  (showSchedule)="handleWindowClick(row, $event)"></app-window>-->
++<!--    </div>-->
++<!--  </div>-->
+ </div>
+Index: src/app/share/calendar/calendar.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/share/calendar/calendar.component.ts	(revision 487af1446eeb09c9694ff3236f740393f4d0c7ac)
++++ src/app/share/calendar/calendar.component.ts	(date 1569751404373)
+@@ -1,8 +1,6 @@
+-import { AfterViewInit, Component, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+-import { CalendarDay } from './day';
+-import { Days, getDaysInMonth, getDaysInPrevMonth, getFirstDayOffset, Months } from './calendar.utils';
++import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
++import { ViewType } from './calendar.utils';
+ import { BehaviorSubject, Observable } from 'rxjs';
+-import { DayScheduleDirective } from './day-schedule.directive';
+ import { DayAction } from './day-action';
+ import { DayActionCrud } from './day-action-crud';
+ 
+@@ -13,129 +11,46 @@
+ })
+ export class CalendarComponent implements OnInit, AfterViewInit {
+ 
+-  private static readonly TOTAL_WINDOWS = 42;
+-  private static readonly TODAY = new Date();
+-  private static readonly DAYS_IN_ROW = 7;
++  static readonly TODAY = new Date();
+ 
+   @Input() dayActions: Observable<DayAction[]>;
+   @Input() enableAdmin: boolean;
+   @Input() enableUser: boolean;
+   @Input() dayActionHandler: DayActionCrud;
+-  @ViewChildren(DayScheduleDirective) directives: QueryList<DayScheduleDirective>;
++  @Output() viewDate: BehaviorSubject<Date> = new BehaviorSubject<Date>(CalendarComponent.TODAY);
+ 
+-  days: string[] = Days.getShortNames();
+-  windows: CalendarDay[] = [];
+-  rows = [0, 1, 2, 3, 4, 5, 6];
++  ViewType = ViewType;
++  showPrev: EventEmitter<any> = new EventEmitter<any>();
++  showNext: EventEmitter<any> = new EventEmitter<any>();
+ 
+-  private _viewDate$ = new BehaviorSubject<Date>(CalendarComponent.TODAY);
+-  private _directives: DayScheduleDirective[];
+-  private _oldRowIndex = -1;
+-  private _oldWindowIndex = -1;
+-  private _curentCalendarDayOffset = -1;
+-
+-  constructor() {}
++  private _viewType: ViewType;
+ 
+   ngOnInit() {
+-    this._viewDate$.subscribe((date: Date) => this._renderCalendar(date));
+-    this.dayActions.subscribe((actions => this._renderDayActions(actions)));
++    this._viewType = ViewType.MONTH;
+   }
+ 
+   ngAfterViewInit(): void {
+-    this._directives = this.directives.toArray();
+-  }
+-
+-  private _renderCalendar(date: Date) {
+-    this.windows.splice(0);
+-
+-    const firstDayOffset = getFirstDayOffset(date);
+-    const todayDays = getDaysInMonth(date);
+-    let index = -firstDayOffset;
+-
+-    const prevMonthDays = getDaysInPrevMonth(date);
+-    for (; index < 0; index++) {
+-      this.windows.push(new CalendarDay(prevMonthDays + index, false));
+-    }
+-
+-    this._curentCalendarDayOffset = firstDayOffset - 1;
+-    const viewDate = this._viewDate$.getValue();
+-    for (let dayIndex = 1; index < todayDays; index++, dayIndex++) {
+-      const day = new CalendarDay(dayIndex);
+-      const dayDate = new Date();
+-      dayDate.setTime(viewDate.getTime());
+-      dayDate.setFullYear(viewDate.getFullYear(), viewDate.getMonth() + 1, dayIndex);
+-      day.date = dayDate;
+-      this.windows.push(day);
+-    }
+-
+-    for (let dayIndex = 1; index < CalendarComponent.TOTAL_WINDOWS - firstDayOffset; index++, dayIndex++) {
+-      this.windows.push(new CalendarDay(dayIndex, false));
+-    }
+-  }
+-
+-  private _renderDayActions(dayActions: DayAction[]) {
+-    this.windows.forEach(window => {
+-      window.clearActions();
+-    });
+-    dayActions.forEach(action => {
+-      this.windows[this._curentCalendarDayOffset + action.dayIndex].addAction(action);
+-    });
+-  }
+-
+-  private _hideDayAgenda() {
+-    if (this._oldRowIndex === -1) {
+-      return;
+-    }
+-
+-    const firstDayOffset = getFirstDayOffset(this._viewDate$.getValue());
+ 
+-    this.handleWindowClick(this._oldRowIndex, this.windows[firstDayOffset - 1 + this._oldWindowIndex]);
+-    this._oldWindowIndex = -1;
+-    this._oldRowIndex = -1;
+   }
+ 
+-  handleShowPrevMonth() {
+-    this._hideDayAgenda();
+-    this._viewDate$.next(Months.getPrevMonth(this._viewDate$.getValue()));
++  handleShowPrev() {
++    this.showPrev.next();
+   }
+ 
+-  handleShowNextMonth() {
+-    this._hideDayAgenda();
+-    this._viewDate$.next(Months.getNextMonth(this._viewDate$.getValue()));
++  handleShowNext() {
++    this.showNext.next();
+   }
+ 
+-  @Output() get viewDate(): Observable<Date> {
+-    return this._viewDate$;
+-  }
+ 
+-  getWindowInRow(row: number): CalendarDay[] {
+-    const from = row * CalendarComponent.DAYS_IN_ROW;
+-    return this.windows.slice(from, from + CalendarComponent.DAYS_IN_ROW);
++  handleChangeViewDate(date: Date) {
++    this.viewDate.next(date);
+   }
+ 
+-  handleWindowClick(row: number, window: CalendarDay) {
+-    // Pokud kliknu do stejného řádku
+-    if (this._oldRowIndex === row) {
+-      // A na stejný den
+-      if (this._oldWindowIndex === window.day) {
+-        // Schovám přehled akci
+-        this._directives[this._oldRowIndex].hideComponent();
+-        this._oldRowIndex = -1;
+-        this._oldWindowIndex = -1;
+-      } else {
+-        // Vyměním přehled akcí
+-        this._directives[this._oldRowIndex].changeDay(window);
+-        this._oldWindowIndex = window.day;
+-      }
+-      return;
+-    }
++  get viewType(): ViewType {
++    return this._viewType;
++  }
+ 
+-    if (this._oldRowIndex !== -1) {
+-      this._directives[this._oldRowIndex].hideComponent();
+-    }
+-
+-    this._directives[row].showComponent(window);
+-
+-    this._oldRowIndex = row;
+-    this._oldWindowIndex = window.day;
++  set viewType(value: ViewType) {
++    this._viewType = value;
+   }
+ }
+Index: src/app/share/share.module.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/share/share.module.ts	(revision 487af1446eeb09c9694ff3236f740393f4d0c7ac)
++++ src/app/share/share.module.ts	(date 1569744298000)
+@@ -19,6 +19,9 @@
+ import { CurrentMaxValueComponent } from './current-max-value/current-max-value.component';
+ import { ConfirmDialogComponent } from './modal/confirm/confirm-dialog.component';
+ import { InformDialogComponent } from './modal/inform/inform-dialog.component';
++import { MonthComponent } from './calendar/view-type/month/month.component';
++import { WeekComponent } from './calendar/view-type/week/week.component';
++import { AgendaComponent } from './calendar/view-type/agenda/agenda.component';
+ 
+ @NgModule({
+   declarations: [
+@@ -37,7 +40,10 @@
+     DayScheduleDirective,
+     CurrentMaxValueComponent,
+     ConfirmDialogComponent,
+-    InformDialogComponent
++    InformDialogComponent,
++    MonthComponent,
++    WeekComponent,
++    AgendaComponent
+   ],
+   imports: [
+     CommonModule,
+Index: src/app/share/calendar/calendar.utils.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/share/calendar/calendar.utils.ts	(revision 487af1446eeb09c9694ff3236f740393f4d0c7ac)
++++ src/app/share/calendar/calendar.utils.ts	(date 1569747876679)
+@@ -154,6 +154,10 @@
+       Days.SUNDAY.name,
+     ];
+   }
++
++  public static getFullName(index: number): string {
++    return this.getFullNames()[index % 7];
++  }
+ }
+ 
+ export function getDaysInMonth(date: Date) {
+@@ -171,3 +175,34 @@
+ export function getFirstDayOffset(date: Date) {
+   return new Date(date.getFullYear(), date.getMonth(), 0).getDay();
+ }
++
++export function getWeek(timeStamp: number): number {
++  const date = new Date(timeStamp);
++
++  // ISO week date weeks start on Monday, so correct the day number
++  const nDay = (date.getDay() + 6) % 7;
++
++  // ISO 8601 states that week 1 is the week with the first Thursday of that year
++  // Set the target date to the Thursday in the target week
++  date.setDate(date.getDate() - nDay + 3);
++
++  // Store the millisecond value of the target date
++  const n1stThursday = date.valueOf();
++
++  // Set the target to the first Thursday of the year
++  // First, set the target to January 1st
++  date.setMonth(0, 1);
++
++  // Not a Thursday? Correct the date to the next Thursday
++  if (date.getDay() !== 4) {
++    date.setMonth(0, 1 + ((4 - date.getDay()) + 7) % 7);
++  }
++
++  // The week number is the number of weeks between the first Thursday of the year
++  // and the Thursday in the target week (604800000 = 7 * 24 * 3600 * 1000)
++  return 1 + Math.ceil((n1stThursday - date.getTime()) / 604800000);
++}
++
++export enum ViewType {
++  MONTH, WEEK, AGENDA
++}
+Index: src/app/share/calendar/month-year-title.pipe.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/share/calendar/month-year-title.pipe.ts	(revision 487af1446eeb09c9694ff3236f740393f4d0c7ac)
++++ src/app/share/calendar/month-year-title.pipe.ts	(date 1569747817900)
+@@ -1,13 +1,21 @@
+ import { Pipe, PipeTransform } from '@angular/core';
+-import { Months } from './calendar.utils';
++import { Days, getWeek, Months, ViewType } from './calendar.utils';
+ 
+ @Pipe({
+   name: 'monthYearTitle'
+ })
+ export class MonthYearTitlePipe implements PipeTransform {
+ 
+-  transform(value: Date, ...args: any[]): any {
+-    return Months.getFullName(value.getMonth()) + ', ' + value.getFullYear();
++  transform(value: Date, viewType: ViewType): any {
++    console.log(value);
++    switch (viewType) {
++      case ViewType.MONTH:
++        return `${Months.getFullName(value.getMonth())}, ${value.getFullYear()}`;
++      case ViewType.WEEK:
++        return `${getWeek(value.getTime())}. týden, ${value.getFullYear()}`;
++      case ViewType.AGENDA:
++        return `${Days.getFullName(value.getDay() + 6)}, ${value.getDate()}.${value.getMonth() + 1}. ${value.getFullYear()}`;
++    }
+   }
+ 
+ }
+Index: calendar.patch
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- calendar.patch	(date 1569683299068)
++++ calendar.patch	(date 1569683299068)
+@@ -0,0 +1,595 @@
++Index: src/app/share/calendar/view-type/week/week.component.ts
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/app/share/calendar/view-type/week/week.component.ts	(date 1569662456835)
+++++ src/app/share/calendar/view-type/week/week.component.ts	(date 1569662456835)
++@@ -0,0 +1,15 @@
+++import { Component, OnInit } from '@angular/core';
+++
+++@Component({
+++  selector: 'app-calendar-view-type-week',
+++  templateUrl: './week.component.html',
+++  styleUrls: ['./week.component.css']
+++})
+++export class WeekComponent implements OnInit {
+++
+++  constructor() { }
+++
+++  ngOnInit() {
+++  }
+++
+++}
++Index: src/app/share/calendar/view-type/week/week.component.html
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/app/share/calendar/view-type/week/week.component.html	(date 1569661736420)
+++++ src/app/share/calendar/view-type/week/week.component.html	(date 1569661736420)
++@@ -0,0 +1,1 @@
+++<p>week works!</p>
++Index: src/app/share/calendar/view-type/week/week.component.css
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/app/share/calendar/view-type/week/week.component.css	(date 1569661736423)
+++++ src/app/share/calendar/view-type/week/week.component.css	(date 1569661736423)
++@@ -0,0 +1,0 @@
++Index: src/app/share/calendar/view-type/month/month.component.ts
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/app/share/calendar/view-type/month/month.component.ts	(date 1569662456827)
+++++ src/app/share/calendar/view-type/month/month.component.ts	(date 1569662456827)
++@@ -0,0 +1,109 @@
+++import { AfterViewInit, Component, QueryList, ViewChildren } from '@angular/core';
+++import { getDaysInMonth, getDaysInPrevMonth, getFirstDayOffset } from '../../calendar.utils';
+++import { CalendarDay } from '../../day';
+++import { DayAction } from '../../day-action';
+++import { DayScheduleDirective } from '../../day-schedule.directive';
+++
+++@Component({
+++  selector: 'app-calendar-view-type-month',
+++  templateUrl: './month.component.html',
+++  styleUrls: ['./month.component.css']
+++})
+++export class MonthComponent implements AfterViewInit {
+++
+++  private static readonly TOTAL_WINDOWS = 42;
+++  private static readonly DAYS_IN_ROW = 7;
+++
+++  @ViewChildren(DayScheduleDirective) directives: QueryList<DayScheduleDirective>;
+++
+++  windows: CalendarDay[] = [];
+++  rows = [0, 1, 2, 3, 4, 5, 6];
+++
+++  private _oldRowIndex = -1;
+++  private _oldWindowIndex = -1;
+++  private _curentCalendarDayOffset = -1;
+++  private _directives: DayScheduleDirective[];
+++
+++  constructor() { }
+++
+++  ngAfterViewInit(): void {
+++    this._directives = this.directives.toArray();
+++  }
+++
+++  private _renderCalendar(date: Date) {
+++    this.windows.splice(0);
+++
+++    const firstDayOffset = getFirstDayOffset(date);
+++    const todayDays = getDaysInMonth(date);
+++    let index = -firstDayOffset;
+++
+++    const prevMonthDays = getDaysInPrevMonth(date);
+++    for (; index < 0; index++) {
+++      this.windows.push(new CalendarDay(prevMonthDays + index, false));
+++    }
+++
+++    this._curentCalendarDayOffset = firstDayOffset - 1;
+++    for (let dayIndex = 1; index < todayDays; index++, dayIndex++) {
+++      const day = new CalendarDay(dayIndex);
+++      this.windows.push(day);
+++    }
+++
+++    for (let dayIndex = 1; index < MonthComponent.TOTAL_WINDOWS - firstDayOffset; index++, dayIndex++) {
+++      this.windows.push(new CalendarDay(dayIndex, false));
+++    }
+++  }
+++
+++  private _renderDayActions(dayActions: DayAction[]) {
+++    this.windows.forEach(window => {
+++      window.clearActions();
+++    });
+++    dayActions.forEach(action => {
+++      this.windows[this._curentCalendarDayOffset + action.dayIndex].addAction(action);
+++    });
+++  }
+++
+++  private _hideDayAgenda() {
+++    if (this._oldRowIndex === -1) {
+++      return;
+++    }
+++
+++    const firstDayOffset = getFirstDayOffset(this._viewDate$.getValue());
+++
+++    this.handleWindowClick(this._oldRowIndex, this.windows[firstDayOffset - 1 + this._oldWindowIndex]);
+++    this._oldWindowIndex = -1;
+++    this._oldRowIndex = -1;
+++  }
+++
+++  getWindowInRow(row: number): CalendarDay[] {
+++    const from = row * MonthComponent.DAYS_IN_ROW;
+++    return this.windows.slice(from, from + MonthComponent.DAYS_IN_ROW);
+++  }
+++
+++  handleWindowClick(row: number, window: CalendarDay) {
+++    // Pokud kliknu do stejného řádku
+++    if (this._oldRowIndex === row) {
+++      // A na stejný den
+++      if (this._oldWindowIndex === window.day) {
+++        // Schovám přehled akci
+++        this._directives[this._oldRowIndex].hideComponent();
+++        this._oldRowIndex = -1;
+++        this._oldWindowIndex = -1;
+++      } else {
+++        // Vyměním přehled akcí
+++        this._directives[this._oldRowIndex].changeDay(window);
+++        this._oldWindowIndex = window.day;
+++      }
+++      return;
+++    }
+++
+++    if (this._oldRowIndex !== -1) {
+++      this._directives[this._oldRowIndex].hideComponent();
+++    }
+++
+++    this._directives[row].showComponent(window);
+++
+++    this._oldRowIndex = row;
+++    this._oldWindowIndex = window.day;
+++  }
+++
+++}
++Index: src/app/share/calendar/view-type/month/month.component.html
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/app/share/calendar/view-type/month/month.component.html	(date 1569661923700)
+++++ src/app/share/calendar/view-type/month/month.component.html	(date 1569661923700)
++@@ -0,0 +1,0 @@
++Index: src/app/share/calendar/view-type/month/month.component.css
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/app/share/calendar/view-type/month/month.component.css	(date 1569661727931)
+++++ src/app/share/calendar/view-type/month/month.component.css	(date 1569661727931)
++@@ -0,0 +1,0 @@
++Index: src/app/share/calendar/view-type/agenda/agenda.component.ts
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/app/share/calendar/view-type/agenda/agenda.component.ts	(date 1569662456833)
+++++ src/app/share/calendar/view-type/agenda/agenda.component.ts	(date 1569662456833)
++@@ -0,0 +1,15 @@
+++import { Component, OnInit } from '@angular/core';
+++
+++@Component({
+++  selector: 'app-calendar-view-type-agenda',
+++  templateUrl: './agenda.component.html',
+++  styleUrls: ['./agenda.component.css']
+++})
+++export class AgendaComponent implements OnInit {
+++
+++  constructor() { }
+++
+++  ngOnInit() {
+++  }
+++
+++}
++Index: src/app/share/calendar/view-type/agenda/agenda.component.html
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/app/share/calendar/view-type/agenda/agenda.component.html	(date 1569661741907)
+++++ src/app/share/calendar/view-type/agenda/agenda.component.html	(date 1569661741907)
++@@ -0,0 +1,1 @@
+++<p>agenda works!</p>
++Index: src/app/share/calendar/view-type/agenda/agenda.component.css
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/app/share/calendar/view-type/agenda/agenda.component.css	(date 1569661741909)
+++++ src/app/share/calendar/view-type/agenda/agenda.component.css	(date 1569661741909)
++@@ -0,0 +1,0 @@
++Index: src/app/share/calendar/calendar.component.css
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/app/share/calendar/calendar.component.css	(date 1569661679000)
+++++ src/app/share/calendar/calendar.component.css	(date 1569662655742)
++@@ -10,7 +10,7 @@
++   height: 25px;
++ }
++ 
++-.calendar-header .month-year-title {
+++.calendar-header .calendar-title {
++   margin: 0 20px;
++ }
++ 
++Index: src/app/share/calendar/calendar.component.html
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/app/share/calendar/calendar.component.html	(date 1569661679000)
+++++ src/app/share/calendar/calendar.component.html	(date 1569662655739)
++@@ -1,21 +1,28 @@
++ <div class="calendar-wrapper">
++   <div class="row">
++-  <div class="calendar-header text-center">
++-    <span class="prev-month pointer" (click)="handleShowPrevMonth()"><</span>
++-    <span class="month-year-title">{{viewDate | async | monthYearTitle}}</span>
++-    <span class="next-month pointer" (click)="handleShowNextMonth()">></span>
++-  </div>
++-  </div>
++-  <div class="row">
++-  <div class="calendar-day-header-wrapper">
++-    <div class="calendar-day-header" *ngFor="let day of days">{{day}}</div>
++-  </div>
++-  </div>
++-  <div class="row" *ngFor="let row of rows"
++-       appDaySchedule
++-       [dayActionHandler]="dayActionHandler">
++-    <div class="col" style="padding: 0" *ngFor="let window of getWindowInRow(row)">
++-      <app-window [calendarDay]="window" (showSchedule)="handleWindowClick(row, $event)"></app-window>
+++    <div class="calendar-header text-center">
+++      <span class="pointer" (click)="handleShowPrev()"><</span>
+++      <span class="calendar-title">{{viewDate | async | monthYearTitle:viewType}}</span>
+++      <span class="pointer" (click)="handleShowNext()">></span>
++     </div>
++   </div>
+++  <ng-container [ngSwitch]="viewType">
+++    <app-calendar-view-type-month *ngSwitchCase="ViewType.MONTH"></app-calendar-view-type-month>
+++    <app-calendar-view-type-week *ngSwitchCase="ViewType.WEEK"></app-calendar-view-type-week>
+++    <app-calendar-view-type-agenda *ngSwitchCase="ViewType.AGENDA"></app-calendar-view-type-agenda>
+++  </ng-container>
+++
+++<!--  <div class="row">-->
+++<!--    <div class="calendar-day-header-wrapper">-->
+++<!--      <div class="calendar-day-header" *ngFor="let day of days">{{day}}</div>-->
+++<!--    </div>-->
+++<!--  </div>-->
+++<!--  <div class="row" *ngFor="let row of rows"-->
+++<!--       appDaySchedule-->
+++<!--       [dayActionHandler]="dayActionHandler">-->
+++<!--    <div class="col" style="padding: 0" *ngFor="let window of getWindowInRow(row)">-->
+++<!--      <app-window [calendarDay]="window"-->
+++<!--                  (showSchedule)="handleWindowClick(row, $event)"></app-window>-->
+++<!--    </div>-->
+++<!--  </div>-->
++ </div>
++Index: src/app/share/calendar/calendar.component.ts
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/app/share/calendar/calendar.component.ts	(date 1569661679000)
+++++ src/app/share/calendar/calendar.component.ts	(date 1569662539692)
++@@ -1,8 +1,6 @@
++-import { AfterViewInit, Component, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
++-import { CalendarDay } from './day';
++-import { Days, getDaysInMonth, getDaysInPrevMonth, getFirstDayOffset, Months } from './calendar.utils';
+++import { Component, Input, OnInit, Output } from '@angular/core';
+++import { Days, ViewType } from './calendar.utils';
++ import { BehaviorSubject, Observable } from 'rxjs';
++-import { DayScheduleDirective } from './day-schedule.directive';
++ import { DayAction } from './day-action';
++ import { DayActionCrud } from './day-action-crud';
++ 
++@@ -11,126 +9,130 @@
++   templateUrl: './calendar.component.html',
++   styleUrls: ['./calendar.component.css']
++ })
++-export class CalendarComponent implements OnInit, AfterViewInit {
+++export class CalendarComponent implements OnInit {
++ 
++-  private static readonly TOTAL_WINDOWS = 42;
+++  // private static readonly TOTAL_WINDOWS = 42;
++   private static readonly TODAY = new Date();
++-  private static readonly DAYS_IN_ROW = 7;
+++  // private static readonly DAYS_IN_ROW = 7;
++ 
++   @Input() dayActions: Observable<DayAction[]>;
++   @Input() enableAdmin: boolean;
++   @Input() enableUser: boolean;
++   @Input() dayActionHandler: DayActionCrud;
++-  @ViewChildren(DayScheduleDirective) directives: QueryList<DayScheduleDirective>;
+++  // @ViewChildren(DayScheduleDirective) directives: QueryList<DayScheduleDirective>;
++ 
++   days: string[] = Days.getShortNames();
++-  windows: CalendarDay[] = [];
++-  rows = [0, 1, 2, 3, 4, 5, 6];
+++  // windows: CalendarDay[] = [];
+++  // rows = [0, 1, 2, 3, 4, 5, 6];
++ 
++   private _viewDate$ = new BehaviorSubject<Date>(CalendarComponent.TODAY);
++-  private _directives: DayScheduleDirective[];
++-  private _oldRowIndex = -1;
++-  private _oldWindowIndex = -1;
++-  private _curentCalendarDayOffset = -1;
+++  viewType: ViewType;
+++  ViewType = ViewType;
+++  // private _directives: DayScheduleDirective[];
+++  // private _oldRowIndex = -1;
+++  // private _oldWindowIndex = -1;
+++  // private _curentCalendarDayOffset = -1;
++ 
++-  constructor() {}
+++  constructor() {
+++    this.viewType = ViewType.MONTH;
+++  }
++ 
++   ngOnInit() {
++-    this._viewDate$.subscribe((date: Date) => this._renderCalendar(date));
++-    this.dayActions.subscribe((actions => this._renderDayActions(actions)));
+++  //   this._viewDate$.subscribe((date: Date) => this._renderCalendar(date));
+++  //   this.dayActions.subscribe((actions => this._renderDayActions(actions)));
++   }
++-
++-  ngAfterViewInit(): void {
++-    this._directives = this.directives.toArray();
++-  }
++-
++-  private _renderCalendar(date: Date) {
++-    this.windows.splice(0);
++-
++-    const firstDayOffset = getFirstDayOffset(date);
++-    const todayDays = getDaysInMonth(date);
++-    let index = -firstDayOffset;
++-
++-    const prevMonthDays = getDaysInPrevMonth(date);
++-    for (; index < 0; index++) {
++-      this.windows.push(new CalendarDay(prevMonthDays + index, false));
++-    }
++ 
++-    this._curentCalendarDayOffset = firstDayOffset - 1;
++-    for (let dayIndex = 1; index < todayDays; index++, dayIndex++) {
++-      const day = new CalendarDay(dayIndex);
++-      this.windows.push(day);
++-    }
+++  // ngAfterViewInit(): void {
+++  //   this._directives = this.directives.toArray();
+++  // }
++ 
++-    for (let dayIndex = 1; index < CalendarComponent.TOTAL_WINDOWS - firstDayOffset; index++, dayIndex++) {
++-      this.windows.push(new CalendarDay(dayIndex, false));
++-    }
++-  }
+++  // private _renderCalendar(date: Date) {
+++  //   this.windows.splice(0);
+++  //
+++  //   const firstDayOffset = getFirstDayOffset(date);
+++  //   const todayDays = getDaysInMonth(date);
+++  //   let index = -firstDayOffset;
+++  //
+++  //   const prevMonthDays = getDaysInPrevMonth(date);
+++  //   for (; index < 0; index++) {
+++  //     this.windows.push(new CalendarDay(prevMonthDays + index, false));
+++  //   }
+++  //
+++  //   this._curentCalendarDayOffset = firstDayOffset - 1;
+++  //   for (let dayIndex = 1; index < todayDays; index++, dayIndex++) {
+++  //     const day = new CalendarDay(dayIndex);
+++  //     this.windows.push(day);
+++  //   }
+++  //
+++  //   for (let dayIndex = 1; index < CalendarComponent.TOTAL_WINDOWS - firstDayOffset; index++, dayIndex++) {
+++  //     this.windows.push(new CalendarDay(dayIndex, false));
+++  //   }
+++  // }
+++  //
+++  // private _renderDayActions(dayActions: DayAction[]) {
+++  //   this.windows.forEach(window => {
+++  //     window.clearActions();
+++  //   });
+++  //   dayActions.forEach(action => {
+++  //     this.windows[this._curentCalendarDayOffset + action.dayIndex].addAction(action);
+++  //   });
+++  // }
+++  //
+++  // private _hideDayAgenda() {
+++  //   if (this._oldRowIndex === -1) {
+++  //     return;
+++  //   }
+++  //
+++  //   const firstDayOffset = getFirstDayOffset(this._viewDate$.getValue());
+++  //
+++  //   this.handleWindowClick(this._oldRowIndex, this.windows[firstDayOffset - 1 + this._oldWindowIndex]);
+++  //   this._oldWindowIndex = -1;
+++  //   this._oldRowIndex = -1;
+++  // }
++ 
++-  private _renderDayActions(dayActions: DayAction[]) {
++-    this.windows.forEach(window => {
++-      window.clearActions();
++-    });
++-    dayActions.forEach(action => {
++-      this.windows[this._curentCalendarDayOffset + action.dayIndex].addAction(action);
++-    });
++-  }
++-
++-  private _hideDayAgenda() {
++-    if (this._oldRowIndex === -1) {
++-      return;
++-    }
++-
++-    const firstDayOffset = getFirstDayOffset(this._viewDate$.getValue());
++-
++-    this.handleWindowClick(this._oldRowIndex, this.windows[firstDayOffset - 1 + this._oldWindowIndex]);
++-    this._oldWindowIndex = -1;
++-    this._oldRowIndex = -1;
++-  }
++-
++-  handleShowPrevMonth() {
++-    this._hideDayAgenda();
++-    this._viewDate$.next(Months.getPrevMonth(this._viewDate$.getValue()));
++-  }
++-
++-  handleShowNextMonth() {
++-    this._hideDayAgenda();
++-    this._viewDate$.next(Months.getNextMonth(this._viewDate$.getValue()));
++-  }
+++  // handleShowPrevMonth() {
+++  //   this._hideDayAgenda();
+++  //   this._viewDate$.next(Months.getPrevMonth(this._viewDate$.getValue()));
+++  // }
+++  //
+++  // handleShowNextMonth() {
+++  //   this._hideDayAgenda();
+++  //   this._viewDate$.next(Months.getNextMonth(this._viewDate$.getValue()));
+++  // }
++ 
++   @Output() get viewDate(): Observable<Date> {
++     return this._viewDate$;
++   }
++ 
++-  getWindowInRow(row: number): CalendarDay[] {
++-    const from = row * CalendarComponent.DAYS_IN_ROW;
++-    return this.windows.slice(from, from + CalendarComponent.DAYS_IN_ROW);
++-  }
++-
++-  handleWindowClick(row: number, window: CalendarDay) {
++-    // Pokud kliknu do stejného řádku
++-    if (this._oldRowIndex === row) {
++-      // A na stejný den
++-      if (this._oldWindowIndex === window.day) {
++-        // Schovám přehled akci
++-        this._directives[this._oldRowIndex].hideComponent();
++-        this._oldRowIndex = -1;
++-        this._oldWindowIndex = -1;
++-      } else {
++-        // Vyměním přehled akcí
++-        this._directives[this._oldRowIndex].changeDay(window);
++-        this._oldWindowIndex = window.day;
++-      }
++-      return;
++-    }
++-
++-    if (this._oldRowIndex !== -1) {
++-      this._directives[this._oldRowIndex].hideComponent();
++-    }
++-
++-    this._directives[row].showComponent(window);
++-
++-    this._oldRowIndex = row;
++-    this._oldWindowIndex = window.day;
++-  }
+++  // getWindowInRow(row: number): CalendarDay[] {
+++  //   const from = row * CalendarComponent.DAYS_IN_ROW;
+++  //   return this.windows.slice(from, from + CalendarComponent.DAYS_IN_ROW);
+++  // }
+++  //
+++  // handleWindowClick(row: number, window: CalendarDay) {
+++  //   // Pokud kliknu do stejného řádku
+++  //   if (this._oldRowIndex === row) {
+++  //     // A na stejný den
+++  //     if (this._oldWindowIndex === window.day) {
+++  //       // Schovám přehled akci
+++  //       this._directives[this._oldRowIndex].hideComponent();
+++  //       this._oldRowIndex = -1;
+++  //       this._oldWindowIndex = -1;
+++  //     } else {
+++  //       // Vyměním přehled akcí
+++  //       this._directives[this._oldRowIndex].changeDay(window);
+++  //       this._oldWindowIndex = window.day;
+++  //     }
+++  //     return;
+++  //   }
+++  //
+++  //   if (this._oldRowIndex !== -1) {
+++  //     this._directives[this._oldRowIndex].hideComponent();
+++  //   }
+++  //
+++  //   this._directives[row].showComponent(window);
+++  //
+++  //   this._oldRowIndex = row;
+++  //   this._oldWindowIndex = window.day;
+++  // }
++ }
++Index: src/app/share/share.module.ts
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/app/share/share.module.ts	(date 1569661679000)
+++++ src/app/share/share.module.ts	(date 1569661741909)
++@@ -19,6 +19,9 @@
++ import { CurrentMaxValueComponent } from './current-max-value/current-max-value.component';
++ import { ConfirmDialogComponent } from './modal/confirm/confirm-dialog.component';
++ import { InformDialogComponent } from './modal/inform/inform-dialog.component';
+++import { MonthComponent } from './calendar/view-type/month/month.component';
+++import { WeekComponent } from './calendar/view-type/week/week.component';
+++import { AgendaComponent } from './calendar/view-type/agenda/agenda.component';
++ 
++ @NgModule({
++   declarations: [
++@@ -37,7 +40,10 @@
++     DayScheduleDirective,
++     CurrentMaxValueComponent,
++     ConfirmDialogComponent,
++-    InformDialogComponent
+++    InformDialogComponent,
+++    MonthComponent,
+++    WeekComponent,
+++    AgendaComponent
++   ],
++   imports: [
++     CommonModule,
++Index: src/app/share/calendar/calendar.utils.ts
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/app/share/calendar/calendar.utils.ts	(date 1569661679000)
+++++ src/app/share/calendar/calendar.utils.ts	(date 1569662379822)
++@@ -171,3 +171,7 @@
++ export function getFirstDayOffset(date: Date) {
++   return new Date(date.getFullYear(), date.getMonth(), 0).getDay();
++ }
+++
+++export enum ViewType {
+++  MONTH, WEEK, AGENDA
+++}
++Index: src/app/share/calendar/month-year-title.pipe.ts
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- src/app/share/calendar/month-year-title.pipe.ts	(date 1569661679000)
+++++ src/app/share/calendar/month-year-title.pipe.ts	(date 1569662655734)
++@@ -1,12 +1,12 @@
++ import { Pipe, PipeTransform } from '@angular/core';
++-import { Months } from './calendar.utils';
+++import { Months, ViewType } from './calendar.utils';
++ 
++ @Pipe({
++   name: 'monthYearTitle'
++ })
++ export class MonthYearTitlePipe implements PipeTransform {
++ 
++-  transform(value: Date, ...args: any[]): any {
+++  transform(value: Date, viewType: ViewType): any {
++     return Months.getFullName(value.getMonth()) + ', ' + value.getFullYear();
++   }
++ 
+Index: src/app/share/calendar/view-type/week/week.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/share/calendar/view-type/week/week.component.ts	(date 1569752373437)
++++ src/app/share/calendar/view-type/week/week.component.ts	(date 1569752373437)
+@@ -0,0 +1,52 @@
++import { Component, Input, OnInit, Output } from '@angular/core';
++import { BehaviorSubject, Observable } from 'rxjs';
++import { DayAction } from '../../day-action';
++import { DayActionCrud } from '../../day-action-crud';
++import { Months } from '../../calendar.utils';
++import { CalendarComponent } from '../../calendar.component';
++
++@Component({
++  selector: 'app-calendar-view-type-week',
++  templateUrl: './week.component.html',
++  styleUrls: ['./week.component.css']
++})
++export class WeekComponent implements OnInit {
++
++  @Input() dayActions: Observable<DayAction[]>;
++  @Input() enableAdmin: boolean;
++  @Input() enableUser: boolean;
++  @Input() dayActionHandler: DayActionCrud;
++
++  private _viewDate$ = new BehaviorSubject<Date>(CalendarComponent.TODAY);
++
++  constructor() { }
++
++  ngOnInit() {
++    this._viewDate$.subscribe((date: Date) => this._renderCalendar(date));
++    this.dayActions.subscribe((actions => this._renderDayActions(actions)));
++  }
++
++  private _renderCalendar(date: Date) {
++
++  }
++
++  private _renderDayActions(actions: DayAction[]) {
++
++  }
++
++  @Output() get viewDate(): Observable<Date> {
++    return this._viewDate$;
++  }
++
++  @Input() set showPrev(observable: Observable<any>) {
++    observable.subscribe(() => {
++      this._viewDate$.next(Months.getPrevMonth(this._viewDate$.getValue()));
++    });
++  }
++
++  @Input() set showNext(observable: Observable<any>) {
++    observable.subscribe(() => {
++      this._viewDate$.next(Months.getNextMonth(this._viewDate$.getValue()));
++    });
++  }
++}
+Index: src/app/share/calendar/view-type/week/week.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/share/calendar/view-type/week/week.component.html	(date 1569744203680)
++++ src/app/share/calendar/view-type/week/week.component.html	(date 1569744203680)
+@@ -0,0 +1,1 @@
++<p>week works!</p>
+Index: src/app/share/calendar/view-type/week/week.component.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/share/calendar/view-type/week/week.component.css	(date 1569744203610)
++++ src/app/share/calendar/view-type/week/week.component.css	(date 1569744203610)
+@@ -0,0 +1,0 @@
+Index: src/app/share/calendar/view-type/month/month.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/share/calendar/view-type/month/month.component.ts	(date 1569751404367)
++++ src/app/share/calendar/view-type/month/month.component.ts	(date 1569751404367)
+@@ -0,0 +1,146 @@
++import { AfterViewInit, Component, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
++import { Days, getDaysInMonth, getDaysInPrevMonth, getFirstDayOffset, Months } from '../../calendar.utils';
++import { CalendarDay } from '../../day';
++import { DayAction } from '../../day-action';
++import { DayScheduleDirective } from '../../day-schedule.directive';
++import { BehaviorSubject, Observable } from 'rxjs';
++import { DayActionCrud } from '../../day-action-crud';
++import { CalendarComponent } from '../../calendar.component';
++
++@Component({
++  selector: 'app-calendar-view-type-month',
++  templateUrl: './month.component.html',
++  styleUrls: ['./month.component.css']
++})
++export class MonthComponent implements OnInit, AfterViewInit {
++
++  private static readonly TOTAL_WINDOWS = 42;
++  private static readonly DAYS_IN_ROW = 7;
++
++  @Input() dayActions: Observable<DayAction[]>;
++  @Input() enableAdmin: boolean;
++  @Input() enableUser: boolean;
++  @Input() dayActionHandler: DayActionCrud;
++  @ViewChildren(DayScheduleDirective) directives: QueryList<DayScheduleDirective>;
++
++  days: string[] = Days.getShortNames();
++  windows: CalendarDay[] = [];
++  rows = [0, 1, 2, 3, 4, 5, 6];
++
++  private _viewDate$ = new BehaviorSubject<Date>(CalendarComponent.TODAY);
++  private _directives: DayScheduleDirective[];
++  private _oldRowIndex = -1;
++  private _oldWindowIndex = -1;
++  private _curentCalendarDayOffset = -1;
++
++  constructor() {}
++
++  ngOnInit() {
++    this._viewDate$.subscribe((date: Date) => this._renderCalendar(date));
++    this.dayActions.subscribe((actions => this._renderDayActions(actions)));
++  }
++
++  ngAfterViewInit(): void {
++    this._directives = this.directives.toArray();
++  }
++
++  private _renderCalendar(date: Date) {
++    this.windows.splice(0);
++
++    const firstDayOffset = getFirstDayOffset(date);
++    const todayDays = getDaysInMonth(date);
++    let index = -firstDayOffset;
++
++    const prevMonthDays = getDaysInPrevMonth(date);
++    for (; index < 0; index++) {
++      this.windows.push(new CalendarDay(prevMonthDays + index, false));
++    }
++
++    this._curentCalendarDayOffset = firstDayOffset - 1;
++    const viewDate = this._viewDate$.getValue();
++    for (let dayIndex = 1; index < todayDays; index++, dayIndex++) {
++      const day = new CalendarDay(dayIndex);
++      const dayDate = new Date();
++      dayDate.setTime(viewDate.getTime());
++      dayDate.setFullYear(viewDate.getFullYear(), viewDate.getMonth() + 1, dayIndex);
++      day.date = dayDate;
++      this.windows.push(day);
++    }
++
++    for (let dayIndex = 1; index < MonthComponent.TOTAL_WINDOWS - firstDayOffset; index++, dayIndex++) {
++      this.windows.push(new CalendarDay(dayIndex, false));
++    }
++  }
++
++  private _renderDayActions(dayActions: DayAction[]) {
++    this.windows.forEach(window => {
++      window.clearActions();
++    });
++    dayActions.forEach(action => {
++      this.windows[this._curentCalendarDayOffset + action.dayIndex].addAction(action);
++    });
++  }
++
++  private _hideDayAgenda() {
++    if (this._oldRowIndex === -1) {
++      return;
++    }
++
++    const firstDayOffset = getFirstDayOffset(this._viewDate$.getValue());
++
++    this.handleWindowClick(this._oldRowIndex, this.windows[firstDayOffset - 1 + this._oldWindowIndex]);
++    this._oldWindowIndex = -1;
++    this._oldRowIndex = -1;
++  }
++
++  getWindowInRow(row: number): CalendarDay[] {
++    const from = row * MonthComponent.DAYS_IN_ROW;
++    return this.windows.slice(from, from + MonthComponent.DAYS_IN_ROW);
++  }
++
++  handleWindowClick(row: number, window: CalendarDay) {
++    // Pokud kliknu do stejného řádku
++    if (this._oldRowIndex === row) {
++      // A na stejný den
++      if (this._oldWindowIndex === window.day) {
++        // Schovám přehled akci
++        this._directives[this._oldRowIndex].hideComponent();
++        this._oldRowIndex = -1;
++        this._oldWindowIndex = -1;
++      } else {
++        // Vyměním přehled akcí
++        this._directives[this._oldRowIndex].changeDay(window);
++        this._oldWindowIndex = window.day;
++      }
++      return;
++    }
++
++    if (this._oldRowIndex !== -1) {
++      this._directives[this._oldRowIndex].hideComponent();
++    }
++
++    this._directives[row].showComponent(window);
++
++    this._oldRowIndex = row;
++    this._oldWindowIndex = window.day;
++  }
++
++  @Output() get viewDate(): Observable<Date> {
++    return this._viewDate$;
++  }
++
++  @Input() set showPrev(observable: Observable<any>) {
++    observable.subscribe(() => {
++      this._hideDayAgenda();
++      this._viewDate$.next(Months.getPrevMonth(this._viewDate$.getValue()));
++    });
++  }
++
++  @Input() set showNext(observable: Observable<any>) {
++    observable.subscribe(() => {
++      this._hideDayAgenda();
++      this._viewDate$.next(Months.getNextMonth(this._viewDate$.getValue()));
++    });
++  }
++
++}
+Index: src/app/general/general.service.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/general/general.service.ts	(revision 487af1446eeb09c9694ff3236f740393f4d0c7ac)
++++ src/app/general/general.service.ts	(date 1569751673469)
+@@ -3,6 +3,7 @@
+ import { HttpClient } from '@angular/common/http';
+ import { Lecture } from '../share/lecture';
+ import { CarouselImage } from '../admin/carousel/carousel-image';
++import { ViewType } from '../share/calendar/calendar.utils';
+ 
+ @Injectable({
+   providedIn: 'root'
+@@ -24,9 +25,9 @@
+                });
+   }
+ 
+-  lectures(date: Date): Promise<Lecture[]> {
++  lectures(date: Date, viewType: ViewType): Promise<Lecture[]> {
+     const dateTime = `${date.getTime()}`.substr(0, 10);
+-    return this._http.get<{lectures: Lecture[]}>(`${GeneralService.GET_LECTURES}/${dateTime}`)
++    return this._http.get<{lectures: Lecture[]}>(`${GeneralService.GET_LECTURES}/${dateTime}/${ViewType[viewType].toLowerCase()}`)
+                .toPromise()
+                .then(response => {
+                  return response.lectures;
+Index: src/app/share/calendar/view-type/month/month.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/share/calendar/view-type/month/month.component.html	(date 1569749027340)
++++ src/app/share/calendar/view-type/month/month.component.html	(date 1569749027340)
+@@ -0,0 +1,13 @@
++  <div class="row">
++    <div class="calendar-day-header-wrapper">
++      <div class="calendar-day-header" *ngFor="let day of days">{{day}}</div>
++    </div>
++  </div>
++  <div class="row" *ngFor="let row of rows"
++       appDaySchedule
++       [dayActionHandler]="dayActionHandler">
++    <div class="col" style="padding: 0" *ngFor="let window of getWindowInRow(row)">
++      <app-window [calendarDay]="window"
++                  (showSchedule)="handleWindowClick(row, $event)"></app-window>
++    </div>
++  </div>
+Index: src/app/share/calendar/view-type/month/month.component.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/share/calendar/view-type/month/month.component.css	(date 1569749072180)
++++ src/app/share/calendar/view-type/month/month.component.css	(date 1569749072180)
+@@ -0,0 +1,12 @@
++.calendar-day-header-wrapper {
++  width: 100%;
++}
++
++.calendar-day-header {
++  width: calc(100% / 7);
++  height: 25px;
++  border: solid 1px black;
++  float: left;
++  display: block;
++  text-align: center;
++}
+Index: src/app/share/calendar/view-type/agenda/agenda.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/share/calendar/view-type/agenda/agenda.component.ts	(date 1569744203659)
++++ src/app/share/calendar/view-type/agenda/agenda.component.ts	(date 1569744203659)
+@@ -0,0 +1,15 @@
++import { Component, OnInit } from '@angular/core';
++
++@Component({
++  selector: 'app-calendar-view-type-agenda',
++  templateUrl: './agenda.component.html',
++  styleUrls: ['./agenda.component.css']
++})
++export class AgendaComponent implements OnInit {
++
++  constructor() { }
++
++  ngOnInit() {
++  }
++
++}
+Index: src/app/share/calendar/view-type/agenda/agenda.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/share/calendar/view-type/agenda/agenda.component.html	(date 1569744203654)
++++ src/app/share/calendar/view-type/agenda/agenda.component.html	(date 1569744203654)
+@@ -0,0 +1,1 @@
++<p>agenda works!</p>
+Index: src/app/share/calendar/view-type/agenda/agenda.component.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/share/calendar/view-type/agenda/agenda.component.css	(date 1569744203579)
++++ src/app/share/calendar/view-type/agenda/agenda.component.css	(date 1569744203579)
+@@ -0,0 +1,0 @@
+Index: src/app/general/fragments/calendar/calendar.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/general/fragments/calendar/calendar.component.html	(revision 487af1446eeb09c9694ff3236f740393f4d0c7ac)
++++ src/app/general/fragments/calendar/calendar.component.html	(date 1569750769016)
+@@ -7,7 +7,9 @@
+           [dayActions]="dayActions"
+           (viewDate)="changeViewDate($event)"
+           enableAdmin="'false'"
+-          enableUser="'true'"></app-calendar-widget>
++          enableUser="'true'">
++
++        </app-calendar-widget>
+       </div>
+     </div>
+   </div>
