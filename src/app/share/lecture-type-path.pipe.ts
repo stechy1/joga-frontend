@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { LectureType } from '../general.share';
+import { LectureType } from '../general/general.share';
 
 @Pipe({
   name: 'appLectureTypeImagePath'

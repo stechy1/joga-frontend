@@ -11,7 +11,6 @@ import { ContactComponent } from './fragments/contact/contact.component';
 import { ShareModule } from '../share/share.module';
 import { ServicesComponent } from './fragments/services/services.component';
 import { LectureTypeComponent } from './lecture-type/lecture-type.component';
-import { LectureTypePathPipe } from './lecture-type/lecture-type-path.pipe';
 
 @NgModule({
   declarations: [
@@ -24,8 +23,7 @@ import { LectureTypePathPipe } from './lecture-type/lecture-type-path.pipe';
     CalendarComponent,
     ContactComponent,
     ServicesComponent,
-    LectureTypeComponent,
-    LectureTypePathPipe
+    LectureTypeComponent
   ],
   imports: [
     GeneralRoutingModule,

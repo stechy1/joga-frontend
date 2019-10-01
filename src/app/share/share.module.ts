@@ -57,6 +57,7 @@ import { InformDialogComponent } from './modal/inform/inform-dialog.component';
     ConfirmDialogComponent,
     InformDialogComponent,
     CommonModule,
+    LectureTypePathPipe
   ],
   entryComponents: [
     DayScheduleComponent,
