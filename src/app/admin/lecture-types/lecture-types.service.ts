@@ -80,6 +80,7 @@ export class LectureTypesService {
     formData.append('name', lectureType.name);
     formData.append('description', lectureType.description);
     formData.append('price', `${lectureType.price}`);
+    formData.append('image', lectureType.blob);
 
     return this._http.post<{lectureType: LectureType}>(LectureTypesService.ACCESS_POINT, formData)
                .toPromise()

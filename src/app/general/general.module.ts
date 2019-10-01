@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { GeneralRoutingModule } from './general-routing.module';
 
 import { GeneralComponent } from './general.component';
-// import { AccountComponent } from './account/account.component';
 
 import { IntroComponent } from './fragments/intro/intro.component';
 import { InformationComponent } from './fragments/information/information.component';
@@ -12,6 +11,7 @@ import { ContactComponent } from './fragments/contact/contact.component';
 import { ShareModule } from '../share/share.module';
 import { ServicesComponent } from './fragments/services/services.component';
 import { LectureTypeComponent } from './lecture-type/lecture-type.component';
+import { LectureTypePathPipe } from './lecture-type/lecture-type-path.pipe';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,8 @@ import { LectureTypeComponent } from './lecture-type/lecture-type.component';
     CalendarComponent,
     ContactComponent,
     ServicesComponent,
-    LectureTypeComponent
+    LectureTypeComponent,
+    LectureTypePathPipe
   ],
   imports: [
     GeneralRoutingModule,

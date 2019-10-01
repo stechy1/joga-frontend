@@ -18,6 +18,7 @@ export class LectureTypeComponent implements OnInit {
     const lectureId = this._route.snapshot.params.id;
     this._service.lectureTypeById(lectureId)
         .then(lectureType => {
+          console.log(lectureType);
           this.lectureType = lectureType;
         });
   }

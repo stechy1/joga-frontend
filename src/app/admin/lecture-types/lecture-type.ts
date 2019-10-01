@@ -3,4 +3,6 @@ export interface LectureType {
   name: string;
   description: string;
   price: number;
+  path?: string;
+  blob?: File;
 }

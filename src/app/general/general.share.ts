@@ -5,4 +5,5 @@ export interface LectureType {
   name: string;
   description: string;
   price: string;
+  path: string;
 }

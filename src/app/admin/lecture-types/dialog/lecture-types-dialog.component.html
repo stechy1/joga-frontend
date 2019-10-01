@@ -15,7 +15,6 @@
       <div class="form-group">
         <label for="description">Popis lekce</label>
         <textarea class="form-control" formControlName="description" id="description"></textarea>
-<!--        <input type="text" class="form-control" name="description" id="description" formControlName="description"/>-->
       </div>
     </div>
   </div>
@@ -33,6 +32,20 @@
         <small *ngIf="price.touched && price.errors?.required" class="form-text text-muted">Cena lekce je vyžadována.</small>
         <small *ngIf="price.touched && price.errors?.nagetiveNumber" class="form-text text-muted">Cena musí být kladná.</small>
       </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="imageInput">Obrázek</label>
+    <div class="input-group" *ngIf="isNew">
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="imageInput"
+               aria-describedby="imageUpload" required="" (change)="onFilesAdded($event)" #inputElement>
+        <label class="custom-file-label" for="imageInput">{{inputElement.value || 'Vyberte soubor...'}}</label>
+      </div>
+    </div>
+    <div>
+      <img #image style="max-width: 466px">
     </div>
   </div>
 </form>

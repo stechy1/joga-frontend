@@ -14,7 +14,7 @@
     <tr *ngFor="let lecture of lectures; let i = index">
       <th scope="row" *ngIf="!isProd">{{lecture.id}}</th>
       <td>{{lecture.name}}</td>
-      <td>{{lecture.description}}</td>
+      <td *ngIf="!isProd"><span class="d-inline-block text-truncate" style="max-width: 400px">{{lecture.description}}</span></td>
       <td>{{lecture.price}} Kč</td>
       <td>
         <button class="btn btn-primary btn-sm" (click)="handleShowLectureTypeDialog(lecture.id)">Upravit</button>

@@ -2,11 +2,14 @@ import { DialogChildComponent } from '../../../share/modal/dialog-child.componen
 import { ModalComponent } from '../../../share/modal/modal.component';
 import { LectureTypesService } from '../lecture-types.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { OnInit } from '@angular/core';
+import { ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NGXLogger } from 'ngx-logger';
 
 export abstract class LectureTypesDialogComponent extends DialogChildComponent implements OnInit {
+
+  @ViewChild('image', {static: true}) image: ElementRef<HTMLImageElement>;
+  isNew = true;
 
   private _confirmSubscription: Subscription;
   private _cancelSubscription: Subscription;
@@ -18,7 +21,8 @@ export abstract class LectureTypesDialogComponent extends DialogChildComponent i
     id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
     description: new FormControl(''),
-    price: new FormControl('', [Validators.required])
+    price: new FormControl('', [Validators.required]),
+    blob: new FormControl(null)
   });
 
   constructor(protected _lectureTypesService: LectureTypesService,
@@ -58,6 +62,22 @@ export abstract class LectureTypesDialogComponent extends DialogChildComponent i
   protected abstract prepareForm(value: any);
 
   protected abstract handleConfirmLectureType(): Promise<any>;
+
+  onFilesAdded(event) {
+    const target = event.target;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.image.nativeElement.src = reader.result as string;
+    };
+    reader.onerror = (reason) => {
+      this.logger.error(reason);
+    };
+    reader.readAsDataURL(target.files[0]);
+    this.lectureTypeForm.patchValue({
+      blob: target.files[0]
+    });
+  }
 
   get id() {
     return this.lectureTypeForm.get('id');

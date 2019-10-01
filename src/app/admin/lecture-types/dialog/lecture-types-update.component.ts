@@ -22,13 +22,17 @@ export class LectureTypesUpdateComponent extends LectureTypesDialogComponent {
   }
 
   protected prepareForm(lectureTypeId: number) {
+    this.isNew = false;
     this._lectureTypesService.byId(lectureTypeId)
         .then(lectureType => {
           this.lectureTypeForm.patchValue(lectureType);
+          (this.image.nativeElement as HTMLImageElement).src = `/public/uploads/lectures/${lectureType.path}`;
         })
         .catch(reason => {
           this.logger.error(reason);
         });
+    this.lectureTypeForm.get('blob').validator = null;
+    this.lectureTypeForm.get('blob').disable();
   }
 
   protected handleConfirmLectureType(): Promise<any> {
