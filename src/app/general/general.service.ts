@@ -3,6 +3,7 @@ import { BASE_GENERAL_API, LectureType } from './general.share';
 import { HttpClient } from '@angular/common/http';
 import { Lecture } from '../share/lecture';
 import { CarouselImage } from '../admin/carousel/carousel-image';
+import { ViewType } from '../share/calendar/calendar.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +25,9 @@ export class GeneralService {
                });
   }
 
-  lectures(date: Date): Promise<Lecture[]> {
+  lectures(date: Date, viewType: ViewType): Promise<Lecture[]> {
     const dateTime = `${date.getTime()}`.substr(0, 10);
-    return this._http.get<{lectures: Lecture[]}>(`${GeneralService.GET_LECTURES}/${dateTime}`)
+    return this._http.get<{lectures: Lecture[]}>(`${GeneralService.GET_LECTURES}/${ViewType[viewType].toLowerCase()}/${dateTime}`)
                .toPromise()
                .then(response => {
                  return response.lectures;

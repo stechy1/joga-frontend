@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CalendarDay } from '../day';
+import { CalendarDay } from '../../../day';
 
 @Component({
-  selector: 'app-window',
-  templateUrl: './window.component.html',
-  styleUrls: ['./window.component.css']
+  selector: 'app-month-window',
+  templateUrl: './month-window.component.html',
+  styleUrls: ['./month-window.component.css']
 })
-export class WindowComponent implements OnInit {
+export class MonthWindowComponent implements OnInit {
 
   @Input() calendarDay: CalendarDay;
   @Output() showSchedule = new EventEmitter<CalendarDay>();

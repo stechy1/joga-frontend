@@ -1,0 +1,13 @@
+  <div class="row">
+    <div class="calendar-day-header-wrapper">
+      <div class="calendar-day-header" *ngFor="let day of days">{{day}}</div>
+    </div>
+  </div>
+  <div class="row" *ngFor="let row of rows"
+       appDaySchedule
+       [dayActionHandler]="dayActionHandler">
+    <div class="col" style="padding: 0" *ngFor="let window of getWindowInRow(row)">
+      <app-month-window [calendarDay]="window"
+                  (showSchedule)="handleWindowClick(row, $event)"></app-month-window>
+    </div>
+  </div>

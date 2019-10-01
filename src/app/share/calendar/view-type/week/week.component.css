@@ -1,0 +1,12 @@
+.calendar-day-header-wrapper {
+  width: 100%;
+}
+
+.calendar-day-header {
+  width: calc(100% / 7);
+  height: 25px;
+  border: solid 1px black;
+  float: left;
+  display: block;
+  text-align: center;
+}

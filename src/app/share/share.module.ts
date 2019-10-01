@@ -5,7 +5,6 @@ import {CardComponent} from './card/card.component';
 import { TableComponent } from './table/table.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { CalendarComponent } from './calendar/calendar.component';
-import { WindowComponent } from './calendar/window/window.component';
 import { MonthYearTitlePipe } from './calendar/month-year-title.pipe';
 import { RouterModule } from '@angular/router';
 import { PaginatorComponent } from './paginator/paginator.component';
@@ -19,6 +18,12 @@ import { DayScheduleDirective } from './calendar/day-schedule.directive';
 import { CurrentMaxValueComponent } from './current-max-value/current-max-value.component';
 import { ConfirmDialogComponent } from './modal/confirm/confirm-dialog.component';
 import { InformDialogComponent } from './modal/inform/inform-dialog.component';
+import { MonthComponent } from './calendar/view-type/month/month.component';
+import { WeekComponent } from './calendar/view-type/week/week.component';
+import { AgendaComponent } from './calendar/view-type/agenda/agenda.component';
+import { LectureTypePathPipe } from './lecture-type-path.pipe';
+import { WeekWindowComponent } from './calendar/view-type/week/week-window/week-window.component';
+import { MonthWindowComponent } from './calendar/view-type/month/window/month-window.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +31,6 @@ import { InformDialogComponent } from './modal/inform/inform-dialog.component';
     TableComponent,
     CarouselComponent,
     CalendarComponent,
-    WindowComponent,
     MonthYearTitlePipe,
     PaginatorComponent,
     ModalComponent,
@@ -37,7 +41,13 @@ import { InformDialogComponent } from './modal/inform/inform-dialog.component';
     DayScheduleDirective,
     CurrentMaxValueComponent,
     ConfirmDialogComponent,
-    InformDialogComponent
+    InformDialogComponent,
+    MonthComponent,
+    MonthWindowComponent,
+    WeekComponent,
+    AgendaComponent,
+    LectureTypePathPipe,
+    WeekWindowComponent
   ],
   imports: [
     CommonModule,

@@ -6,6 +6,7 @@ import { Trainer } from './trainer';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChangeServiceEvent } from '../../share/change-service-event';
 import { CRUDServiceType } from '../../share/crud-service-type';
+import { ViewType } from '../../share/calendar/calendar.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +65,7 @@ export class LectureService {
 
   all(date: Date): void {
     const dateTime = `${date.getTime()}`.substr(0, 10);
-    this._http.get<{lectures: Lecture[]}>(`${LectureService.ACCESS_POINT}/${dateTime}`)
+    this._http.get<{lectures: Lecture[]}>(`${LectureService.ACCESS_POINT}/${(ViewType[ViewType.MONTH]).toLowerCase()}/${dateTime}`)
                .toPromise()
                .then(response => {
                  this.lectures$.next(response.lectures);
