@@ -5,10 +5,11 @@ export function objectToFormData(object: any): FormData {
   const formData = new FormData();
 
   const keys = Object.keys(object);
-  for (const key of keys) {
-    const value = object[keys[key]];
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const value = object[key];
     if (value !== undefined) {
-      formData.append(keys[key], `${value}`);
+      formData.append(key, `${value}`);
     }
   }
 

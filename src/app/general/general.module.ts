@@ -11,6 +11,8 @@ import { ContactComponent } from './fragments/contact/contact.component';
 import { ShareModule } from '../share/share.module';
 import { ServicesComponent } from './fragments/services/services.component';
 import { LectureTypeComponent } from './lecture-type/lecture-type.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { LectureTypeComponent } from './lecture-type/lecture-type.component';
   ],
   imports: [
     GeneralRoutingModule,
-    ShareModule
+    ShareModule,
+    ReactiveFormsModule,
+    NgxCaptchaModule
   ],
 })
 export class GeneralModule {

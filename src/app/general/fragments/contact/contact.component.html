@@ -4,6 +4,54 @@
       <div class="col-12 text-center">
         <app-heading [text]="'Kontaktní formulář'" [type]="1"></app-heading>
       </div>
+
+      <div class="col-md-6 offset-md-3" id="form_container">
+        <p>Pomocí kontaktního formuláře mně můžete kontaktovat.</p>
+        <form role="form" id="reused_form" [formGroup]="contactForm" (ngSubmit)="handleSubmit()">
+
+          <div class="row">
+            <div class="col-sm-12 form-group">
+              <label for="message">Zpráva:</label>
+              <textarea class="form-control" name="message" id="message" maxlength="6000" rows="7" formControlName="message"></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 form-group">
+              <label for="name">Vaše jméno:</label>
+              <input type="text" class="form-control" id="name" name="name" required formControlName="name">
+            </div>
+            <div class="col-sm-6 form-group">
+              <label for="email">E-mail:</label>
+              <input type="email" class="form-control" id="email" name="email" required formControlName="email">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <ngx-recaptcha2
+                [siteKey]="siteKey"
+                (reset)="handleReset()"
+                (expire)="handleExpire()"
+                (load)="handleLoad()"
+                (success)="handleSuccess($event)"
+                [useGlobalDomain]="false"
+                [size]="'normal'"
+                [hl]="'cs'"
+                [theme]="'light'"
+                [type]="'image'"
+                formControlName="recaptcha">
+              </ngx-recaptcha2>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <button type="submit" class="btn btn-lg btn-primary float-right" [disabled]="contactForm.invalid || working || !captchaSuccess">Odeslat</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
     </div>
   </div>
 </section>

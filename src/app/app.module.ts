@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocalStorageModule } from 'angular-2-local-storage';
+import { NgxCaptchaModule } from 'ngx-captcha';
 // Application components
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -32,6 +33,7 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
     LocalStorageModule.forRoot(),
     ToastrModule.forRoot(),
     LoggerModule.forRoot({level: NgxLoggerLevel.TRACE, enableSourceMaps: true}),
+    NgxCaptchaModule,
 
     // Root routing module
     AppRoutingModule,

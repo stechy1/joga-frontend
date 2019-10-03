@@ -43,8 +43,10 @@ export class ResponseInterceptor implements HttpInterceptor {
                .pipe(
                  tap(response => {
                    if (response instanceof HttpResponse) {
-                     if (response.body.response_message) {
-                       this._handleResponseMessage(response.body.response_message);
+                     if (response.body !== null) {
+                       if (response.body.response_message) {
+                         this._handleResponseMessage(response.body.response_message);
+                       }
                      }
                    }
                  }),
