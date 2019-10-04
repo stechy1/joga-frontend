@@ -54,6 +54,15 @@ export class LectureComponent implements OnInit, OnDestroy, DayActionCrud {
     this.modal.open(dayAction.id);
   }
 
+  publish(dayAction: DayAction): void {
+    const self = this;
+    this.modal.showComponent = ConfirmDialogComponent;
+    this.modal.open({
+      message: 'Opravdu si přejete zveřejnit vybranou lekci?',
+      confirm: () => self._lectureService.publish(dayAction.id)
+    });
+  }
+
   delete(dayAction: DayAction): void {
     const self = this;
     this.modal.showComponent = ConfirmDialogComponent;

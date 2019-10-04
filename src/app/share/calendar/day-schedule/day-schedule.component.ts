@@ -36,6 +36,10 @@ export class DayScheduleComponent implements OnInit {
     this.dayAction.update(dayAction);
   }
 
+  handlePublishDayAction(action: DayAction) {
+    this.dayAction.publish(action);
+  }
+
   handleDeleteDayAction(dayAction: DayAction) {
     this.dayAction.delete(dayAction);
   }

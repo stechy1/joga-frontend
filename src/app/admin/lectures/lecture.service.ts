@@ -17,6 +17,7 @@ export class LectureService {
   private static readonly GET_LECTURE_BY_ID = `${LectureService.ACCESS_POINT}/id`;
   private static readonly UPDATE_LECTURE = `${LectureService.ACCESS_POINT}/update`;
   private static readonly GET_TRAINERS = `${LectureService.ACCESS_POINT}/trainers`;
+  private static readonly PUBLICH_LECTURE = `${LectureService.ACCESS_POINT}/publich_lecture`;
   private static readonly GET_TIME_VALIDITY = `${LectureService.ACCESS_POINT}/time_validity`;
   public static readonly TIME_START_VALIDITY = `time_start`;
   public static readonly TIME_END_VALIDITY = `time_end`;
@@ -95,8 +96,8 @@ export class LectureService {
 
     const dateTimeStart = new Date(lecture.time_start);
     const dateTimeEnd = new Date(lecture.time_end);
-    dateTimeStart.setMonth(dateTimeStart.getMonth() + 1);
-    dateTimeEnd.setMonth(dateTimeEnd.getMonth() + 1);
+    dateTimeStart.setMonth(dateTimeStart.getMonth());
+    dateTimeEnd.setMonth(dateTimeEnd.getMonth());
 
     formData.append('trainer', `${lecture.trainer_id}`);
     formData.append('time_start', `${dateTimeStart.getTime()}`.substr(0, 10));
@@ -144,6 +145,18 @@ export class LectureService {
                });
   }
 
+  publish(lectureId: number): Promise<Lecture> {
+    return this._http.patch<{lecture: Lecture}>(`${LectureService.PUBLICH_LECTURE}/${lectureId}`, null)
+               .toPromise()
+               .then(result => {
+                 this._changeServiceEventHandler({
+                   record: result.lecture,
+                   changeType: CRUDServiceType.UPDATE
+                 });
+                 return result.lecture;
+               });
+  }
+
   delete(lectureId: number): Promise<Lecture> {
     return this._http.delete<{lecture: Lecture}>(`${LectureService.ACCESS_POINT}/${lectureId}`)
                .toPromise()
@@ -181,7 +194,7 @@ export class LectureService {
 
   checkTimeValidity(timePart: string, day: string, time: string, lectureId?: number): Promise<boolean> {
     const dateTime = new Date(`${day} ${time}`);
-    dateTime.setMonth(dateTime.getMonth() + 1);
+    dateTime.setMonth(dateTime.getMonth());
     const dateTimeRaw = `${dateTime.getTime()}`.substr(0, 10);
     return this._http.get<{valid: boolean}>(`${LectureService.GET_TIME_VALIDITY}/${timePart}/${dateTimeRaw}/${lectureId}`)
                .toPromise()

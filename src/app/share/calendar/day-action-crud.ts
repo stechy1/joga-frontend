@@ -17,6 +17,13 @@ export interface DayActionCrud {
   update?(dayAction: DayAction): void;
 
   /**
+   * Publikuje akci
+   *
+   * @param dayAction Akce, která se má publikovat
+   */
+  publish?(dayAction: DayAction): void;
+
+  /**
    * Smaže vybranou akci
    *
    * @param dayAction Akce, která se má smazat

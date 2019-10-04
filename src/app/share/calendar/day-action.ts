@@ -8,4 +8,5 @@ export interface DayAction {
   reserved: number;
   assigned?: boolean;
   place: string;
+  published: boolean;
 }
