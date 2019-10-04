@@ -26,8 +26,8 @@
             <app-current-max-value [currentValue]="action.reserved" [maxValue]="action.capacity" lowerDelta="4" higherDelta="7"></app-current-max-value>
           </div>
           <div class="col-3">
-            <button class="btn btn-success btn-sm" *ngIf="isClient && !action.assigned" [disabled]="canAssign(action)">Přihlásit</button>
-            <button class="btn btn-danger btn-sm" *ngIf="isClient && action.assigned">Odhlásit</button>
+            <button class="btn btn-success btn-sm" *ngIf="isClient && !action.assigned" [disabled]="!canAssign(action)" (click)="handleAssignDayAction(action)">Přihlásit</button>
+            <button class="btn btn-danger btn-sm" *ngIf="isClient && action.assigned" (click)="handleCancelDayAction(action)">Odhlásit</button>
             <button class="btn btn-info btn-sm" *ngIf="isLector" [disabled]="action.reserved !== 0" (click)="handleUpdateDayAction(action)">Upravit</button>
             <button class="btn btn-danger btn-sm" *ngIf="isLector" [disabled]="action.reserved !== 0" (click)="handleDeleteDayAction(action)">Odstranit</button>
             <button class="btn btn-secondary btn-sm" *ngIf="isLector" [disabled]="action.published" (click)="handlePublishDayAction(action)">Publikovat</button>

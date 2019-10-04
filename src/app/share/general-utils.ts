@@ -29,6 +29,7 @@ export function mapLectureToDayAction(lecture: Lecture): DayAction {
     reserved: lecture.reserved_clients,
     capacity: lecture.max_persons,
     place: lecture.place,
-    published: lecture.published === 1
+    published: lecture.published === 1,
+    assigned: lecture.assigned
   } as DayAction;
 }

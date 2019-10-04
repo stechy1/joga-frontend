@@ -10,4 +10,5 @@ export interface Lecture {
   trainer_name?: string;
   reserved_clients?: number;
   published?: number;
+  assigned?: boolean;
 }

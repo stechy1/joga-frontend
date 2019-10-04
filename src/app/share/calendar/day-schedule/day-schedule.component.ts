@@ -44,7 +44,15 @@ export class DayScheduleComponent implements OnInit {
     this.dayAction.delete(dayAction);
   }
 
-  canAssign(action: DayAction) {
-    return action.reserved < action.capacity;
+  canAssign(dayAction: DayAction) {
+    return dayAction.reserved < dayAction.capacity;
+  }
+
+  handleAssignDayAction(dayAction: DayAction) {
+    this.dayAction.assign(dayAction);
+  }
+
+  handleCancelDayAction(dayAction: DayAction) {
+    this.dayAction.cancel(dayAction);
   }
 }

@@ -28,14 +28,14 @@ export class GeneralService {
                });
   }
 
-  lectures(date: Date, viewType: ViewType): Promise<Lecture[]> {
-    const dateTime = `${date.getTime()}`.substr(0, 10);
-    return this._http.get<{lectures: Lecture[]}>(`${GeneralService.GET_LECTURES}/${ViewType[viewType].toLowerCase()}/${dateTime}`)
-               .toPromise()
-               .then(response => {
-                 return response.lectures;
-               });
-  }
+  // lectures(date: Date, viewType: ViewType): Promise<Lecture[]> {
+  //   const dateTime = `${date.getTime()}`.substr(0, 10);
+  //   return this._http.get<{lectures: Lecture[]}>(`${GeneralService.GET_LECTURES}/${ViewType[viewType].toLowerCase()}/${dateTime}`)
+  //              .toPromise()
+  //              .then(response => {
+  //                return response.lectures;
+  //              });
+  // }
 
   carousel(): Promise<CarouselImage[]> {
     return this._http.get<{carousel: CarouselImage[]}>(GeneralService.GET_CAROUSEL)
