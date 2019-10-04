@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-check-code',
@@ -13,20 +14,29 @@ export class CheckCodeComponent implements OnInit {
     checkCode: new FormControl('', [Validators.required])
   });
 
-  constructor(private _auth: AuthService, private _route: ActivatedRoute, private _router: Router) { }
+  constructor(private _auth: AuthService, private _toastr: ToastrService,
+              private _route: ActivatedRoute, private _router: Router) {
+  }
+
+  private _checkCode(code: string): void {
+    this._auth.checkCode(code)
+        .then(() => {
+          return this._router.navigate(['/auth']);
+        })
+        .then(() => {
+          this._toastr.success('Váš e-mail byl úspěšně ověřen.');
+        });
+  }
 
   ngOnInit() {
     const code = this._route.snapshot.params.code;
     if (code !== undefined) {
-      this._auth.checkCode(code)
-          .then(() => {
-            this._router.navigate(['/auth']);
-          });
+      this._checkCode(code);
     }
   }
 
   handleCheckCode() {
-
+    this._checkCode(this.checkCodeForm.value.checkCode);
   }
 
   get checkCode() {
