@@ -1,13 +1,12 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DayAction } from '../../../share/calendar/day-action';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { GeneralService } from '../../general.service';
+import { BehaviorSubject} from 'rxjs';
 import { mapLectureToDayAction } from '../../../share/general-utils';
 import { ViewType } from '../../../share/calendar/calendar.utils';
 import { DayActionCrud } from '../../../share/calendar/day-action-crud';
-import { LecturesService } from '../../../account/lectures/lectures.service';
 import { ModalComponent } from '../../../share/modal/modal.component';
 import { ConfirmDialogComponent } from '../../../share/modal/confirm/confirm-dialog.component';
+import { LecturesService } from './lectures.service';
 
 @Component({
   selector: 'app-calendar',

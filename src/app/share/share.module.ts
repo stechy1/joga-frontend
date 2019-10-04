@@ -67,7 +67,8 @@ import { MonthWindowComponent } from './calendar/view-type/month/window/month-wi
     ConfirmDialogComponent,
     InformDialogComponent,
     CommonModule,
-    LectureTypePathPipe
+    LectureTypePathPipe,
+    CurrentMaxValueComponent
   ],
   entryComponents: [
     DayScheduleComponent,

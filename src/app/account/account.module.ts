@@ -6,6 +6,7 @@ import { LecturesComponent } from './lectures/lectures.component';
 import { PersonalComponent } from './personal/personal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ShareModule } from '../share/share.module';
+import { LecturesService } from './lectures/lectures.service';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,9 @@ import { ShareModule } from '../share/share.module';
     AccountRoutingModule,
     ReactiveFormsModule,
     ShareModule
+  ],
+  providers: [
+    LecturesService
   ]
 })
 export class AccountModule {

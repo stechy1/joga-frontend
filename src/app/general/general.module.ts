@@ -13,6 +13,7 @@ import { ServicesComponent } from './fragments/services/services.component';
 import { LectureTypeComponent } from './lecture-type/lecture-type.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { LecturesService } from './fragments/calendar/lectures.service';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
     ReactiveFormsModule,
     NgxCaptchaModule
   ],
+  providers: [LecturesService]
 })
 export class GeneralModule {
 

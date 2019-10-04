@@ -1,4 +1,24 @@
 <h1>Moje lekce</h1>
 <div class="row">
-
+  <div class="col-10 offset-1 lectures bg-light">
+    <div class="row lecture align-items-center" *ngFor="let action of dayActions | async">
+      <div class="col-3">
+        <h4 class="action-name">{{action.name}}</h4>
+        <small class="action-addition">{{action.place}}</small>
+      </div>
+      <div class="col">
+        <div class="text-center">
+          {{action.timeStart | date:"HH:mm"}} - {{action.timeEnd | date:"HH:mm"}}
+        </div>
+      </div>
+      <div class="col">
+        <app-current-max-value [currentValue]="action.reserved" [maxValue]="action.capacity" lowerDelta="4" higherDelta="7"></app-current-max-value>
+      </div>
+      <div class="col-3">
+        <button class="btn btn-danger btn-sm" *ngIf="action.assigned" (click)="handleCancelDayAction(action)">Odhlásit</button>
+      </div>
+    </div>
+  </div>
 </div>
+
+<app-modal #modal></app-modal>

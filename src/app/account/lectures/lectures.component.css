@@ -1,0 +1,11 @@
+.lectures {
+
+}
+
+.lectures .lecture {
+  padding: 2px;
+}
+
+.lectures .lecture:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
