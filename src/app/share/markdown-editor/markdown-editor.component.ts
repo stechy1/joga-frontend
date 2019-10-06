@@ -10,6 +10,8 @@ import {
 } from './editor-toolbar/toolbar-buttons';
 import { MarkdownService } from './markdown.service';
 import { BehaviorSubject } from 'rxjs';
+import { ModalComponent } from '../modal/modal.component';
+import { FileBrowserComponent } from '../file-browser/file-browser.component';
 
 @Component({
   selector: 'app-markdown-editor',
@@ -18,6 +20,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class MarkdownEditorComponent implements OnInit {
 
+  @ViewChild('modal', {static: true}) modal: ModalComponent;
   @ViewChild('textarea', {static: true}) textarea: ElementRef;
 
   showPreview: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -65,6 +68,8 @@ export class MarkdownEditorComponent implements OnInit {
   }
 
   private _handleShowFileExplorer(): boolean {
+    this.modal.showComponent = FileBrowserComponent;
+    this.modal.open();
     return false;
   }
 

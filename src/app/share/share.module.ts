@@ -26,6 +26,7 @@ import { WeekWindowComponent } from './calendar/view-type/week/week-window/week-
 import { MonthWindowComponent } from './calendar/view-type/month/window/month-window.component';
 import { MarkdownEditorComponent } from './markdown-editor/markdown-editor.component';
 import { EditorToolbarComponent } from './markdown-editor/editor-toolbar/editor-toolbar.component';
+import { FileBrowserComponent } from './file-browser/file-browser.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { EditorToolbarComponent } from './markdown-editor/editor-toolbar/editor-
     LectureTypePathPipe,
     WeekWindowComponent,
     MarkdownEditorComponent,
-    EditorToolbarComponent
+    EditorToolbarComponent,
+    FileBrowserComponent
   ],
   imports: [
     CommonModule,
@@ -78,7 +80,8 @@ import { EditorToolbarComponent } from './markdown-editor/editor-toolbar/editor-
   entryComponents: [
     DayScheduleComponent,
     ConfirmDialogComponent,
-    InformDialogComponent
+    InformDialogComponent,
+    FileBrowserComponent
   ]
 })
 export class ShareModule {
