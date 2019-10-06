@@ -1,0 +1,21 @@
+<div class="markdown-editor">
+  <form>
+    <div class="row editor-header">
+      <div class="col-12">
+        <app-editor-toolbar [buttons]="buttons" (btnClick)="handleToolbarButtonClick($event)"></app-editor-toolbar>
+      </div>
+    </div>
+    <div class="row editor-content">
+      <div class="col-12">
+        <div>
+        <textarea #textarea name="document-editor" id="document-editor" cols="30" rows="10" class="form-control"
+                   [(ngModel)]="content" [style.display]="(showPreview | async) ? 'none' : 'block'"></textarea>
+          <small class="float-right">Počet znaků: {{content?.length || 0}}</small>
+        </div>
+        <div [style.display]="(showPreview | async) ? 'block' : 'none'" [innerHTML]="htmlPreview">
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

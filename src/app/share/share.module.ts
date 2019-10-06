@@ -24,6 +24,8 @@ import { AgendaComponent } from './calendar/view-type/agenda/agenda.component';
 import { LectureTypePathPipe } from './lecture-type-path.pipe';
 import { WeekWindowComponent } from './calendar/view-type/week/week-window/week-window.component';
 import { MonthWindowComponent } from './calendar/view-type/month/window/month-window.component';
+import { MarkdownEditorComponent } from './markdown-editor/markdown-editor.component';
+import { EditorToolbarComponent } from './markdown-editor/editor-toolbar/editor-toolbar.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { MonthWindowComponent } from './calendar/view-type/month/window/month-wi
     WeekComponent,
     AgendaComponent,
     LectureTypePathPipe,
-    WeekWindowComponent
+    WeekWindowComponent,
+    MarkdownEditorComponent,
+    EditorToolbarComponent
   ],
   imports: [
     CommonModule,
@@ -68,7 +72,8 @@ import { MonthWindowComponent } from './calendar/view-type/month/window/month-wi
     InformDialogComponent,
     CommonModule,
     LectureTypePathPipe,
-    CurrentMaxValueComponent
+    CurrentMaxValueComponent,
+    MarkdownEditorComponent
   ],
   entryComponents: [
     DayScheduleComponent,

@@ -1,0 +1,23 @@
+.editor-toolbar {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.list-group-item {
+  padding: 0.25rem 0.65rem;
+}
+
+.editor-toolbar .editor-control {
+  /*padding: 4px;*/
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  /*min-width: 30px;*/
+  /*min-height: 30px;*/
+  /*width: 25px;*/
+  /*height: 25px;*/
+  /*line-height: 1;*/
+}
+
+.editor-toolbar .editor-control:hover {
+  background: rgba(255, 255, 255, 0.5);
+}

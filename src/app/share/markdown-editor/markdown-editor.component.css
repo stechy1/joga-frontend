@@ -1,0 +1,8 @@
+.markdown-editor {
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.markdown-editor textarea {
+  width: 100%;
+}
