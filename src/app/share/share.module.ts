@@ -27,6 +27,7 @@ import { MonthWindowComponent } from './calendar/view-type/month/window/month-wi
 import { MarkdownEditorComponent } from './markdown-editor/markdown-editor.component';
 import { EditorToolbarComponent } from './markdown-editor/editor-toolbar/editor-toolbar.component';
 import { FileBrowserComponent } from './file-browser/file-browser.component';
+import { ToolbarPositionPipe } from './markdown-editor/editor-toolbar/toolbar-position.pipe';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { FileBrowserComponent } from './file-browser/file-browser.component';
     WeekWindowComponent,
     MarkdownEditorComponent,
     EditorToolbarComponent,
-    FileBrowserComponent
+    FileBrowserComponent,
+    ToolbarPositionPipe
   ],
   imports: [
     CommonModule,

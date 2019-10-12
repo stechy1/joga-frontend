@@ -3,9 +3,10 @@
     <h1>Informace</h1>
 
     <div class="form-group shadow-textarea">
-      <label for="about-me">Informace o mně</label>
-      <textarea class="form-control z-depth-1" id="about-me" rows="3"
-                placeholder="Write something here..." [(ngModel)]="aboutMe"></textarea>
+      <label>Informace o mně</label>
+      <app-markdown-editor [content]="aboutMe"></app-markdown-editor>
+<!--      <textarea class="form-control z-depth-1" id="about-me" rows="3"-->
+<!--                placeholder="Write something here..." [(ngModel)]="aboutMe"></textarea>-->
       <div class="float-right">
         <button class="btn btn-primary" (click)="handleSave('my')">Uložit</button>
         <button class="btn btn-secondary" (click)="handlePublish('my')">Publikovat</button>
@@ -13,9 +14,10 @@
     </div>
 
     <div class="form-group shadow-textarea">
-      <label for="about-studio">Informace o studiu</label>
-      <textarea class="form-control z-depth-1" id="about-studio" rows="3"
-                placeholder="Write something here..." [(ngModel)]="aboutStudio"></textarea>
+      <label>Informace o studiu</label>
+      <app-markdown-editor [content]="aboutStudio"></app-markdown-editor>
+<!--      <textarea class="form-control z-depth-1" id="about-studio" rows="3"-->
+<!--                placeholder="Write something here..." [(ngModel)]="aboutStudio"></textarea>-->
       <div class="float-right">
         <button class="btn btn-primary" (click)="handleSave('studio')">Uložit</button>
         <button class="btn btn-secondary" (click)="handlePublish('studio')">Publikovat</button>

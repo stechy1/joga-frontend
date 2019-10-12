@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ToolbarButton } from './editor-toolbar/toolbar-button';
 import {
   BUTTON_BOLD, BUTTON_ITALIC, BUTTON_UNDERLINE,
@@ -24,7 +24,7 @@ export class MarkdownEditorComponent implements OnInit {
   @ViewChild('textarea', {static: true}) textarea: ElementRef;
 
   showPreview: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  content = '';
+  @Input() content = '';
   buttons: ToolbarButton[];
   htmlPreview: string;
 

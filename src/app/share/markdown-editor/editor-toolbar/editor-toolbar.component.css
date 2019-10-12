@@ -1,6 +1,6 @@
 .editor-toolbar {
-  width: 100%;
   overflow-x: auto;
+  display: inline-flex;
 }
 
 .list-group-item {

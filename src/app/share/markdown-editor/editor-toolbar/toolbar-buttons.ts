@@ -6,42 +6,48 @@ export const BUTTON_HEADINGS: ToolbarButton[] = [
     tooltip: 'Nadpis 1',
     before: '#',
     after: '',
-    onClick: () => true
+    onClick: () => true,
+    position: 'left'
   },
   {
     icon: 'looks_two',
     tooltip: 'Nadpis 2',
     before: '##',
     after: '',
-    onClick: () => true
+    onClick: () => true,
+    position: 'left'
   },
   {
     icon: 'looks_3',
     tooltip: 'Nadpis 3',
     before: '###',
     after: '',
-    onClick: () => true
+    onClick: () => true,
+    position: 'left'
   },
   {
     icon: 'looks_4',
     tooltip: 'Nadpis 4',
     before: '####',
     after: '',
-    onClick: () => true
+    onClick: () => true,
+    position: 'left'
   },
   {
     icon: 'looks_5',
     tooltip: 'Nadpis 5',
     before: '#####',
     after: '',
-    onClick: () => true
+    onClick: () => true,
+    position: 'left'
   },
   {
     icon: 'looks_6',
     tooltip: 'Nadpis 6',
     before: '######',
     after: '',
-    onClick: () => true
+    onClick: () => true,
+    position: 'left'
   },
 ];
 
@@ -50,7 +56,8 @@ export const BUTTON_BOLD: ToolbarButton = {
   tooltip: 'Tučný',
   before: '**',
   after: '**',
-  onClick: () => true
+  onClick: () => true,
+  position: 'left'
 };
 
 export const BUTTON_ITALIC: ToolbarButton = {
@@ -58,7 +65,8 @@ export const BUTTON_ITALIC: ToolbarButton = {
   tooltip: 'Kurzíva',
   before: '*',
   after: '*',
-  onClick: () => true
+  onClick: () => true,
+  position: 'left'
 };
 
 export const BUTTON_UNDERLINE: ToolbarButton = {
@@ -66,7 +74,8 @@ export const BUTTON_UNDERLINE: ToolbarButton = {
   tooltip: 'Podrtžený',
   before: '',
   after: '',
-  onClick: () => true
+  onClick: () => true,
+  position: 'left'
 };
 
 export const BUTTON_STRIKETHROUGH: ToolbarButton = {
@@ -74,7 +83,8 @@ export const BUTTON_STRIKETHROUGH: ToolbarButton = {
   tooltip: 'Přeškrtnutý',
   before: '~~',
   after: '~~',
-  onClick: () => true
+  onClick: () => true,
+  position: 'left'
 };
 
 export const BUTTON_HIGHLIGHT: ToolbarButton = {
@@ -82,7 +92,8 @@ export const BUTTON_HIGHLIGHT: ToolbarButton = {
   tooltip: 'Zvýraznit',
   before: '/',
   after: '\\',
-  onClick: () => true
+  onClick: () => true,
+  position: 'left'
 };
 
 export const BUTTON_SMALL: ToolbarButton = {
@@ -90,7 +101,8 @@ export const BUTTON_SMALL: ToolbarButton = {
   tooltip: 'Zmenšit',
   before: '\\',
   after: '/',
-  onClick: () => true
+  onClick: () => true,
+  position: 'left'
 };
 
 export const BUTTON_QUOTES: ToolbarButton = {
@@ -98,7 +110,8 @@ export const BUTTON_QUOTES: ToolbarButton = {
   tooltip: 'Citace',
   before: '> ',
   after: '',
-  onClick: () => true
+  onClick: () => true,
+  position: 'left'
 };
 
 export const BUTTON_ORDERED_LIST: ToolbarButton = {
@@ -107,7 +120,8 @@ export const BUTTON_ORDERED_LIST: ToolbarButton = {
   before: '- \n- \n- ',
   after: '',
   space: -6,
-  onClick: () => true
+  onClick: () => true,
+  position: 'left'
 };
 
 export const BUTTON_UNORDERED_LIST: ToolbarButton = {
@@ -116,7 +130,8 @@ export const BUTTON_UNORDERED_LIST: ToolbarButton = {
   before: '1. \n2. \n3. ',
   after: '',
   space: -8,
-  onClick: () => true
+  onClick: () => true,
+  position: 'left'
 };
 
 export const BUTTON_LINK: ToolbarButton = {
@@ -125,7 +140,8 @@ export const BUTTON_LINK: ToolbarButton = {
   before: '[text]',
   after: '(odkaz)',
   space: -5,
-  onClick: () => true
+  onClick: () => true,
+  position: 'left'
 };
 
 export const BUTTON_IMAGE: ToolbarButton = {
@@ -133,7 +149,8 @@ export const BUTTON_IMAGE: ToolbarButton = {
   tooltip: 'Vložit obrázek',
   before: '',
   after: '',
-  onClick: () => false
+  onClick: () => false,
+  position: 'left'
 };
 
 export const BUTTON_PREVIEW: ToolbarButton = {
@@ -141,5 +158,6 @@ export const BUTTON_PREVIEW: ToolbarButton = {
   tooltip: 'Náhled',
   before: '',
   after: '',
-  onClick: () => false
+  onClick: () => false,
+  position: 'right'
 };

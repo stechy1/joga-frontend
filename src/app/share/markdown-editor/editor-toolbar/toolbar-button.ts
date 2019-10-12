@@ -6,4 +6,5 @@ export interface ToolbarButton {
   space?: number;
   selection?: number;
   onClick?: () => boolean;
+  position: 'left' | 'right';
 }
