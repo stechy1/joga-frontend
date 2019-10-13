@@ -1,18 +1,23 @@
-<ul class="list-group list-group-horizontal editor-toolbar">
+<div class="row flex-nowrap m-0">
+  <div class="col overflow-auto editor-toolbar-wrapper">
+    <ul class="list-group list-group-horizontal editor-toolbar">
 
-  <li class="list-group-item editor-control" title="{{button.tooltip}}" *ngFor="let button of buttons | toolbarPosition:'left'" (click)="btnClick.next(button)">
-    <span><i class="material-icons">{{button.icon}}</i></span>
-  </li>
+      <li class="list-group-item editor-control" title="{{button.tooltip}}" *ngFor="let button of buttons | toolbarPosition:'left'" (click)="btnClick.next(button)">
+        <span><i class="material-icons">{{button.icon}}</i></span>
+      </li>
 
-</ul>
+    </ul>
+  </div>
+  <div class="col-4 col-sm-4 col-md-2 col-lg-1">
+    <ul class="list-group list-group-horizontal editor-toolbar float-right">
 
-<ul class="list-group list-group-horizontal editor-toolbar float-right">
+      <li class="list-group-item editor-control" title="{{button.tooltip}}" *ngFor="let button of buttons | toolbarPosition:'right'" (click)="btnClick.next(button)">
+        <span><i class="material-icons">{{button.icon}}</i></span>
+      </li>
 
-  <li class="list-group-item editor-control" title="{{button.tooltip}}" *ngFor="let button of buttons | toolbarPosition:'right'" (click)="btnClick.next(button)">
-    <span><i class="material-icons">{{button.icon}}</i></span>
-  </li>
-
-</ul>
+    </ul>
+  </div>
+</div>
 
 
 <!--<p>You can use the mark tag to <mark>highlight</mark> text.</p>-->

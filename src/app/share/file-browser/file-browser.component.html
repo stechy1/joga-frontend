@@ -1,3 +1,51 @@
-<div class="row">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" (click)="handleShowDir()"><span class="btn btn-sm btn-link">Domov</span></li>
+    <li class="breadcrumb-item" (click)="handleShowDir(folder)" *ngFor="let folder of folders | async"><span class="btn btn-sm btn-link">{{folder.name}}</span></li>
+  </ol>
+</nav>
 
+<div class="row">
+  <div class="col text-center" *ngIf="files.length == 0">
+    <h1>Nebyly nalezeny žádné soubory!</h1>
+    <small>Nahrajte nový soubor.</small>
+  </div>
+  <div class="col file-entry-wrapper" *ngIf="files.length != 0">
+    <div class="file-entry" *ngFor="let file of files" (click)="handleFileEntryClick(file)">
+      <div class="text-center">
+        <!-- Záznam je složky -->
+        <div class="directory" [title]="file.name" *ngIf="file.isDirectory">
+          <div>
+            <i class="material-icons md-48">folder</i>
+          </div>
+          <small class="d-block text-truncate">{{file.name}}</small>
+        </div>
+
+        <!-- Záznam je obrázek -->
+        <div class="image" [title]="file.name" *ngIf="file.isImage" style="z-index: 5">
+          <img class="img-thumbnail" [src]="'/public/uploads/user/' + file.path" alt="">
+          <small class="d-block text-truncate">{{file.name}}</small>
+        </div>
+
+        <!-- Záznam je standartní soubor -->
+        <div class="file" [title]="file.name" *ngIf="!(file.isImage || file.isDirectory)">
+          <span>{{file.extention}}</span>
+          <small class="d-block text-truncate">{{file.name}}</small>
+        </div>
+      </div>
+
+      <span style="position:relative; top: -70px;"><i class="material-icons md-18">
+        {{file.selected ? 'radio_button_checked' : 'radio_button_unchecked'}}</i></span>
+
+      <span class="delete-file" (click)="handleDeleteFile(file)"><i class="material-icons md-18 text-danger pointer">delete</i></span>
+    </div>
+  </div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-8 text-center">
+    <button class="btn btn-sm btn-primary">Nahrát soubory</button>
+    <button class="btn btn-sm btn-secondary valign-wrapper" (click)="handleCreateFolder()"><i
+      class="material-icons">create_new_folder</i><span>Vytvořit složku</span></button>
+  </div>
 </div>

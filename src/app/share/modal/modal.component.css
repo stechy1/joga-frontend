@@ -1,11 +1,11 @@
 .modal {
   position: fixed;
   top: 0;
-  left: 25%;
+  /*left: 25vw;*/
   z-index: 1032;
   display: none;
-  width: 50vw;
-  min-height: 50vw;
+  /*width: 75vw;*/
+  min-height: 25vw;
   overflow: hidden;
   outline: 0;
 }

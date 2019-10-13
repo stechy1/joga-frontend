@@ -55,7 +55,7 @@ import { ToolbarPositionPipe } from './markdown-editor/editor-toolbar/toolbar-po
     MarkdownEditorComponent,
     EditorToolbarComponent,
     FileBrowserComponent,
-    ToolbarPositionPipe
+    ToolbarPositionPipe,
   ],
   imports: [
     CommonModule,
