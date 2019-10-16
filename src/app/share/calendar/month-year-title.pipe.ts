@@ -7,7 +7,6 @@ import { Days, getWeek, Months, ViewType } from './calendar.utils';
 export class MonthYearTitlePipe implements PipeTransform {
 
   transform(value: Date, viewType: ViewType): any {
-    console.log(value);
     switch (viewType) {
       case ViewType.MONTH:
         return `${Months.getFullName(value.getMonth())}, ${value.getFullYear()}`;

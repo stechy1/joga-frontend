@@ -8,7 +8,7 @@ import { BASE_GENERAL_API } from '../../general.share';
 @Injectable()
 export class LecturesService {
 
-  private static readonly ACCESS_POINT = `${BASE_GENERAL_API}/lectures`;
+  private static readonly ACCESS_POINT = `/api/account/lectures`;
   private static readonly ASSIGN_LECTURE = `${LecturesService.ACCESS_POINT}/assign`;
   private static readonly CANCEL_LECTURE = `${LecturesService.ACCESS_POINT}/cancel`;
 

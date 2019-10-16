@@ -1,7 +1,7 @@
 import { Component} from '@angular/core';
 import { DialogChildComponent } from '../dialog-child.component';
 import { ModalComponent } from '../modal.component';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 
 @Component({
   templateUrl: './confirm-dialog.component.html',
@@ -41,6 +41,7 @@ export class ConfirmDialogComponent extends DialogChildComponent {
     modal.confirmText = 'Potvrzuji';
     modal.cancelText = 'Zrušit';
     modal.confirmClose = false;
+    modal.confirmDisabled = of(false);
     this._confirmSubscription =  modal.confirm.subscribe(() => this._handleConfirm());
     this._cancelSubscription =  modal.cancel.subscribe(() => this._handleNotConfirm());
     this._showSubscription =  modal.show.subscribe((args) => this._prepareForm(args[0]));
