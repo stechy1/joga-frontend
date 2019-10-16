@@ -14,7 +14,8 @@
         <h3 class="text-center">Akce pro tento den</h3>
         <div class="row record align-items-center" *ngFor="let action of actions">
           <div class="col-3">
-            <h4 class="action-name">{{action.name}}</h4>
+            <h4 class="action-name" *ngIf="isClient">{{action.name}}</h4>
+            <h4 class="action-name" *ngIf="isLector"><a [routerLink]="[action.id]">{{action.name}}</a></h4>
             <small class="action-addition">{{action.place}}</small>
           </div>
           <div class="col">

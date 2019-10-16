@@ -5,4 +5,5 @@ export interface JWT {
   exp: string;
   id: string;
   role: number;
+  checked: boolean;
 }

@@ -5,6 +5,7 @@ import { mapLectureToDayAction } from '../../share/general-utils';
 import { BehaviorSubject } from 'rxjs';
 import { ConfirmDialogComponent } from '../../share/modal/confirm/confirm-dialog.component';
 import { ModalComponent } from '../../share/modal/modal.component';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-lectures',
@@ -17,7 +18,7 @@ export class LecturesComponent implements OnInit {
 
   dayActions: BehaviorSubject<DayAction[]> = new BehaviorSubject<DayAction[]>([]);
 
-  constructor(private _service: LecturesService) { }
+  constructor(private _service: LecturesService, private _auth: AuthService) { }
 
   ngOnInit() {
     this._service.myLectures()
@@ -34,5 +35,9 @@ export class LecturesComponent implements OnInit {
       message: 'Opravdu si přejete se odhlásit z lekce?',
       confirm: () => self._service.cancel(dayAction)
     });
+  }
+
+  get isAccountChecked(): boolean {
+    return this._auth.user.getValue().checked;
   }
 }

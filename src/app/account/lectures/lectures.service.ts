@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BASE_ACCOUNT_API } from '../account.share';
 import { DayAction } from '../../share/calendar/day-action';
-import { ViewType } from '../../share/calendar/calendar.utils';
 import { Lecture } from '../../share/lecture';
-import { BASE_GENERAL_API } from '../../general/general.share';
 
 @Injectable()
 export class LecturesService {

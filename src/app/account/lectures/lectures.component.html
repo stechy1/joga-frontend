@@ -1,6 +1,11 @@
 <h1>Moje lekce</h1>
 <div class="row">
-  <div class="col-10 offset-1 lectures bg-light">
+  <div class="col text-center" *ngIf="(dayActions | async).length == 0">
+    <h2>Nejste přihlášeni na žádnou lekci</h2>
+    <p *ngIf="!isAccountChecked">Aby jste se mohli přihlásit na lekci, musíte nejdříve ověřit účet!</p>
+    <p *ngIf="isAccountChecked">Na hlavní stránce v <a routerLink="/" fragment="calendar">kalendáři</a> se můžete přihlásit na lekci.</p>
+  </div>
+  <div class="col-10 offset-1 lectures bg-light" *ngIf="(dayActions | async).length != 0">
     <div class="row lecture align-items-center" *ngFor="let action of dayActions | async">
       <div class="col-3">
         <h4 class="action-name">{{action.name}}</h4>

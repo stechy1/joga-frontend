@@ -5,18 +5,21 @@ export class User {
 
   public readonly id: string;
   public readonly _role: UserRole;
+  public readonly checked: boolean;
   private readonly _token: string;
   private readonly _exprirationDate: Date;
 
   constructor(jwt?: string) {
     if (jwt) {
       this._token = jwt;
-      const payload = jwt_decode(jwt) as JWT;
+      const payload: JWT = jwt_decode(jwt) as JWT;
       this.id = `${payload.id}`;
+      this.checked = payload.checked;
       this._role = payload.role;
       this._exprirationDate = new Date(+payload.exp * 1000);
     } else {
       this.id = '-1';
+      this.checked = false;
       this._token = null;
       this._role = UserRole.NONE;
       this._exprirationDate = null;
