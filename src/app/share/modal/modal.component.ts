@@ -134,7 +134,7 @@ export class ModalComponent implements OnDestroy {
       // Přihlásím se k odběru zrušení dialogu
       this._cancelSubscription = this.cancel.subscribe(() => {
         // Příjde-li zrušení, považuji to za zrušení celého dialogu
-        reject();
+        reject(null);
       });
     });
   }

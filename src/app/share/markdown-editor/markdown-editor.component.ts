@@ -1,38 +1,40 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ToolbarButton } from './editor-toolbar/toolbar-button';
 import {
   BUTTON_BOLD, BUTTON_ITALIC, BUTTON_UNDERLINE,
-  BUTTON_HIGHLIGHT, BUTTON_IMAGE,
-  BUTTON_LINK, BUTTON_ORDERED_LIST, BUTTON_PREVIEW, BUTTON_QUOTES,
+  BUTTON_HIGHLIGHT,
+  BUTTON_LINK, BUTTON_ORDERED_LIST, BUTTON_QUOTES,
   BUTTON_SMALL,
   BUTTON_STRIKETHROUGH,
-  BUTTON_UNORDERED_LIST, BUTTON_HEADINGS
+  BUTTON_UNORDERED_LIST, BUTTON_HEADINGS, buttonForImage, buttonForPreview
 } from './editor-toolbar/toolbar-buttons';
 import { MarkdownService } from './markdown.service';
 import { BehaviorSubject } from 'rxjs';
 import { ModalComponent } from '../modal/modal.component';
 import { FileBrowserComponent } from '../file-browser/file-browser.component';
+import { FileRecord } from '../file-browser/file-record';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ValueAccessorBase } from '../value-accessor-base';
 
 @Component({
   selector: 'app-markdown-editor',
   templateUrl: './markdown-editor.component.html',
-  styleUrls: ['./markdown-editor.component.css']
+  styleUrls: ['./markdown-editor.component.css'],
+  providers: [
+    {provide: NG_VALUE_ACCESSOR, useExisting: MarkdownEditorComponent, multi: true}
+  ]
 })
-export class MarkdownEditorComponent implements OnInit {
+export class MarkdownEditorComponent extends ValueAccessorBase<string> implements OnInit {
 
   @ViewChild('modal', {static: true}) modal: ModalComponent;
   @ViewChild('textarea', {static: true}) textarea: ElementRef;
 
   showPreview: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  @Input() content = '';
   buttons: ToolbarButton[];
   htmlPreview: string;
 
   constructor(private _service: MarkdownService) {
-    const btnImage = {...BUTTON_IMAGE};
-    btnImage.onClick = () => this._handleShowFileExplorer();
-    const btnPreview = {...BUTTON_PREVIEW};
-    btnPreview.onClick = () => this._handleShowPreview();
+    super();
 
     this.buttons = [
       ...BUTTON_HEADINGS,
@@ -46,15 +48,15 @@ export class MarkdownEditorComponent implements OnInit {
       BUTTON_ORDERED_LIST,
       BUTTON_UNORDERED_LIST,
       BUTTON_LINK,
-      btnImage,
-      btnPreview
+      buttonForImage(() => this._handleShowFileExplorer()),
+      buttonForPreview(() => this._handleShowPreview())
     ];
   }
 
   ngOnInit() {
     this.showPreview.subscribe((showPreview: boolean) => {
       if (showPreview) {
-        this._service.encode(this.content)
+        this._service.encode(this.value)
             .then(html => {
               this.htmlPreview = html;
             });
@@ -62,27 +64,20 @@ export class MarkdownEditorComponent implements OnInit {
     });
   }
 
-  private _handleShowPreview(): boolean {
-    this.showPreview.next(!this.showPreview.getValue());
-    return false;
-  }
-
-  private _handleShowFileExplorer(): boolean {
-    this.modal.showComponent = FileBrowserComponent;
-    this.modal.open();
-    return false;
-  }
-
   handleToolbarButtonClick(button: ToolbarButton) {
     if (!button.onClick()) {
       return;
     }
 
+    this._insertContent(button);
+  }
+
+  private _insertContent(button: { before?: string, after?: string, space?: number }) {
     const textArea = ((this.textarea.nativeElement) as HTMLTextAreaElement);
     const selectionStart = textArea.selectionStart;
     const selectionEnd = textArea.selectionEnd;
-    const selectedText = this.content.substr(selectionStart, selectionEnd - selectionStart);
-    const originalText = this.content;
+    const selectedText = this.value.substr(selectionStart, selectionEnd - selectionStart);
+    const originalText = this.value;
 
     // Mám vybraný text
     if (selectedText) {
@@ -98,11 +93,11 @@ export class MarkdownEditorComponent implements OnInit {
         // Získám samotný označený text
         const part2 = selectedText;
         // Získám text až za značkou
-        const part3 = originalText.substr(selectionStart + selectedText.length + ((button.after) ? button.after.length : 0) );
+        const part3 = originalText.substr(selectionStart + selectedText.length + ((button.after) ? button.after.length : 0));
         // Obsah je spojení těchto tří řetězců
-        this.content = part1 + part2 + part3;
+        this.value = part1 + part2 + part3;
       } else {
-        this.content =
+        this.value =
           originalText.substr(0, selectionStart) +
           button.before +
           selectedText +
@@ -117,7 +112,7 @@ export class MarkdownEditorComponent implements OnInit {
       return;
     }
 
-    this.content =
+    this.value =
       originalText.substr(0, selectionStart) +
       button.before +
       selectedText +
@@ -127,5 +122,25 @@ export class MarkdownEditorComponent implements OnInit {
 
     const newCursorPos = selectionEnd + ((button.after) ? button.after.length : 0) + (button.space || 0);
     textArea.setSelectionRange(newCursorPos, newCursorPos);
+  }
+
+  private _handleShowPreview(): boolean {
+    this.showPreview.next(!this.showPreview.getValue());
+    return false;
+  }
+
+  private _handleShowFileExplorer(): boolean {
+    this.modal.showComponent = FileBrowserComponent;
+    this.modal.openForResult()
+        .then((file: FileRecord) => {
+          this._insertContent({
+            before: `![${file.name}`,
+            after: `](public/uploads/user/${file.path})`
+          });
+        })
+        .catch(() => {
+          // Dialog was closed
+        });
+    return false;
   }
 }

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { DialogChildComponent } from '../modal/dialog-child.component';
 import { ModalComponent } from '../modal/modal.component';
 import { FileBrowserService } from './file-browser.service';
 import { FileRecord } from './file-record';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -21,8 +21,10 @@ export class FileBrowserComponent extends DialogChildComponent implements OnInit
   });
 
   private _lastSelectedFile: FileRecord = null;
-  private _selectedFile: FileRecord = null;
   private _formInvalid: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  private _selectedFile: EventEmitter<FileRecord> = new EventEmitter<FileRecord>();
+  private _insertFileSubscription: Subscription;
+  private _modal: ModalComponent;
 
   constructor(private _service: FileBrowserService) {
     super();
@@ -45,20 +47,21 @@ export class FileBrowserComponent extends DialogChildComponent implements OnInit
     modal.title = 'Prohlížeč souborů';
     modal.confirmText = 'Vložit';
     modal.confirmDisabled = this._formInvalid;
+    modal.result = this._selectedFile;
+    this._insertFileSubscription =  modal.confirm.subscribe(() => this.handleInsertFile());
+    this._modal = modal;
   }
 
   unbind(modal: ModalComponent) {
-
+    this._insertFileSubscription.unsubscribe();
   }
 
   handleCreateFolder() {
     const folderName = prompt('Zadejte název složky', 'nová složka');
     if (folderName && folderName.length > 0) {
       this._service.createFolder(this.folders.getValue(), folderName)
-          .then(folder => {
-            const folders = this.folders.getValue();
-            folders.push(folder);
-            this.folders.next(folders);
+          .then(files => {
+            this.files = files;
           });
     }
   }
@@ -67,6 +70,7 @@ export class FileBrowserComponent extends DialogChildComponent implements OnInit
     // Kliknu znovu na jeden a ten samý soubor
     if (this._lastSelectedFile === file) {
       this._lastSelectedFile.selected = !this._lastSelectedFile.selected;
+      this.fileForm.reset();
       return;
     }
 
@@ -76,6 +80,7 @@ export class FileBrowserComponent extends DialogChildComponent implements OnInit
     }
 
     if (file.isDirectory) {
+      this.fileForm.reset();
       const folders = this.folders.getValue();
       folders.push(file);
       this.folders.next(folders);
@@ -84,10 +89,14 @@ export class FileBrowserComponent extends DialogChildComponent implements OnInit
 
     file.selected = true;
     this._lastSelectedFile = file;
+    this.fileForm.get('blob').setValue(file);
   }
 
   handleDeleteFile(file: FileRecord) {
-
+    this._service.delete(this.folders.getValue(), file)
+        .then(files => {
+          this.files = files;
+        });
   }
 
   handleShowDir(folder: FileRecord = null) {
@@ -97,7 +106,7 @@ export class FileBrowserComponent extends DialogChildComponent implements OnInit
     }
 
     const folders = this.folders.getValue();
-    for (let i = folders.length - 1; i <= 0; i--) {
+    for (let i = folders.length - 1; i >= 0; i--) {
       const subfolder: FileRecord = folders[i];
       if (subfolder.name === folder.name) {
         break;
@@ -106,5 +115,17 @@ export class FileBrowserComponent extends DialogChildComponent implements OnInit
     }
 
     this.folders.next(folders);
+  }
+
+  onFilesAdded(event: Event) {
+    const target: HTMLInputElement = (event.target as HTMLInputElement);
+    this._service.upload(this.folders.getValue(), target.files)
+        .then(files => {
+          this.files = files;
+        });
+  }
+
+  private handleInsertFile() {
+    this._selectedFile.next(this.fileForm.get('blob').value);
   }
 }
