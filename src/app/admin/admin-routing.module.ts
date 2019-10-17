@@ -8,6 +8,7 @@ import { ClientsComponent } from './clients/clients.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { MyComponent } from './my/my.component';
 import { LectureTypesComponent } from './lecture-types/lecture-types.component';
+import { LectureDetailComponent } from './lectures/lecture-detail/lecture-detail.component';
 
 const routes: Routes = [
 
@@ -49,7 +50,7 @@ const routes: Routes = [
           },
           {
             path: ':id',
-            component: LectureComponent
+            component: LectureDetailComponent
           }
         ]
       },

@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, EventEmitter, OnDestroy, ViewChild, Type } from '@angular/core';
+import { Component, ComponentFactoryResolver, EventEmitter, OnDestroy, ViewChild, Type, Input } from '@angular/core';
 import { animation } from './modal.animation';
 
 import { Observable, Subscription } from 'rxjs';
@@ -188,19 +188,19 @@ export class ModalComponent implements OnDestroy {
   get id(): string {
     return this._id;
   }
-  set title(title: string) {
+  @Input() set title(title: string) {
     this._title = title;
   }
   get title(): string {
     return this._title;
   }
-  set confirmText(confirmText: string) {
+  @Input() set confirmText(confirmText: string) {
     this._confirmText = confirmText;
   }
   get confirmText(): string {
     return this._confirmText;
   }
-  set cancelText(cancelText: string) {
+  @Input() set cancelText(cancelText: string) {
     this._cancelText = cancelText;
   }
   get cancelText(): string {
@@ -212,7 +212,7 @@ export class ModalComponent implements OnDestroy {
   get result(): Observable<any> {
     return this._result;
   }
-  set cancelDisabled(cancelDisabled: boolean) {
+  @Input() set cancelDisabled(cancelDisabled: boolean) {
     this._cancelDisabled = cancelDisabled;
   }
   get cancelDisabled(): boolean {

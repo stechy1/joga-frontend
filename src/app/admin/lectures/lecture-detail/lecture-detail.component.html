@@ -1,0 +1,36 @@
+<h1>Lekce: <small>{{lecture?.lecture_name}}</small></h1>
+
+<h3>Datum konání lekce: <small>{{lecture?.time_start | date:"dd.MM.yyyy, HH:mm"}}</small></h3>
+<h3>Místo konání lekce: <small>{{lecture?.place}}</small></h3>
+<h3>Obsazenost: <small>{{lecture?.reserved_clients}} / {{lecture?.max_persons}}</small></h3>
+
+<h3 *ngIf="clients.length == 0">Žádní klienti nejsou přihlášeni na tuto lekci.</h3>
+
+<div class="row" *ngIf="clients.length != 0">
+  <h3>Seznam přihlášených klientů</h3>
+  <table class="table table-striped table-hover">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Jméno</th>
+      <th>Přihlášen</th>
+      <th>Akce</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let client of clients">
+      <td>{{client.id}}</td>
+      <td>{{client.name}}</td>
+      <td>{{client.created | date:"dd.MM.yyyy, HH:mm"}}</td>
+      <td>
+        <button class="btn btn-sm btn-primary"><i class="material-icons">email</i>Napsat e-mail</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<span id="new-query" class="btn-floating btn-lg btn-default floating-email-btn"
+      (click)="handleShowDialogForEmail()"><i class="material-icons">email</i></span>
+
+<app-modal id="emailDialog" #modal title="Nový e-mail"></app-modal>

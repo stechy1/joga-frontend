@@ -145,41 +145,39 @@ export const BUTTON_LINK: ToolbarButton = {
 };
 
 export function buttonForImage(onClick: () => boolean): ToolbarButton {
-  return {
-    icon: 'insert_photo',
-    tooltip: 'Vložit obrázek',
-    before: '',
-    after: '',
-    onClick: onClick,
-    position: 'left'
-  }
+  const btn = {...BUTTON_IMAGE};
+  btn.onClick = onClick;
+  return btn;
 }
 
-// export const BUTTON_IMAGE: ToolbarButton = {
-//   icon: 'insert_photo',
-//   tooltip: 'Vložit obrázek',
-//   before: '',
-//   after: '',
-//   onClick: () => false,
-//   position: 'left'
-// };
+export const BUTTON_IMAGE: ToolbarButton = {
+  icon: 'insert_photo',
+  tooltip: 'Vložit obrázek',
+  before: '',
+  after: '',
+  onClick: () => false,
+  position: 'left'
+};
 
 export function buttonForPreview(onClick: () => boolean): ToolbarButton {
-  return {
-    icon: 'pageview',
-    tooltip: 'Náhled',
-    before: '',
-    after: '',
-    onClick: onClick,
-    position: 'right'
-  };
+  const btn = {...BUTTON_PREVIEW};
+  btn.onClick = onClick;
+  return btn;
+  // return {
+  //   icon: 'pageview',
+  //   tooltip: 'Náhled',
+  //   before: '',
+  //   after: '',
+  //   onClick: onClick,
+  //   position: 'right'
+  // };
 }
 
-// export const BUTTON_PREVIEW: ToolbarButton = {
-//   icon: 'pageview',
-//   tooltip: 'Náhled',
-//   before: '',
-//   after: '',
-//   onClick: () => false,
-//   position: 'right'
-// };
+export const BUTTON_PREVIEW: ToolbarButton = {
+  icon: 'pageview',
+  tooltip: 'Náhled',
+  before: '',
+  after: '',
+  onClick: () => false,
+  position: 'right'
+};

@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { ModalComponent } from './modal/modal.component';
 import { ToggleComponent } from './toggle/toggle.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogChildsDirective } from './modal/dialog-childs.directive';
 import { HeadingComponent } from './heading/heading.component';
 import { DayScheduleComponent } from './calendar/day-schedule/day-schedule.component';
@@ -28,6 +28,7 @@ import { MarkdownEditorComponent } from './markdown-editor/markdown-editor.compo
 import { EditorToolbarComponent } from './markdown-editor/editor-toolbar/editor-toolbar.component';
 import { FileBrowserComponent } from './file-browser/file-browser.component';
 import { ToolbarPositionPipe } from './markdown-editor/editor-toolbar/toolbar-position.pipe';
+import { MultilineInputComponent } from './modal/multiline-input/multiline-input.component';
 
 @NgModule({
   declarations: [
@@ -56,10 +57,12 @@ import { ToolbarPositionPipe } from './markdown-editor/editor-toolbar/toolbar-po
     EditorToolbarComponent,
     FileBrowserComponent,
     ToolbarPositionPipe,
+    MultilineInputComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule,
   ],
   exports: [
@@ -83,6 +86,7 @@ import { ToolbarPositionPipe } from './markdown-editor/editor-toolbar/toolbar-po
     DayScheduleComponent,
     ConfirmDialogComponent,
     InformDialogComponent,
+    MultilineInputComponent,
     FileBrowserComponent
   ]
 })

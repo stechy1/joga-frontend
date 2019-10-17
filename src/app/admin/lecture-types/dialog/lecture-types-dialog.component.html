@@ -13,8 +13,7 @@
   <div class="row">
     <div class="col">
       <div class="form-group">
-        <label for="description">Popis lekce</label>
-        <textarea class="form-control" formControlName="description" id="description"></textarea>
+        <app-markdown-editor formControlName="description" [buttons]="buttons" enableFileAccess="false"></app-markdown-editor>
       </div>
     </div>
   </div>

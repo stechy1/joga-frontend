@@ -4,7 +4,7 @@
 
     <div class="form-group shadow-textarea">
       <label>Informace o mně</label>
-      <app-markdown-editor [(ngModel)]="aboutMe"></app-markdown-editor>
+      <app-markdown-editor [(ngModel)]="aboutMe" [buttons]="buttons" enableFileAccess="true"></app-markdown-editor>
       <div class="float-right">
         <button class="btn btn-primary" (click)="handleSave('my')">Uložit</button>
         <button class="btn btn-secondary" (click)="handlePublish('my')">Publikovat</button>
@@ -13,7 +13,7 @@
 
     <div class="form-group shadow-textarea">
       <label>Informace o studiu</label>
-      <app-markdown-editor [(ngModel)]="aboutStudio"></app-markdown-editor>
+      <app-markdown-editor [(ngModel)]="aboutStudio" [buttons]="buttons"></app-markdown-editor>
       <div class="float-right">
         <button class="btn btn-primary" (click)="handleSave('studio')">Uložit</button>
         <button class="btn btn-secondary" (click)="handlePublish('studio')">Publikovat</button>

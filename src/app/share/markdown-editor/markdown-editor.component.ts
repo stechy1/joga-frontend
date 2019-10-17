@@ -1,15 +1,8 @@
-import { Component, ElementRef, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { ToolbarButton } from './editor-toolbar/toolbar-button';
-import {
-  BUTTON_BOLD, BUTTON_ITALIC, BUTTON_UNDERLINE,
-  BUTTON_HIGHLIGHT,
-  BUTTON_LINK, BUTTON_ORDERED_LIST, BUTTON_QUOTES,
-  BUTTON_SMALL,
-  BUTTON_STRIKETHROUGH,
-  BUTTON_UNORDERED_LIST, BUTTON_HEADINGS, buttonForImage, buttonForPreview
-} from './editor-toolbar/toolbar-buttons';
+import { BUTTON_IMAGE, BUTTON_PREVIEW, buttonForImage, buttonForPreview } from './editor-toolbar/toolbar-buttons';
 import { MarkdownService } from './markdown.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ModalComponent } from '../modal/modal.component';
 import { FileBrowserComponent } from '../file-browser/file-browser.component';
 import { FileRecord } from '../file-browser/file-record';
@@ -24,33 +17,25 @@ import { ValueAccessorBase } from '../value-accessor-base';
     {provide: NG_VALUE_ACCESSOR, useExisting: MarkdownEditorComponent, multi: true}
   ]
 })
-export class MarkdownEditorComponent extends ValueAccessorBase<string> implements OnInit {
+export class MarkdownEditorComponent extends ValueAccessorBase<string> implements OnInit, OnDestroy {
 
   @ViewChild('modal', {static: true}) modal: ModalComponent;
   @ViewChild('textarea', {static: true}) textarea: ElementRef;
+  @Input() buttons: {} | Observable<{}>;
+  @Input() enableFileAccess: boolean | Observable<boolean>;
 
   showPreview: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  buttons: ToolbarButton[];
   htmlPreview: string;
+  buttonValues: EventEmitter<ToolbarButton[]> = new EventEmitter<ToolbarButton[]>();
+
+  private _buttons: {} = {};
+  private _enableFileAccess: boolean = false;
+
+  private _buttonsSubscription: Subscription;
+  private _enableFileAccessSubscription: Subscription;
 
   constructor(private _service: MarkdownService) {
-    super();
-
-    this.buttons = [
-      ...BUTTON_HEADINGS,
-      BUTTON_BOLD,
-      BUTTON_ITALIC,
-      // BUTTON_UNDERLINE,
-      BUTTON_STRIKETHROUGH,
-      // BUTTON_HIGHLIGHT,
-      // BUTTON_SMALL,
-      BUTTON_QUOTES,
-      BUTTON_ORDERED_LIST,
-      BUTTON_UNORDERED_LIST,
-      BUTTON_LINK,
-      buttonForImage(() => this._handleShowFileExplorer()),
-      buttonForPreview(() => this._handleShowPreview())
-    ];
+    super("");
   }
 
   ngOnInit() {
@@ -62,6 +47,35 @@ export class MarkdownEditorComponent extends ValueAccessorBase<string> implement
             });
       }
     });
+
+    if (this.buttons instanceof Observable) {
+      this._buttonsSubscription = this.buttons.subscribe(buttons => {
+        this._updateButtons(buttons, this._enableFileAccess);
+      });
+    } else {
+      setTimeout(() => {
+        this._updateButtons(this.buttons, this._enableFileAccess);
+      }, 150);
+    }
+    if (this.enableFileAccess instanceof Observable) {
+      this._enableFileAccessSubscription = this.enableFileAccess.subscribe(enableFileAccess => {
+        this._updateButtons(this._buttons, enableFileAccess);
+      });
+    } else {
+      setTimeout(() => {
+        this._updateButtons(this.buttons, this.enableFileAccess as boolean);
+      }, 150);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this._buttonsSubscription != null) {
+      this._buttonsSubscription.unsubscribe();
+    }
+
+    if (this._enableFileAccessSubscription != null) {
+      this._enableFileAccessSubscription.unsubscribe();
+    }
   }
 
   handleToolbarButtonClick(button: ToolbarButton) {
@@ -70,6 +84,21 @@ export class MarkdownEditorComponent extends ValueAccessorBase<string> implement
     }
 
     this._insertContent(button);
+  }
+
+  private _updateButtons(buttons: {}, enableFileAccess: boolean) {
+    this._buttons = buttons || {};
+    this._enableFileAccess = enableFileAccess;
+    if (this._enableFileAccess) {
+      if (!this._buttons[BUTTON_IMAGE.icon]) {
+        this._buttons[BUTTON_IMAGE.icon] = buttonForImage(() => this._handleShowFileExplorer());
+      }
+    }
+    if (!this._buttons[BUTTON_PREVIEW.icon]) {
+      this._buttons[BUTTON_PREVIEW.icon] = buttonForPreview(() => this._handleShowPreview());
+    }
+
+    this.buttonValues.next(Object.values(this._buttons));
   }
 
   private _insertContent(button: { before?: string, after?: string, space?: number }) {

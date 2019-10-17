@@ -22,6 +22,7 @@ import { LectureTypesNewComponent } from './lecture-types/dialog/lecture-types-n
 import { LectureTypesUpdateComponent } from './lecture-types/dialog/lecture-types-update.component';
 import { CarouselNewComponent } from './carousel/dialog/carousel-new.component';
 import { CarouselUpdateComponent } from './carousel/dialog/carousel-update.component';
+import { LectureDetailComponent } from './lectures/lecture-detail/lecture-detail.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { CarouselUpdateComponent } from './carousel/dialog/carousel-update.compo
     LectureTypesNewComponent,
     LectureTypesUpdateComponent,
     CarouselNewComponent,
-    CarouselUpdateComponent
+    CarouselUpdateComponent,
+    LectureDetailComponent,
   ],
   imports: [
     CommonModule,

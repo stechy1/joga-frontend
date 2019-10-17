@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToolbarButton } from './toolbar-button';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-editor-toolbar',
@@ -8,11 +9,17 @@ import { ToolbarButton } from './toolbar-button';
 })
 export class EditorToolbarComponent implements OnInit {
 
-  @Input() buttons: ToolbarButton[] = [];
+  @Input() buttons: Observable<ToolbarButton[]>;
   @Output() btnClick: EventEmitter<ToolbarButton> = new EventEmitter<ToolbarButton>();
+
+  realButtons: ToolbarButton[] = [];
 
   constructor() { }
 
   ngOnInit() {
+    this.buttons.subscribe(buttons => {
+      console.log(buttons);
+      this.realButtons = buttons;
+    })
   }
 }

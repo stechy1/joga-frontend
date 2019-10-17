@@ -7,6 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ChangeServiceEvent } from '../../share/change-service-event';
 import { CRUDServiceType } from '../../share/crud-service-type';
 import { ViewType } from '../../share/calendar/calendar.utils';
+import { ClientOnLecture } from './lecture-detail/client-on-lecture';
 
 @Injectable({
   providedIn: 'root'
@@ -81,14 +82,14 @@ export class LectureService {
                });
   }
 
-  byId(lectureId: number): Promise<Lecture> {
+  byId(lectureId: number): Promise<{lecture: Lecture, clients: ClientOnLecture[]}> {
     const url = `${LectureService.GET_LECTURE_BY_ID}/${lectureId}`;
 
-    return this._http.get<{lecture: Lecture}>(url)
-               .toPromise()
-               .then(result => {
-                 return result.lecture;
-               });
+    return this._http.get<{lecture: Lecture, clients: ClientOnLecture[]}>(url)
+               .toPromise();
+               // .then(result => {
+               //   return result;
+               // });
   }
 
   insert(lecture: Lecture): Promise<Lecture> {

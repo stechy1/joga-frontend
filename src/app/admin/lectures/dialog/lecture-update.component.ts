@@ -25,8 +25,8 @@ export class LectureUpdateComponent extends LectureDialogComponent {
 
   protected prepareForm(lectureId: number) {
     this._lectureService.byId(lectureId)
-        .then(lecture => {
-          this.lectureForm.patchValue(lectureToFormValue(lecture));
+        .then(result => {
+          this.lectureForm.patchValue(lectureToFormValue(result.lecture));
         })
         .catch(reason => {
           this.logger.error(reason);

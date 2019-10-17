@@ -9,6 +9,10 @@ export class ValueAccessorBase<T> implements ControlValueAccessor {
   private touched = new Array<() => void>();
 
 
+  constructor(innerValue: T = null) {
+    this.innerValue = innerValue;
+  }
+
   get value(): T {
     return this.innerValue;
   }

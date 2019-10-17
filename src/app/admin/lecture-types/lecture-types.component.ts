@@ -6,6 +6,7 @@ import { ModalComponent } from '../../share/modal/modal.component';
 import { LectureTypesNewComponent } from './dialog/lecture-types-new.component';
 import { LectureTypesUpdateComponent } from './dialog/lecture-types-update.component';
 import { ConfirmDialogComponent } from '../../share/modal/confirm/confirm-dialog.component';
+import { BUTTON_BOLD, BUTTON_ITALIC, BUTTON_LINK, BUTTON_ORDERED_LIST, BUTTON_QUOTES, BUTTON_STRIKETHROUGH, BUTTON_UNORDERED_LIST } from '../../share/markdown-editor/editor-toolbar/toolbar-buttons';
 
 @Component({
   selector: 'app-lecture-types',
@@ -15,6 +16,7 @@ import { ConfirmDialogComponent } from '../../share/modal/confirm/confirm-dialog
 export class LectureTypesComponent implements OnInit {
 
   @ViewChild('modal', {static: true}) modal: ModalComponent;
+
 
   private _lectures: LectureType[] = [];
 
