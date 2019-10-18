@@ -6,6 +6,8 @@ import { BehaviorSubject } from 'rxjs';
 import { ConfirmDialogComponent } from '../../share/modal/confirm/confirm-dialog.component';
 import { ModalComponent } from '../../share/modal/modal.component';
 import { AuthService } from '../../auth/auth.service';
+import { PersonalService } from '../personal/personal.service';
+import { PersonalData } from '../personal/personalData';
 
 @Component({
   selector: 'app-lectures',
@@ -17,10 +19,14 @@ export class LecturesComponent implements OnInit {
   @ViewChild('modal', {static: true}) modal: ModalComponent;
 
   dayActions: BehaviorSubject<DayAction[]> = new BehaviorSubject<DayAction[]>([]);
+  isAccountChecked = false;
 
-  constructor(private _service: LecturesService, private _auth: AuthService) { }
+  constructor(private _service: LecturesService, private _personalService: PersonalService) { }
 
   ngOnInit() {
+    this._personalService.getPersonalData().then(personalData => {
+      this.isAccountChecked = personalData.checked === 1;
+    });
     this._service.myLectures()
         .then(lectures => {
           const dayActions = lectures.map(lecture => mapLectureToDayAction(lecture));
@@ -34,10 +40,15 @@ export class LecturesComponent implements OnInit {
     this.modal.open({
       message: 'Opravdu si přejete se odhlásit z lekce?',
       confirm: () => self._service.cancel(dayAction)
+                         .then(action => {
+                           const actions = this.dayActions.getValue();
+                           const index = actions.findIndex(value => action.id === value.id);
+                           if (index !== -1) {
+                             actions.splice(index, 1);
+                             this.dayActions.next(actions);
+                           }
+                         })
     });
   }
 
-  get isAccountChecked(): boolean {
-    return this._auth.user.getValue().checked;
-  }
 }

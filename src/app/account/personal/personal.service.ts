@@ -18,13 +18,8 @@ export class PersonalService {
 
   constructor(private _auth: AuthService, private _http: HttpClient) { }
 
-  dataForLoggedUser(): Promise<PersonalData> {
-    return this.byId(+this._auth.user.getValue().id);
-  }
-
-  byId(id: number): Promise<PersonalData> {
-    const url = `${PersonalService.ACCESS_POINT}/${id}`;
-    return this._http.get<{personalData: PersonalData}>(url)
+  getPersonalData(): Promise<PersonalData> {
+    return this._http.get<{personalData: PersonalData}>(PersonalService.ACCESS_POINT)
                .toPromise()
                .then(result => {
                  return result.personalData;

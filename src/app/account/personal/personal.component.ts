@@ -39,13 +39,13 @@ export class PersonalComponent implements OnInit {
   constructor(private _personalService: PersonalService, private _auth: AuthService) { }
 
   ngOnInit() {
-    this._personalService.dataForLoggedUser()
+    this._personalService.getPersonalData()
         .then(personalData => {
           this.personalForm.patchValue({
             personalName: personalData.name
           });
           this.checkedForm.patchValue({
-            notChecked: personalData.checked == 0
+            notChecked: personalData.checked === 0
           });
         });
   }
