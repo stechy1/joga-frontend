@@ -36,12 +36,17 @@
 }
 
 @media only screen and (max-width : 992px) {
-
+  .calendar-window .day-numer {
+    font-size: 1.5rem;
+  }
 }
 
 @media only screen and (min-width : 993px) {
   .calendar-window {
     height: 9vw;
+  }
+  .calendar-window .day-numer {
+    font-size: 2rem;
   }
 }
 
