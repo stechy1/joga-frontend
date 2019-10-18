@@ -22,9 +22,6 @@ export class CheckCodeComponent implements OnInit {
     this._auth.checkCode(code)
         .then(() => {
           return this._router.navigate(['/auth']);
-        })
-        .then(() => {
-          this._toastr.success('Váš e-mail byl úspěšně ověřen.');
         });
   }
 

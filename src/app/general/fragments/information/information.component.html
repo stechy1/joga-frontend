@@ -7,10 +7,10 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <p>{{aboutMe | async}}</p>
+        <p [innerHTML]="aboutMe"></p>
       </div>
       <div class="col-12">
-        <p>{{aboutStudio | async}}</p>
+        <p [innerHTML]="aboutStudio"></p>
       </div>
     </div>
   </div>
