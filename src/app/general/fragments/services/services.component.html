@@ -7,7 +7,7 @@
     </div>
     <div class="row text-center">
 
-      <div class="col-4" *ngFor="let lectureType of lectureTypes">
+      <div class="col-12 col-md-4" *ngFor="let lectureType of lectureTypes">
         <div class="services align-center " style="text-align:center;">
           <div class="services-inside">
             <a [title]="lectureType.name" [routerLink]="['/', 'lecture-type', lectureType.id]" class="text-decoration-none">
