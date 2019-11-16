@@ -27,7 +27,7 @@ export class ClientsComponent implements OnInit {
           if (this._clientIndex === ClientsComponent.DEFAULT_CLIENT_INDEX) {
             if (clients.length > 0) {
               this._totalClients = +clients[0].id;
-              this._totalPages$.next(Math.round(this._totalClients / ClientsComponent.CLIENTS_PER_PAGE));
+              this._totalPages$.next(Math.ceil(this._totalClients / ClientsComponent.CLIENTS_PER_PAGE));
             }
           }
           this._clients = clients;

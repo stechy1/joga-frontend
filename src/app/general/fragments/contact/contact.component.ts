@@ -30,9 +30,7 @@ export class ContactComponent implements OnInit {
   handleSubmit() {
     this.working = true;
     this._service.sendEmail(this.contactForm.value)
-        .then(() => {
-          this._toastr.success("Váš e-mail byl úspěšně odeslán.");
-        }).finally(() => {
+        .finally(() => {
           this.working = false;
           this.contactForm.reset();
           this.contactForm.markAsUntouched();

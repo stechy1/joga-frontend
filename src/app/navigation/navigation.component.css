@@ -22,7 +22,15 @@ nav ul a {
   display: flex;
 }
 nav.bg-primary {
+
+}
+
+.nav-background {
   background-color: #6d2096a1 !important;
+}
+
+.nav-background.admin {
+  background-color: #6d2096 !important;
 }
 
 .admin-navbar-togle {

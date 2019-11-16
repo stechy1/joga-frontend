@@ -18,8 +18,7 @@ export class EditorToolbarComponent implements OnInit {
 
   ngOnInit() {
     this.buttons.subscribe(buttons => {
-      console.log(buttons);
       this.realButtons = buttons;
-    })
+    });
   }
 }

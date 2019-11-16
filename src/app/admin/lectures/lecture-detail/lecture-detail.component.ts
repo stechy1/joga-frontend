@@ -6,7 +6,6 @@ import { Lecture } from '../../../share/lecture';
 import { ClientOnLecture } from './client-on-lecture';
 import { ModalComponent } from '../../../share/modal/modal.component';
 import { MultilineInputComponent } from '../../../share/modal/multiline-input/multiline-input.component';
-import { ToolbarButton } from '../../../share/markdown-editor/editor-toolbar/toolbar-button';
 import { BUTTON_BOLD, BUTTON_ITALIC, BUTTON_LINK, BUTTON_ORDERED_LIST, BUTTON_QUOTES, BUTTON_STRIKETHROUGH, BUTTON_UNORDERED_LIST } from '../../../share/markdown-editor/editor-toolbar/toolbar-buttons';
 
 @Component({
@@ -46,7 +45,7 @@ export class LectureDetailComponent implements OnInit, OnDestroy {
   }
 
   private _handleParamsChange(params: Params): void {
-    this._service.byId(params['id']).then(result => {
+    this._service.byId(params.id).then(result => {
       const lecture = result.lecture;
       lecture.time_start *= 1000;
       lecture.time_end *= 1000;
@@ -61,11 +60,11 @@ export class LectureDetailComponent implements OnInit, OnDestroy {
 
   handleShowDialogForEmail() {
     this.modal.showComponent = MultilineInputComponent;
+    // TODO odeslat e-mail
     this.modal.openForResult(this._buttonsEmitter, this._enableFileSystemEmitter).then(text => console.log(text)).catch(() => {});
 
     setTimeout(() => {
       this._buttonsEmitter.next(this.buttons);
-      // this._enableFileSystemEmitter.next(true);
     }, 150);
   }
 }

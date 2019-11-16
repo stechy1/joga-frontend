@@ -31,11 +31,12 @@ export class LecturesService {
         });
   }
 
-  public cancel(dayAction: DayAction): void {
-    this._http.delete(`${LecturesService.CANCEL_LECTURE}/${dayAction.id}`).toPromise()
+  public cancel(dayAction: DayAction): Promise<DayAction> {
+    return this._http.delete(`${LecturesService.CANCEL_LECTURE}/${dayAction.id}`).toPromise()
         .then(() => {
           dayAction.assigned = false;
           dayAction.reserved--;
+          return dayAction;
         });
   }
 }

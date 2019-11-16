@@ -1,5 +1,5 @@
-<nav *ngIf="!isAdminRoutes" class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
-  <a [routerLink]="'/'" class="navbar-brand">Studio OM</a>
+<nav *ngIf="!isAdminRoutes" class="navbar navbar-expand-md navbar-dark fixed-top nav-background" [class.admin]="isLector">
+  <a routerLink="/" class="navbar-brand">Studio OM</a>
   <button class="navbar-toggler" type="button" (click)="showSidebar = !showSidebar">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -10,7 +10,7 @@
   </div>
 </nav>
 
-<nav *ngIf="isAdminRoutes" class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+<nav *ngIf="isAdminRoutes" class="navbar navbar-expand-md navbar-dark fixed-top nav-background" [class.admin]="isLector">
   <a [routerLink]="['admin']" class="navbar-brand">Studio OM - Administrace</a>
   <button class="navbar-toggler" type="button" (click)="showSidebar = !showSidebar">
     <span class="navbar-toggler-icon"></span>

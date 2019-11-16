@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
-import { NavigationEnd, Router } from '@angular/router';
+import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserRole } from '../auth/user';
 
@@ -26,7 +26,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this._userSubscription = this._auth.user.subscribe(user => {
       this.isAuthenticated = user.role !== UserRole.NONE;
     });
-    this._route.events.subscribe(event => {
+    this._route.events.subscribe((event: Event) => {
       if (!(event instanceof NavigationEnd)) {
         return;
       }
@@ -43,5 +43,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   handleLogout() {
     this._auth.logout();
+  }
+
+  get isLector(): boolean {
+    return this._auth.user.getValue().role >= UserRole.LECTOR;
   }
 }

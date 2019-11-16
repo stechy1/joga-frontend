@@ -11,11 +11,14 @@ import { DayActionCrud } from '../day-action-crud';
 })
 export class DayScheduleComponent implements OnInit {
 
+  private static readonly TODAY: Date = new Date();
+
   @Input() actions: DayAction[];
   @Input() dayAction: DayActionCrud;
   @Input() date: Date;
 
-  constructor(private _authService: AuthService) { }
+  constructor(private _authService: AuthService) {
+  }
 
   ngOnInit() {
   }
@@ -29,7 +32,9 @@ export class DayScheduleComponent implements OnInit {
   }
 
   handleNewDayAction() {
-    this.dayAction.create(this.date);
+    const corectedDate = new Date(this.date.getTime());
+    corectedDate.setMonth(corectedDate.getMonth() + 1);
+    this.dayAction.create(corectedDate);
   }
 
   handleUpdateDayAction(dayAction: DayAction) {
@@ -46,6 +51,10 @@ export class DayScheduleComponent implements OnInit {
 
   canAssign(dayAction: DayAction) {
     return dayAction.reserved < dayAction.capacity;
+  }
+
+  isLate(date: Date): boolean {
+    return DayScheduleComponent.TODAY > date;
   }
 
   handleAssignDayAction(dayAction: DayAction) {

@@ -15,10 +15,10 @@ export class FileBrowserService {
    * Komparátor pro správné řazení souborů v prohlížeči souborů
    * Složky jsou na prvním místě
    *
-   * @param a
-   * @param b
+   * @param a lhs Soubor
+   * @param b rhs Soubor
    */
-  private static comparator = (a, b) => {
+  private static comparator = (a: FileRecord, b: FileRecord) => {
     if ((a.isDirectory && b.isDirectory) || (!a.isDirectory && !b.isDirectory)) {
       // @ts-ignore
       return a.name.toLowerCase() - b.name.toLowerCase();
@@ -43,7 +43,6 @@ export class FileBrowserService {
    */
   getContent(folders: FileRecord[]): Promise<FileRecord[]> {
     const subfolders = folders.map(value => value.name).join('/');
-    console.log('Zobrazuji obsah pro podslozky: ' + subfolders);
     return this._http.get<{files: FileRecord[]}>(`${FileBrowserService.BASE_API_URL}/${subfolders}`)
                .toPromise()
                .then(result => {

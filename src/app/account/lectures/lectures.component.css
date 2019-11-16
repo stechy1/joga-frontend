@@ -4,6 +4,7 @@
 
 .lectures .lecture {
   padding: 2px;
+  margin-bottom: 1px;
 }
 
 .lectures .lecture:hover {

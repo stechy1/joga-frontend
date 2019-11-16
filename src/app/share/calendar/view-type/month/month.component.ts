@@ -62,7 +62,7 @@ export class MonthComponent implements OnInit, AfterViewInit {
       const day = new CalendarDay(dayIndex);
       const dayDate = new Date();
       dayDate.setTime(viewDate.getTime());
-      dayDate.setFullYear(viewDate.getFullYear(), viewDate.getMonth() + 1, dayIndex);
+      dayDate.setFullYear(viewDate.getFullYear(), viewDate.getMonth(), dayIndex);
       day.date = dayDate;
       this.windows.push(day);
     }
