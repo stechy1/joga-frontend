@@ -1,6 +1,6 @@
 #intro {
   min-height: 150px;
-  background-color: blue;
+  /*background-color: blue;*/
 }
 
 @media screen and (min-width: 600px) {

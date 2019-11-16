@@ -1,6 +1,6 @@
 #calendar {
   min-height: 150px;
-  background-color: green;
+  /*background-color: green;*/
 }
 
 @media screen and (min-width: 600px) {

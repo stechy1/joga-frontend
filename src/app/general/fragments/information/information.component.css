@@ -1,6 +1,6 @@
 #info {
   min-height: 150px;
-  background-color: darkorange;
+  /*background-color: darkorange;*/
 }
 
 @media screen and (min-width: 600px) {
